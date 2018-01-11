@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[AgeGroup]
+(
+	[AgeGroupID] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [AgeGroupName] NVARCHAR(50) NULL
+)

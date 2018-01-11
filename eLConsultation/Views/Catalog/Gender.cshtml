@@ -1,0 +1,42 @@
+﻿@(Html.Kendo().Grid<eLConsultation.Data.Gender>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.GenderID).Visible (false);
+        columns.Bound(p => p.GenderName);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(250);
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:550px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.GenderID))
+        .Create(update => update.Action("GenderInsert", "Catalog"))
+        .Read(read => read.Action("GenderSelect", "Catalog"))
+        .Update(update => update.Action("GenderUpdate", "Catalog"))
+        .Destroy(update => update.Action("GenderDelete", "Catalog"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+            $("#grid").data("kendoGrid").dataSource.read();
+        }
+    }
+    </script>
+

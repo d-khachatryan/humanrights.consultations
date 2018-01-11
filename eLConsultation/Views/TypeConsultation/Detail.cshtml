@@ -1,0 +1,202 @@
+﻿@model eLConsultation.Data.TypeConsultationDetail
+@{
+    ViewBag.Title = "Մանրամասներ";
+}
+
+<div class="page-container hidden-on-narrow">
+    <div style="width:8.3in; margin:0 auto">
+        <button id="print" class="k-button"><i class="fa fa-file-pdf-o"></i> Արտահանել</button>
+    </div>
+    <div class="pdf-page" style="width:8.3in">
+        <div class="pdf-header">
+            <span class="company-logo">
+                <img src="~/img/logo.png" height="50" /> Գրավոր խորհրդատվություն
+            </span>
+            <span class="invoice-number">Հ/հ @Html.DisplayFor(model => model.TypeConsultationID)</span>
+        </div>
+        <hr />
+        <div class="pdf-footer">
+            <p>
+                <img src="~/img/logo.png" height="25" />Հելսինկյան Քաղաքացիական Ասամբլեայի Վանաձորի գրասենյակ<br />
+                Հասցե՝ Տիգրան Մեծի 59, Վանաձոր, ՀՀ, 2001
+            </p>
+        </div>
+        <div class="consultationRresident">
+            <p>
+                
+            @if (ViewBag.IssueCategoryID == 1)
+            {
+                <span>Ա․Ա․Հ։</span>
+                @ViewBag.ResidentName
+                <br />
+                <span>Ա․Հ․Փ․։</span>
+                @ViewBag.IdentificatorNumber
+                <br />
+                <span>Ծննդյան ա/թ։</span>
+                @ViewBag.BirthDate
+            }
+            @if (ViewBag.IssueCategoryID == 2)
+            {
+                <span>Կազմակերպություն։</span>
+                @ViewBag.CompanyName
+            }
+            </p>
+        </div>
+        <div class="pdf-body">
+            <table class="table table-striped consultationDetails">
+                <tr class="header">
+                    <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Խորհրդատվության տվյալներ</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @if (Model.TypeConsultationDate != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.TypeConsultationDate): <span>@Html.DisplayFor(model => model.TypeConsultationDate)</span>
+                            </p>
+                        }
+                        @if (Model.TypeConsultationName != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.TypeConsultationName): <span>@Html.DisplayFor(model => model.TypeConsultationName)</span>
+                            </p>
+                        }
+                        @if (Model.ConsultationTypeName != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.ConsultationTypeName): <span>@Html.DisplayFor(model => model.ConsultationTypeName)</span>
+                            </p>
+                        }
+                        @if (Model.ProcessStatusName != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.ProcessStatusName): <span>@Html.DisplayFor(model => model.ProcessStatusName)</span>
+                            </p>
+                        }
+                        @if (Model.ConsultationResultName != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.ConsultationResultName): <span>@Html.DisplayFor(model => model.ConsultationResultName)</span>
+                            </p>
+                        }
+                        @if (Model.TargetGroupName != null)
+                        {
+                            <p>
+                                @Html.DisplayNameFor(model => model.TargetGroupName): <span>@Html.DisplayFor(model => model.TargetGroupName)</span>
+                            </p>
+                        }
+                    </td>
+                </tr>
+                @if (Model.TypeConsultationConsultantDetails.Count != 0)
+                {
+                    <tr class="header">
+                        <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Խորհրդատու(ներ)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @foreach (var item in Model.TypeConsultationConsultantDetails)
+                            {
+                                <p>-  @item.ConsultantName</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                @*@if (Model.TypeConsultationRecipientDetails.Count != 0)
+                {
+                    <tr class="header">
+                        <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Կառույց(ներ) որին ուղարկվել է գրություն</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @foreach (var item in Model.TypeConsultationRecipientDetails)
+                            {
+                                <p>-   @item.OrganizationName</p>
+                            }
+                        </td>
+                    </tr>
+                }*@
+                @if (Model.TypeConsultationInstanceDetails.Count != 0)
+                {
+                    <tr class="header">
+                        <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Կառույց(ներ) որը խախտում է կատարել</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @foreach (var item in Model.TypeConsultationInstanceDetails)
+                            {
+                                <p>-   @item.OrganizationName</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (Model.TypeConsultationDeclarationTypeDetails.Count != 0)
+                {
+                    <tr class="header">
+                        <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Գրություն (ներ)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @foreach (var item in Model.TypeConsultationDeclarationTypeDetails)
+                            {
+                                <p>-   @item.DeclarationTypeName, @Html.DisplayFor(m => item.DeclarationDate), @item.OrganizationName</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (Model.TypeConsultationRightDetails.Count != 0)
+                {
+                    <tr class="header">
+                        <td colspan="2" style="font-size:16px; font-weight:bold; color:#808080">Իրավունք(ներ)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @foreach (var item in Model.TypeConsultationRightDetails)
+                            {
+                                <p>-   @item.HumanRightName</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    kendo.pdf.defineFont({
+        "DejaVu Sans": "http://cdn.kendostatic.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans.ttf",
+        "DejaVu Sans|Bold": "http://cdn.kendostatic.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+        "DejaVu Sans|Bold|Italic": "http://cdn.kendostatic.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+        "DejaVu Sans|Italic": "http://cdn.kendostatic.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf"
+    });
+</script>
+@*<script src="//kendo.cdn.telerik.com/2016.1.112/js/pako_deflate.min.js"></script>*@
+<script>
+        $("#print")
+            .click(function () {
+                var draw = kendo.drawing;
+                draw.drawDOM($(".pdf-page"), {
+                    forcePageBreak: ".page-break",
+                    avoidLinks: true,
+                    paperSize: "auto",
+                    margin: { left: "1cm", top: "1cm", right: "1cm", bottom: "1cm" },
+                    multiPage: true
+                }).then(function (root) {
+                    return draw.exportPDF(root);
+                })
+                    .done(function (data) {
+                        kendo.saveAs({
+                            dataURI: data,
+                            fileName: 'Գրավոր խորհրդատվություն - ' + @Html.DisplayFor(model => model.TypeConsultationID) + '.pdf',
+                         proxyURL: "@Url.Action("ExportPDF", "TypeConsultation")"
+                    });
+                    return false;
+                });
+            });
+</script>
+
+
+
+

@@ -1,0 +1,151 @@
+﻿@model eLConsultation.Data.ResidentSearch
+@{
+    ViewBag.Title = "Քաղաքացիներ";
+}
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertResident()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Ավելացնել</button>");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Որոնման դաշտեր</h4>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new {placeholder="անուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button type="submit" id="btnSearch" class="btn btn-primary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i>&nbsp;Որոնել</button>
+                    <button type="submit" id="btnClear" class="btn btn-secondary btn-sm" onclick="return Clear();"><i class="icons icon-close"></i>&nbsp;Մաքրել</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#grResident").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+
+    function Clear() {
+        $("#FirstName").val("");
+        $("#LastName").val("");
+        $("#grResident").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameters() {
+        return {
+            firstName: $("#FirstName").val(),
+            lastName: $("#LastName").val()
+        };
+    }
+
+    function InsertResident() {
+        window.location = '@Url.Action("ResidentTemplate", "Resident")';
+    }
+
+    function UpdateResident(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grResident").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("InitResidentTemplateByResidentID", "Resident")/?residentID=' + dataItem.ResidentID;
+    }   
+
+
+    function DeleteResident(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grResident").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել քաղաքացու գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteResident", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { ResidentID: dataItem.ResidentID },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#grResident").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+
+</script>
+
+@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem >()
+          .Name("grResident")
+          .NoRecords("Գրառումներ չկան")
+          //.ColumnMenu(menu => menu.Columns(true).Sortable(false).Messages(msg => msg.Columns("Սյունակներ")))
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(120);
+              columns.Bound(c => c.ResidentName);
+              columns.Bound(c => c.BirthDate).Title("Ծննդայան ա/թ").Width(135).MinScreenWidth(768).HtmlAttributes(new { style="text-align:center"});
+              columns.Bound(c => c.ResidentRegistrationLocation ).MinScreenWidth(768);
+              columns.Command(commands =>
+              {
+                  commands.Custom("cmdUpdateResident").Text(" ").Click("UpdateResident").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteResident").Text(" ").Click("DeleteResident").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(120);
+          })
+          .Events(e => e.DataBound("showCommandIcons"))
+          //.Selectable(s => s.Mode(GridSelectionMode.Single))
+          //.Filterable()
+          //.Groupable()
+          .Sortable()
+          .Resizable(resize => resize.Columns(true))
+          .Scrollable()
+          .Reorderable(reorder => reorder.Columns(true))
+          .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
+          )
+)
+
+@*<script>
+    $(function () {
+        var grid = $("#grResident").data("kendoGrid");
+        grid.thead.find("[data-field=LastName]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=MiddleName]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=IdentificatorNumber]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=BirthDate]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=GenderID]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=RegionID]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=CommunityID]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=Street]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=Building]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=Home]>.k-header-column-menu").remove();
+    });
+</script>*@

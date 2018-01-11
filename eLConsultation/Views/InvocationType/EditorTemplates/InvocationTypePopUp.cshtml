@@ -1,0 +1,10 @@
+﻿@model eLConsultation.Data.InvocationTypeItem
+
+@Html.HiddenFor(model => model.InvocationTypeID)
+
+    <div class="card-body">
+        <div class="form-group">
+            @Html.LabelFor(model => model.InvocationTypeName, new { @class = "control-label" })
+            @Html.Kendo().TextBoxFor(model => model.InvocationTypeName).HtmlAttributes(new { @class = "form-control" })
+        </div>
+    </div>

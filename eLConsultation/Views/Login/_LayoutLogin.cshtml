@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="~/img/favicon.png">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrap/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @Styles.Render("~/Content/kendo/2017.2.621/kendo")
+    @Scripts.Render("~/bundles/kendo")
+    @Styles.Render("~/Content/css")
+</head>
+<body class="app flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12 col-sx-12">
+                <div class="card-group mb-0">
+                    <div class="card py-5" style="border-radius:0">
+                       @RenderBody()
+                    </div>
+                    <div class="card text-white bg-primary py-5" style="border-radius:0">
+                        <div class="card-body text-center">
+                            <div>
+                                <h2>Ուշադրություն</h2>
+                                <p>Համակարգը նախատեսված է միայն գրանցված գործարկողների համար</p>
+                                @*<a href="@Url.Action("", "")" class="btn btn-outline-white mt-3"><i class="icon-home"></i> Գլխավոր էջ</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

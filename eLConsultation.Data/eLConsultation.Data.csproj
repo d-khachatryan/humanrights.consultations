@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{65953269-26B0-4897-8940-83527690777D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eLConsultation.Data</RootNamespace>
+    <AssemblyName>eLConsultation.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgeGroup\AgeGroup.cs" />
+    <Compile Include="AgeGroup\AgeGroupConfiguration.cs" />
+    <Compile Include="AspNetUsers\AspNetUsers.cs" />
+    <Compile Include="AspNetUsers\AspNetUsersConfiguration.cs" />
+    <Compile Include="Community\Community.cs" />
+    <Compile Include="Community\CommunityConfiguration.cs" />
+    <Compile Include="Consultant\Consultant.cs" />
+    <Compile Include="Consultant\ConsultantConfiguration.cs" />
+    <Compile Include="ConsultationResult\ConsultationResult.cs" />
+    <Compile Include="ConsultationResult\ConsultationResultConfiguration.cs" />
+    <Compile Include="ConsultationType\ConsultationType.cs" />
+    <Compile Include="ConsultationType\ConsultationTypeConfiguration.cs" />
+    <Compile Include="DeclarationType\DeclarationType.cs" />
+    <Compile Include="DeclarationType\DeclarationTypeConfiguration.cs" />
+    <Compile Include="Gender\Gender.cs" />
+    <Compile Include="Gender\GenderConfiguration.cs" />
+    <Compile Include="HumanRight\HumanRight.cs" />
+    <Compile Include="HumanRight\HumanRightConfiguration.cs" />
+    <Compile Include="InvocationType\InvocationType.cs" />
+    <Compile Include="InvocationType\InvocationTypeConfiguration.cs" />
+    <Compile Include="IssueCategory\IssueCategory.cs" />
+    <Compile Include="IssueCategory\IssueCategoryConfiguration.cs" />
+    <Compile Include="IssueType\IssueType.cs" />
+    <Compile Include="IssueType\IssueTypeConfiguration.cs" />
+    <Compile Include="Issue\Issue.cs" />
+    <Compile Include="Issue\IssueConfiguration.cs" />
+    <Compile Include="LoginStatus.cs" />
+    <Compile Include="OralConsultationConsultant\OralConsultationConsultant.cs" />
+    <Compile Include="OralConsultationOrganization\OralConsultationOrganization.cs" />
+    <Compile Include="OralConsultationOrganization\OralConsultationOrganizationConfiguration.cs" />
+    <Compile Include="OralConsultationOrganization\TmpOralConsultationOrganization.cs" />
+    <Compile Include="OralConsultationOrganization\TmpOralConsultationOrganizationConfiguration.cs" />
+    <Compile Include="OralConsultationPermission\OralConsultationPermission.cs" />
+    <Compile Include="OralConsultationPermission\OralConsultationPermissionConfiguration.cs" />
+    <Compile Include="OralConsultationPermission\TmpOralConsultationPermission.cs" />
+    <Compile Include="OralConsultationPermission\TmpOralConsultationPermissionConfiguration.cs" />
+    <Compile Include="OralConsultationRight\OralConsultationRight.cs" />
+    <Compile Include="OralConsultationRight\OralConsultationRightConfiguration.cs" />
+    <Compile Include="OralConsultationRight\TmpOralConsultationRight.cs" />
+    <Compile Include="OralConsultationRight\TmpOralConsultationRightConfiguration.cs" />
+    <Compile Include="OralConsultation\OralConsultation.cs" />
+    <Compile Include="OralConsultation\OralConsultationConfiguration.cs" />
+    <Compile Include="OralConsultationConsultant\OralConsultationConsultantConfiguration.cs" />
+    <Compile Include="OralConsultationConsultant\TmpOralConsultationConsultantConfiguration.cs" />
+    <Compile Include="OralConsultationConsultant\TmpOralConsultationConsultant.cs" />
+    <Compile Include="ProcessStatus\ProcessStatus.cs" />
+    <Compile Include="ProcessStatus\ProcessStatusConfiguration.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Organization\Organization.cs" />
+    <Compile Include="Organization\OrganizationConfiguration.cs" />
+    <Compile Include="Region\Region.cs" />
+    <Compile Include="Region\RegionConfiguration.cs" />
+    <Compile Include="Company\Company.cs" />
+    <Compile Include="Company\CompanyConfiguration.cs" />
+    <Compile Include="Resident\Resident.cs" />
+    <Compile Include="Resident\ResidentConfiguration.cs" />
+    <Compile Include="ResponseContent\ResponseContent.cs" />
+    <Compile Include="ResponseContent\ResponseContentConfiguration.cs" />
+    <Compile Include="ResponseQuality\ResponseQuality.cs" />
+    <Compile Include="ResponseQuality\ResponseQualityConfiguration.cs" />
+    <Compile Include="ResponseType\ResponseType.cs" />
+    <Compile Include="ResponseType\ResponseTypeConfiguration.cs" />
+    <Compile Include="Setting\Setting.cs" />
+    <Compile Include="Setting\SettingConfiguration.cs" />
+    <Compile Include="StoreContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetGroup\TargetGroupConfiguration.cs" />
+    <Compile Include="TargetGroup\TargetGroup.cs" />
+    <Compile Include="TypeConsultationConsultant\TmpTypeConsultationConsultant.cs" />
+    <Compile Include="TypeConsultationConsultant\TmpTypeConsultationConsultantConfiguration.cs" />
+    <Compile Include="TypeConsultationConsultant\TypeConsultationConsultant.cs" />
+    <Compile Include="TypeConsultationConsultant\TypeConsultationConsultantConfiguration.cs" />
+    <Compile Include="TypeConsultationDeclarationType\TmpTypeConsultationDeclarationType.cs" />
+    <Compile Include="TypeConsultationDeclarationType\TmpTypeConsultationDeclarationTypeConfiguration.cs" />
+    <Compile Include="TypeConsultationDeclarationType\TypeConsultationDeclarationType.cs" />
+    <Compile Include="TypeConsultationDeclarationType\TypeConsultationDeclarationTypeConfiguration.cs" />
+    <Compile Include="TypeConsultationInstance\TmpTypeConsultationInstance.cs" />
+    <Compile Include="TypeConsultationInstance\TmpTypeConsultationInstanceConfiguration.cs" />
+    <Compile Include="TypeConsultationInstance\TypeConsultationInstance.cs" />
+    <Compile Include="TypeConsultationInstance\TypeConsultationInstanceConfiguration.cs" />
+    <Compile Include="TypeConsultationPermission\TmpTypeConsultationPermission.cs" />
+    <Compile Include="TypeConsultationPermission\TmpTypeConsultationPermissionConfiguration.cs" />
+    <Compile Include="TypeConsultationPermission\TypeConsultationPermission.cs" />
+    <Compile Include="TypeConsultationPermission\TypeConsultationPermissionConfiguration.cs" />
+    <Compile Include="TypeConsultationRecipient\TmpTypeConsultationRecipient.cs" />
+    <Compile Include="TypeConsultationRecipient\TmpTypeConsultationRecipientConfiguration.cs" />
+    <Compile Include="TypeConsultationRecipient\TypeConsultationRecipient.cs" />
+    <Compile Include="TypeConsultationRecipient\TypeConsultationRecipientConfiguration.cs" />
+    <Compile Include="TypeConsultationRight\TmpTypeConsultationRight.cs" />
+    <Compile Include="TypeConsultationRight\TmpTypeConsultationRightConfiguration.cs" />
+    <Compile Include="TypeConsultationRight\TypeConsultationRight.cs" />
+    <Compile Include="TypeConsultationRight\TypeConsultationRightConfiguration.cs" />
+    <Compile Include="TypeConsultation\TypeConsultation.cs" />
+    <Compile Include="TypeConsultation\TypeConsultationConfiguration.cs" />
+    <Compile Include="UserContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eLConsultation.DTO\eLConsultation.DTO.csproj">
+      <Project>{6f57ba37-6372-4e5c-8c21-e16d6233c5b5}</Project>
+      <Name>eLConsultation.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

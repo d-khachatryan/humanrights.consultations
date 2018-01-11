@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+        .Value(Model == 0 ? string.Empty : Model.ToString())
+                    .Name("RegionID")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbRegions)
+                    .ValuePrimitive(true)
+//.HtmlAttributes(new { data_value_primitive = true })
+)

@@ -1,0 +1,174 @@
+﻿@model eLConsultation.Data.OralConsultationSearch
+@{
+    ViewBag.Title = "Բանավոր խորհրդատվություն";
+}
+
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertOralConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i></button>");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Որոնման դաշտեր</h4>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().DatePickerFor(model => model.OralConsultationDate).HtmlAttributes(new { placeholder = "ամսաթիվ", style="width:100%" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.OralConsultationID).HtmlAttributes(new { placeholder = "հ/հ" })
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button type="submit" id="btnSearch" class="btn btn-primary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i>&nbsp;Որոնել</button>
+                    <button type="submit" id="btnClear" class="btn btn-secondary btn-sm" onclick="return Clear();"><i class="icons icon-close"></i>&nbsp;Մաքրել</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function Search() {
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function Clear() {
+        $("#FirstName").val("");
+        $("#LastName").val("");
+        $("#OralConsultationDate").val("");
+        $("#OralConsultationID").val("");
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function getParameters() {
+        return {
+            firstName: $("#FirstName").val(),
+            lastName: $("#LastName").val(),
+            oralconsultationdate: $("#grResidentMobile").val(),
+            oralconsultationid: $("#grResidentMobile").val()
+        };
+    }
+
+    function InsertOralConsultation() {
+        window.location = '@Url.Action("Dispatcher", "OralConsultation")';
+    }
+
+    function UpdateOralConsultation(id) {
+        window.location = '@Url.Action("UpdateOralConsultation", "OralConsultation")/?oralConsultationID=' + id;
+    }
+
+
+    function DeleteOralConsultation(id) {
+
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել բանավոր խորհրդատվության գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "OralConsultation")',
+            dataType: "json",
+            type: "GET",
+            data: { OralConsultationID: id },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#grResidentMobile").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose(e) {
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+    @(Html.Kendo().Grid<eLConsultation.Data.OralConsultationSetItem>()
+          .Name("grResidentMobile")
+          .NoRecords("Գրառումներ չկան")
+          .Columns(columns =>
+          {
+              columns.Template(e => { }).ClientTemplate(" ").Title("Քաղաքացի");
+              columns.Template(e => { }).ClientTemplate(" ").Title(" ").Width(74);
+          })
+          .ClientRowTemplate(
+                "<tr data-uid='#: OralConsultationID #'>" +
+                    "<td class='details'>" +
+                        "<h3 class='ResidentName'>" +
+                            "#=(FirstName == null ? '' : FirstName)# " +
+                            //"#=(MiddleName == null ? '' : MiddleName)# " +
+                            "#=(LastName == null ? '' : LastName)# " +
+                        "</h3>" +
+                        "<table class='residentDetailsTable'>" +
+                            "<tr>" +
+                                "<td>Ա․Հ․Փ․: <b>#=(IdentificatorNumber == null ? '' : IdentificatorNumber)#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Ծննդյան ա/թ։ <b>#=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))#</b></td>" +
+                            "</tr>" +
+                        "</table>" +
+                    //"<span class='IdentificatorNumber'>" +
+                    //    "N: #=(IdentificatorNumber == null ? '' : IdentificatorNumber)# " +
+                    //"</span><br>" +
+                    //"<span class='BirthDate'>" +
+                    //    "Ծննդյան ա/թ։ #=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))# " +
+                    //"</span><br>" +
+                    //"<span class='Region'>" +
+                    //    "#=(RegionID == null ? '' : ResidentRegistrationLocation)# " +
+                    //"</span><br>" +
+                    "</td>" +
+                    "<td class='command'><button style=\"margin:3px 0; border-radius: 0\" class=\"btn btn-outline-secondary btn-lg\" onclick=\"UpdateOralConsultation(#: OralConsultationID #)\"><i class=\"icons icon-pencil\"></i></button>" +
+                                        "<button style=\"margin:3px 0; border-radius: 0\" class=\"btn btn-outline-secondary btn-lg\" onclick=\"DeleteOralConsultation(#: OralConsultationID #)\"><i class=\"icons icon-trash\"></i></button>" +
+                    "</td>" +
+                 "</tr>"
+            )
+          .Scrollable()
+          .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("FilterOralConsultations", "OralConsultation").Data("getParameters"))
+              .PageSize(20)
+          )
+    )
+@*<script>
+    $(function () {
+        var grid = $("#grOralConsultation").data("kendoGrid");
+        grid.thead.find("[data-field=ResidentName]>.k-header-column-menu").remove();
+        grid.thead.find("[data-field=OralConsultationDate]>.k-header-column-menu").remove();
+    });
+</script>*@

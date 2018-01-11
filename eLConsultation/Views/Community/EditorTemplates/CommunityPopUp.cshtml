@@ -1,0 +1,26 @@
+﻿@model eLConsultation.Data.CommunityItem
+
+@Html.HiddenFor(model => model.CommunityID)
+
+    <div class="card-body">
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegionID, new { @class = "control-label" })
+            @(Html.Kendo().DropDownListFor(model => model.RegionID)
+                @*@(Html.Kendo().ComboBoxFor(model => model.RegionID)*@
+                    //.Value(Model.RegionID == 0 ? string.Empty : Model.ToString())
+                    //.Name("RegionID")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .OptionLabel("-- Ընտրել --")
+                    //.Placeholder("-- Ընտրել --")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbRegions)
+                    .ValuePrimitive(true)
+                    .HtmlAttributes(new { /*data_value_primitive = true,*/ @class = "form-control" })
+            )
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CommunityName, new { @class = "control-label" })
+            @Html.Kendo().TextBoxFor(model => model.CommunityName).HtmlAttributes(new { @class = "form-control" })
+        </div>
+    </div>

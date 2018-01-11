@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Գաղտնաբառի վերականգնման հաստատում";
+    Layout = "_LayoutLogin.cshtml";
+}
+
+
+<div class="card-body">
+    <h1 style="color:#F86C6B; text-align:center"><i class="icon-close"></i></h1>
+    <h6 style="color:#F86C6B">Մուտքը համակարգ արգելափակված է:</h6>
+    <p class="text-muted" style="margin-top:20px">Դուք մի քանի անգամ մուտքագրել եք սխալ էլ․ փոստի հասցե կամ գաղտնաբառ։ Խնդրում ենք ճշտել Ձեր տվյալները համակարգի ադմինիստրատորից և փորձել մուտքը ավելի ուշ:</p>
+    <p class="text-muted">Խնդրում ենք սեղմել @Html.ActionLink("այստեղ", "Login", "Login", routeValues: null, htmlAttributes: new { style = "display: inline" }) մուտքի համար</p>
+</div>

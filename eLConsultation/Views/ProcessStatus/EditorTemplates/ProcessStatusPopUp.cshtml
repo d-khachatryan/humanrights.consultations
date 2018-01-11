@@ -1,0 +1,10 @@
+﻿@model eLConsultation.Data.ProcessStatusItem
+
+@Html.HiddenFor(model => model.ProcessStatusID)
+
+    <div class="card-body">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProcessStatusName, new { @class = "control-label" })
+            @Html.Kendo().TextBoxFor(model => model.ProcessStatusName).HtmlAttributes(new { @class = "form-control" })
+        </div>
+    </div>

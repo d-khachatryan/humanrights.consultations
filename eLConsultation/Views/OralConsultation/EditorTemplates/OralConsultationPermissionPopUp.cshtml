@@ -1,0 +1,31 @@
+﻿@model eLConsultation.Data.OralConsultationPermissionItem
+
+@Html.HiddenFor(model => model.ID)
+@Html.HiddenFor(model => model.OralConsultationPermissionID)
+@Html.HiddenFor(model => model.OralConsultationID)
+
+<div class="card-body">
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserID, new { @class = "control-label" })
+        @(Html.Kendo().ComboBoxFor(model => model.UserID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("UserList", "OralConsultationPermission");
+                            });
+                        })
+        )
+    </div>
+    <div class="form-group" style="padding-left:10px">
+        @Html.Kendo().CheckBoxFor(model => model.IsRead)
+    </div>
+    <div class="form-group" style="padding-left:10px">
+        @Html.Kendo().CheckBoxFor(model => model.IsChange)
+    </div>
+</div>

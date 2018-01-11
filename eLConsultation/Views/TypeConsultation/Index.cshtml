@@ -1,0 +1,179 @@
+﻿@model eLConsultation.Data.TypeConsultationSearch
+@{
+    ViewBag.Title = "Գրավոր խորհրդատվություն";
+}
+
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertResidentTypeConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Քաղաքացի</button>");
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertCompanyTypeConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Կազմակերպություն</button>");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Որոնման դաշտեր</h4>
+                @*<div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
+                </div>*@
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().DatePickerFor(model => model.TypeConsultationDate).HtmlAttributes(new { placeholder = "ամսաթիվ", style = "width:100%" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.TypeConsultationID).HtmlAttributes(new { placeholder = "հ/հ" })
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button type="submit" id="btnSearch" class="btn btn-primary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i>&nbsp;Որոնել</button>
+                    <button type="submit" id="btnClear" class="btn btn-secondary btn-sm" onclick="return Clear();"><i class="icons icon-close"></i>&nbsp;Մաքրել</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function Search() {
+        $("#grTypeConsultation").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function Clear() {
+        //$("#FirstName").val("");
+        //$("#LastName").val("");
+        $("#TypeConsultationDate").val("");
+        $("#TypeConsultationID").val("");
+        $("#grTypeConsultation").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function getParameters() {
+        return {
+            //firstName: $("#FirstName").val(),
+            //lastName: $("#LastName").val(),
+            typeconsultationdate: $("#TypeConsultationDate").val(),
+            typeconsultationid: $("#TypeConsultationID").val()
+        };
+    }
+
+    function InsertResidentTypeConsultation() {
+        window.location = '@Url.Action("ResidentDispatcher", "TypeConsultation")';
+    }
+
+    function InsertCompanyTypeConsultation() {
+        window.location = '@Url.Action("CompanyDispatcher", "TypeConsultation")';
+    }
+
+    function DetailsTypeConsultation(e) {
+          var row = $(e.target).closest("tr");
+        var grid = $("#grTypeConsultation").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("Detail", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
+    }
+
+    function UpdateTypeConsultation(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grTypeConsultation").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("UpdateTypeConsultation", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
+    }
+
+    function DeleteTypeConsultation(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grTypeConsultation").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել գրավոր խորհրդատվության գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "TypeConsultation")',
+            dataType: "json",
+            type: "GET",
+            data: { TypeConsultationID: dataItem.TypeConsultationID },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#grTypeConsultation").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose(e) {
+        $("#grTypeConsultation").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+@(Html.Kendo().Window().Name("Details")
+              .Width(900)
+              .Height(600)
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onClose")
+              .Open("onOpen")
+              .Refresh("onRefresh"))
+)
+
+
+@(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationSetItem>()
+          .Name("grTypeConsultation")
+          .NoRecords("Գրառումներ չկան")
+          //.ColumnMenu(menu => menu.Columns(true).Sortable(false).Messages(msg => msg.Columns("Սյունակներ")))
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.TypeConsultationID).Title("Հ/հ").Width(50);
+              columns.Bound(c => c.TypeConsultationName);
+              //columns.Bound(c => c.ResidentName).Title("Քաղաքացի");
+              //columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(130).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
+              columns.Bound(c => c.TypeConsultationDate).Title("Խորհրդատվության ա/թ").Width(180).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
+              columns.Command(commands =>
+              {
+                  commands.Custom("cmdDetailsTypeConsultation").Text(" ").Click("DetailsTypeConsultation").HtmlAttributes(new { @class = "Details_Icon" });
+                  commands.Custom("cmdUpdateTypeConsultation").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteTypeConsultation").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(170);
+          })
+          .Events(e => e.DataBound("showCommandIcons"))
+          .Sortable()
+          .Resizable(resize => resize.Columns(true))
+          .Scrollable()
+
+          .Reorderable(reorder => reorder.Columns(true))
+          .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("FilterTypeConsultations", "TypeConsultation").Data("getParameters")
+              )
+              .PageSize(20)
+          )
+)

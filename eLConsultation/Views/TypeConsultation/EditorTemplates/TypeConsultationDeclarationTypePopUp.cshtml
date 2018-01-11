@@ -1,0 +1,109 @@
+﻿@model eLConsultation.Data.TypeConsultationDeclarationTypeItem
+
+@Html.HiddenFor(model => model.ID)
+@Html.HiddenFor(model => model.TypeConsultationDeclarationTypeID)
+@Html.HiddenFor(model => model.TypeConsultationID)
+
+<div class="card-body">
+    <div class="form-group">
+       @Html.LabelFor(model => model.DeclarationTypeID, new { @class = "control-label" })
+    @(Html.Kendo().ComboBoxFor(model => model.DeclarationTypeID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("DeclarationTypeList", "TypeConsultationDeclarationType");
+                            });
+                        })
+    )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DeclarationDate, new { @class = "control-label" })
+        @Html.Kendo().DatePickerFor(model => model.DeclarationDate).HtmlAttributes(new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.OrganizationID, new { @class = "control-label" })
+        @(Html.Kendo().ComboBoxFor(model => model.OrganizationID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("OrganizationList", "TypeConsultationDeclarationType");
+                            });
+                        })
+        )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DeclarationURL, new { @class = "control-label" })
+        @Html.Kendo().TextBoxFor(model => model.DeclarationURL).HtmlAttributes(new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DeclarationDeadline, new { @class = "control-label" })
+        @Html.Kendo().DatePickerFor(model => model.DeclarationDeadline).HtmlAttributes(new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ResponseDate, new { @class = "control-label" })
+        @Html.Kendo().DatePickerFor(model => model.ResponseDate).HtmlAttributes(new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ResponseTypeID, new { @class = "control-label" })
+        @(Html.Kendo().ComboBoxFor(model => model.ResponseTypeID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("ResponseTypeList", "TypeConsultationDeclarationType");
+                            });
+                        })
+        )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ResponseContentID, new { @class = "control-label" })
+        @(Html.Kendo().ComboBoxFor(model => model.ResponseContentID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("ResponseContentList", "TypeConsultationDeclarationType");
+                            });
+                        })
+        )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ResponseQualityID, new { @class = "control-label" })
+        @(Html.Kendo().ComboBoxFor(model => model.ResponseQualityID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("ResponseQuantityList", "TypeConsultationDeclarationType");
+                            });
+                        })
+        )
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@using eLConsultation.Data;
+@model LoginItem
+@{
+    ViewBag.Title = "Մուտք";
+    Layout = "_LayoutLogin.cshtml";
+}
+
+
+<div class="card-body">
+    <h2 class="text-center">Մուտք</h2>
+    <p class="text-muted">Մուտքագրեք Ձեր տվյալները</p>
+@using (Html.BeginForm("Login", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" style="border-radius:0">
+                <i class="icon-user"></i>
+            </span>
+            @Html.Kendo().TextBoxFor(m => m.Email).HtmlAttributes(new { @class = "form-control", placeholder = "էլեկտրոնային փոստ" })
+        </div>
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" style="border-radius:0">
+                <i class="icon-lock"></i>
+            </span>
+            @Html.Kendo().TextBoxFor(m => m.Password).HtmlAttributes(new { @class = "form-control", type = "password", placeholder = "Գաղտնաբառ" })
+            @*@Html.ValidationMessageFor(m => m.Password)*@
+        </div>
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+        <div class="input-group mb-4">
+            @Html.Kendo().CheckBoxFor(m => m.RememberMe)
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary px-4">Մուտք</button>
+            </div>
+            <div class="col-8 text-right">
+                @Html.ActionLink("Մոռացել ե՞ք գաղտնաբառը", "ForgotPassword")
+            </div>
+            <div class="col-12">
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+            </div>
+        </div>
+        }
+
+    </div>
+
+
+@section Scripts{
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#Email, #Password").removeClass("k-textbox");
+        $(".validation-summary-errors").addClass("bg-warning")
+        $(function () {
+            var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+            var validator = $("form").kendoValidator({
+                errorTemplate: errTmplt
+            }).data("kendoValidator");
+
+            $("form").submit(function (event) {
+                if (!validator.validate()) {
+                    return false;
+                }
+            });
+        });
+    </script>
+}

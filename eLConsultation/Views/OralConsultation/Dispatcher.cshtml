@@ -1,0 +1,162 @@
+﻿@model eLConsultation.Data.ResidentSearch
+
+@{
+    ViewBag.Title = "Քաղաքացի";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+<div id="backButton">
+    <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "OralConsultation")"><i class="icons icon-action-undo"></i></a>
+</div>
+
+
+
+<div class="container" style="max-width:900px; margin:0 auto">
+    <div class="row dispatcherGridToolbar">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("Resident", "OralConsultation")"><i class="icons icon-plus"></i> Քաղաքացի</a>
+        <div id="searchInputs" style="text-align:right">
+            @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն", style = " height:32px; margin:1px" })
+            @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն", style = "height:32px; margin:1px" })
+            <button id="searchSelectResident" style="margin:1px; border-radius:0" class="btn btn-outline-secondary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i></button>
+        </div>
+    </div>
+    @(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem>()
+              .Name("grResidentMobile")
+              .Events(e => e.DataBound("dispatcherExtraStylingToGrid"))
+              .NoRecords("Գրառումներ չկան")
+              .Columns(columns =>
+              {
+                  columns
+                  .Template(@<text></text>)
+                  .ClientTemplate("<a href='"+ Url.Action("Issue", "OralConsultation", new { residentID = "#= ResidentID #" }) + "'>#= ResidentName #</a>")
+                  .Title("Քաղաքացի");
+
+                  columns.Bound(c => c.IdentificatorNumber);
+                  columns.Bound(c => c.BirthDate);
+                  columns.Bound(c => c.RegionName);
+              })
+              .Scrollable()
+              .Pageable()
+              .ClientDetailTemplateId("template")
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Events(events => events.Error("error_handler"))
+                  .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
+              )
+)
+
+
+    @*@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem>()
+          .Name("grResidentMobile")
+          .NoRecords("Գրառումներ չկան")
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.ResidentID).Hidden();
+              columns.Template(e => { }).ClientTemplate(" ").Title("Քաղաքացի");
+              //columns.Template(e => { }).ClientTemplate(" ").Title(" ").Width(70);
+          })
+          .ClientRowTemplate(
+                "<tr data-uid='#: ResidentID #' class='k-master-row'>" +
+                    //"<td class='k-hierarchy-cell'><a class='k-icon k-plus' href='\\#' tabindex='-1'></a></td>" +
+                    //"<td class='photo'>" +
+                    //    "<img width='80' src='" + Url.Content("~/img/avatars/") + "#:data.ResidentID#.jpg' alt='#: data.ResidentID #' />" +
+                    //"</td>" +
+                    "<td class='details'>" +
+                        "<h3 class='ResidentName'><a class='residentNameLink' onclick='CreateConsultation(#: ResidentID #)'>" +
+                            "#=(FirstName == null ? '' : FirstName)# " +
+                            //"#=(MiddleName == null ? '' : MiddleName)# " +
+                            "#=(LastName == null ? '' : LastName)# " +
+                        "</a></h3>" +
+                       "<table class='residentDetailsTable'>" +
+                            "<tr>" +
+                                "<td>Ա․Հ․Փ․: <b>#=(IdentificatorNumber == null ? '' : IdentificatorNumber)#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Ծննդյան ա/թ։ <b>#=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Հասցե։ <b>#=(RegionID == null ? '' : ResidentRegistrationLocation)#</b></td>" +
+                            "</tr>" +
+                        "</table>" +
+                    "</td>" +
+                 //"<td class='command'><button class=\"btn btn-outline-secondary btn-lg\" onclick=\"CreateConsultation(#: ResidentID #)\"><i class=\"fa fa-plus\"></i></button>" +
+                 //"</td>" +
+                 "</tr>"
+            )
+          .HtmlAttributes(new { style = "height:500px;" })
+          .Scrollable()
+          .Pageable()
+          //.ClientDetailTemplateId("template")
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
+          )
+    )*@
+</div>
+
+
+<script id="template" type="text/kendo-tmpl">
+        @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+        .Name("grid_#=ResidentID#") // template expression, to be evaluated in the master context
+          .Columns(columns =>
+          {
+              columns.Bound(o => o.IssueID).Hidden();
+              columns
+                  .Template(@<text></text>)
+                  .ClientTemplate("<a href='" + Url.Action("InitOralConsultation", "OralConsultation", new { issueID = "\\#= IssueID \\#" }) + "'>\\#= IssueName \\#</a>")
+                  .Title("Խնդրի անվանում");
+              //columns.Bound(o => o.IssueName).Width(170);
+              columns.Bound(o => o.IssueTypeName);
+              columns.Bound(o => o.IssueDate).Width(98);
+              //columns.Bound(o => o.IssueDescription).Width(190);
+          })
+
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              //.PageSize(5)
+              .Read(read => read.Action("GetIssesSetItemsByResidentID", "Issue", new { residentID = "#=ResidentID#" }))
+                      )
+          //.Pageable()
+          //.Sortable()
+         .ToClientTemplate())
+</script>
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+    function Search() {
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function Clear() {
+        $("#FirstName").val("");
+        $("#LastName").val("");
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function getParameters() {
+        return {
+            firstName: $("#FirstName").val(),
+            lastName: $("#LastName").val()
+        };
+    }
+
+</script>
+
+<script>
+    //Correction Grid Height
+    var winHeight = $(window).height();
+    var headerHeight = $("header.navbar").height();
+    $(".k-grid").height(winHeight - headerHeight - 60);
+
+    //Corection Toolbar height
+    if ($(window).width() > 550) {
+        $(".dispatcherGridToolbar").height($("div#searchInputs").height());
+    }
+
+</script>

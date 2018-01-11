@@ -1,0 +1,176 @@
+﻿@model eLConsultation.Data.ResidentSearch
+@{
+    ViewBag.Title = "Քաղաքացիներ";
+}
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertResident()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i></button>");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Որոնման դաշտեր</h4>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new {placeholder="անուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button type="submit" id="btnSearch" class="btn btn-primary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i>&nbsp;Որոնել</button>
+                    <button type="submit" id="btnClear" class="btn btn-secondary btn-sm" onclick="return Clear();"><i class="icons icon-close"></i>&nbsp;Մաքրել</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        $("#FirstName").val("");
+        $("#LastName").val("");
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameters() {
+        return {
+            firstName: $("#FirstName").val(),
+            lastName: $("#LastName").val()
+        };
+    }
+
+    function InsertResident() {
+        window.location = '@Url.Action("ResidentTemplate", "Resident")';
+    }
+    @*function UpdateResident(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grResident").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("InitUpdate", "Resident")/?residentID=' + dataItem.ResidentID;
+    }*@
+
+
+
+    function DeleteResident(id) {
+        var r = confirm("Are you sure to delete the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteResident", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { ResidentID: id },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#grResidentMobile").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function UpdateResident(id) {
+        window.location = '@Url.Action("InitResidentTemplateByResidentID", "Resident")/?residentID=' + id;
+    }
+</script>
+
+@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem>()
+          .Name("grResidentMobile")
+          .NoRecords("Գրառումներ չկան")
+          .Columns(columns =>
+          {
+              columns.Template(e => { }).ClientTemplate(" ").Title("Քաղաքացի");
+              columns.Template(e => { }).ClientTemplate(" ").Title(" ").Width(74);
+          })
+          .ClientRowTemplate(
+                "<tr data-uid='#: ResidentID #'>" +
+                    "<td class='details'>" +
+                        "<h3 class='ResidentName'>" +
+                            "#=(FirstName == null ? '' : FirstName)# " +
+                            //"#=(MiddleName == null ? '' : MiddleName)# " +
+                            "#=(LastName == null ? '' : LastName)# " +
+                        "</h3>" +
+                        "<table class='residentDetailsTable'>" +
+                            "<tr>" +
+                                "<td>Ա․Հ․Փ․: <b>#=(IdentificatorNumber == null ? '' : IdentificatorNumber)#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Ծննդյան ա/թ։ <b>#=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Հասցե։ <b>#=(RegionID == null ? '' : ResidentRegistrationLocation)#</b></td>" +
+                            "</tr>" +
+                        "</table>" +
+                    //"<span class='IdentificatorNumber'>" +
+                    //    "N: #=(IdentificatorNumber == null ? '' : IdentificatorNumber)# " +
+                    //"</span><br>" +
+                    //"<span class='BirthDate'>" +
+                    //    "Ծննդյան ա/թ։ #=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))# " +
+                    //"</span><br>" +
+                    //"<span class='Region'>" +
+                    //    "#=(RegionID == null ? '' : ResidentRegistrationLocation)# " +
+                    //"</span><br>" +
+                    "</td>" +
+                    "<td class='command'><button style=\"margin:3px 0; border-radius: 0\" class=\"btn btn-outline-secondary btn-lg\" onclick=\"UpdateResident(#: ResidentID #)\"><i class=\"icons icon-pencil\"></i></button>" +
+                                        "<button style=\"margin:3px 0; border-radius: 0\" class=\"btn btn-outline-secondary btn-lg\" onclick=\"DeleteResident(#: ResidentID #)\"><i class=\"icons icon-trash\"></i></button>" +
+                    "</td>" +
+                 "</tr>"
+            )
+          //.HtmlAttributes(new { style = "height:500px;" })
+          .Scrollable()
+          .Pageable()
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
+          )
+)
+
+@*@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem >()
+          .Name("grResident")
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.ResidentName);
+              columns.Command(commands =>
+              {
+                  commands.Custom("cmdUpdateResident").Text(" ").Click("UpdateResident").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteResident").Text(" ").Click("DeleteResident").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(120);
+          })
+          .Events(e => e.DataBound("showCommandIcons"))
+          .Sortable()
+          .Resizable(resize => resize.Columns(true))
+          .Scrollable()
+          .Reorderable(reorder => reorder.Columns(true))
+          .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("SelectResidents", "Resident").Data("getParameters"))
+          )
+)*@

@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Սեռ";
+}
+<div id="catalog">
+    @(Html.Kendo().Grid<eLConsultation.Data.GenderItem>()
+    .Name("grid")
+    .NoRecords("Գրառումներ չկան")
+    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.GenderID).Visible(false);
+        columns.Bound(p => p.GenderName);
+        columns.Command(command =>
+        {
+            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+            command.Destroy().Text(" ");
+        }).Width(115);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+        .TemplateName("GenderPopUp")
+        .Window(w => w.Title("Մուտքի պատուհան")
+        .Events(e => e
+            .Deactivate("correctPopUpGrid")
+            //.Close("correctPopUpGrid")
+            .Activate("correctPopUpGrid")
+            .Open("correctPopUpGrid")
+            )
+         )
+      )
+    //.Pageable()
+    .Filterable(f => f.Extra(false)
+                                         .Operators(o => o.ForString(s => s.Clear()
+                                          .Contains("Պարունակում է")
+                                          .DoesNotContain("Չի պարունակում")
+                                          .StartsWith("Սկսվում է")
+                                          .EndsWith("Վերջանում է")
+                                          .IsEqualTo("Նույնն է")
+                                          .IsNotEqualTo("Նույնը չէ")
+                                        )).Messages(m => m
+                                        .Filter("Որոնել")
+                                        .Clear("Մաքրել")
+                                        .Info("Գրառում, որը")))
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.GenderID))
+        .Create(update => update.Action("GenderCreate", "Gender"))
+        .Read(read => read.Action("GenderSelect", "Gender"))
+        .Update(update => update.Action("GenderUpdate", "Gender"))
+        .Destroy(update => update.Action("GenderDelete", "Gender"))
+    )
+    )
+</div>
+

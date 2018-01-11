@@ -1,0 +1,178 @@
+﻿@model eLConsultation.Data.IssueItem
+
+@{
+    ViewBag.Title = "Խնդիր";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+
+
+@using (Html.BeginForm("SaveIssue", "OralConsultation", FormMethod.Post, new { id = "frmIssue" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IssueID)
+    @Html.HiddenFor(model => model.ResidentID)
+
+
+    @Html.HiddenFor(model => model.InitializationType)
+    //@Html.HiddenFor(model => model.IssueTypeID)
+
+    <div class="container-maxwidth500">
+        <div class="card">
+            <div class="card-header">
+                <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
+            </div>
+            <header class="header card-header">
+                <h6 style="color:#21A8D8">Քաղաքացի</h6>
+                <div class="consultationTemplateRresident">
+                    <p>
+                        Ա․Ա․Հ․։
+                        <span>
+                            @Html.DisplayFor(model => model.FirstName)
+                            @Html.DisplayFor(model => model.MiddleName)
+                            @Html.DisplayFor(model => model.LastName)
+                        </span>
+                    </p>
+                    <p>
+                        Ա․Հ․Փ։
+                        <span>@Html.DisplayFor(model => model.IdentificatorNumber)</span>
+                    </p>
+                    <p>
+                        Ծննդյան ա/թ։
+                        <span>@Html.DisplayFor(model => model.BirthDate)</span>
+                    </p>
+                </div>
+            </header>
+            <div class="card-body consultationTemplateBody">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueName, new { @class = "control-label" })
+                            @Html.Kendo().TextBoxFor(model => model.IssueName).HtmlAttributes(new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueDate, new { @class = "control-label" })
+                            @Html.Kendo().DatePickerFor(model => model.IssueDate).HtmlAttributes(new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueTypeID, new { @class = "control-label" })
+                            @(Html.Kendo().ComboBoxFor(model => model.IssueTypeID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control" })
+                        .BindTo(ViewBag.vbIssueTypes)
+                            )
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Խնդրի նկարագրությունը</div>
+                    <div class="card-body padding-0 kendoEditor">
+                        @(Html.Kendo().EditorFor(m => m.IssueDescription)
+                          .Name("IssueDescription")
+                          .Encode(false)
+                          .HtmlAttributes(new { aria_label = "IssueDescription" })
+                          .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                          .Tools(tools => tools
+                              .Clear()
+                              .Formatting()
+                              .FontColor()
+                              .Bold().Italic().Underline().Strikethrough()
+                              .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                              .InsertUnorderedList().InsertOrderedList()
+                              .Outdent().Indent()
+                              .CleanFormatting()
+                              .TableEditing()
+
+                          )
+                        )
+                        @*@Html.Kendo().TextBoxFor(model => model.IssueDescription)*@
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MiddleName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.MiddleName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdentificatorNumber, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.IdentificatorNumber).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.BirthDate).HtmlAttributes(new { @class = "form-control" })
+                </div>*@
+            </div>
+            <div class="card-footer">
+                <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Dispatcher", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+            </div>
+        </div>
+    </div>
+}
+<div id="errors"> </div>
+
+<script>
+    $(".validation-summary-errors").addClass("bg-warning")
+    $("form").kendoValidator({
+        errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>', // change the default message container to show only an *
+        validate: function (e) { // handle the validate event to build the error list
+
+
+            var html = "";
+            if (!e.valid) {
+
+                //$("input.k-invalid").parent("span").parent("span").addClass("k-invalid")
+
+                var errors = this.errors();
+                html += "<ul>";
+                for (var i = 0; i < errors.length; i++) {
+                    html += "<li>" + errors[i] + "</li>";
+                }
+
+                html += "</ul>";
+            }
+            $("#errors").empty().append($(html));
+
+
+
+        }
+    });
+</script>
+@*<script>
+        function onChange() {
+            var comboBoxInput = this.input;
+
+            if (!validator.validateInput(this.element)) {
+                comboBoxInput.addClass("k-invalid");
+                console.log(comboBoxInput);
+            } else {
+                comboBoxInput.removeClass("k-invalid");
+            }
+        }
+    </script>*@
+
+@*<script>
+
+        //var regions = $("#Regions").data("kendoComboBox"),
+        //        communities = $("#Communities").data("kendoComboBox");
+
+        //    $("#get").click(function () {
+        //        //var regions = "\nRegions: { id: " + regions.value() + ", name: " + regions.text() + " }",
+        //        //    communities = "\nCommunities: { id: " + communities.value() + ", name: " + communities.text() + " }";
+
+        //        //alert("Details:\n" + regions.value() + regions.text() + communities.value() + communities.text());
+        //        alert(regions);
+        //    });
+
+
+    </script>*@

@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Բնակավայրեր";
+}
+<div id="catalog">
+    @(Html.Kendo().Grid<eLConsultation.Data.CommunityItem>()
+    .Name("grid")
+    .NoRecords("Գրառումներ չկան")
+    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.CommunityID).Visible(false);
+        columns.ForeignKey(model => model.RegionID, (List<SelectListItem>)ViewBag.vbRegions, "Value", "Text").EditorTemplateName("Region").MinScreenWidth(768)
+.Filterable(f => f.Extra(false)
+                                 .Operators(o => o.ForEnums(s => s.Clear()
+                                  .IsEqualTo("Նույնն է")
+                                  .IsNotEqualTo("Նույնը չէ")
+                                .IsNull("Արժեքը զրոյական է")
+                                .IsNotNull("Արժեքը զրոյական չէ")
+                                )).Messages(m => m
+                                .Filter("Որոնել")
+                                .Clear("Մաքրել")
+                                .Info("Գրառում, որը")
+                                .SelectValue("-- Ընտրել --")));
+        columns.Bound(p => p.CommunityName).Filterable(f => f.Extra(false)
+                                         .Operators(o => o.ForString(s => s.Clear()
+                                          .Contains("Պարունակում է")
+                                          .DoesNotContain("Չի պարունակում")
+                                          .StartsWith("Սկսվում է")
+                                          .EndsWith("Վերջանում է")
+                                          .IsEqualTo("Նույնն է")
+                                          .IsNotEqualTo("Նույնը չէ")
+                                        )).Messages(m => m
+                                        .Filter("Որոնել")
+                                        .Clear("Մաքրել")
+                                        .Info("Գրառում, որը")
+                                        .SelectValue("-- Ընտրել --")));
+
+        columns.Command(command =>
+        {
+            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+            command.Destroy().Text(" ");
+        }).Width(115);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+        .TemplateName("CommunityPopUp")
+        .Window(w => w
+        .Title("Մուտքի պատուհան")
+        .Events(e => e
+            .Deactivate("correctPopUpGrid")
+            //.Close("correctPopUpGrid")
+            .Activate("correctPopUpGrid")
+            .Open("correctPopUpGrid")
+        )
+        ))
+    .Pageable()
+    .Filterable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.CommunityID))
+        .Create(update => update.Action("CommunityCreate", "Community"))
+        .Read(read => read.Action("CommunitySelect", "Community"))
+        .Update(update => update.Action("CommunityUpdate", "Community"))
+        .Destroy(update => update.Action("CommunityDelete", "Community"))
+    )
+    )
+</div>
+
+

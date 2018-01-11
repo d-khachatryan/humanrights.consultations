@@ -1,0 +1,41 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using Microsoft.AspNet.Identity
+
+    @if (Request.IsAuthenticated)
+    {
+        <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="d-md-down-none">@User.Identity.GetUserName()</span>
+        </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header text-center">
+                        @if (Request.Browser.IsMobileDevice)
+                        {
+                            <span>@User.Identity.GetUserName()</span>
+                        }
+                        else
+                        {
+                            <strong>Հաշիվ</strong>
+                        }
+                    </div>
+                    <a href="@Url.Action("ResetPassword", "Login", new { code = User.Identity.GetHashCode() })" class="dropdown-item"><i class="icon-shuffle"></i> Փոխել գաղտնաբառը</a>
+                    @*@using (Html.BeginForm("ResetPassword", "Login", FormMethod.Post, new {id="resetPassword", code = User.Identity.GetHashCode().ToString() }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('resetPassword').submit()" class="dropdown-item"><i class="icon-shuffle"></i> Փոխել գաղտնաբառը</a>
+                    }*@
+                    @using (Html.BeginForm("LogOff", "Login", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item"><i class="icon-logout"></i> Ելք</a>
+                    }
+                </div>
+    }
+    else
+    {
+
+        <a class="nav-link nav-link" href="@Url.Action("Login", "Login")">
+            <span class="d-md-down-none"><i class="icon-login"></i> Մուտք</span>
+        </a>
+
+    }
+

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Խնդրի կատեգորիա";
+}
+<div id="catalog">
+    @(Html.Kendo().Grid<eLConsultation.Data.IssueCategoryItem>()
+    .Name("grid")
+    .NoRecords("Գրառումներ չկան")
+    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Columns(columns =>
+    {
+        columns.Bound(p => p. IssueCategoryID).Visible(false);
+        columns.Bound(p => p. IssueCategoryName);
+        columns.Command(command =>
+        {
+            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+            //command.Destroy().Text(" ");
+        }).Width(65);
+    })
+    //.ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+        .TemplateName("IssueCategoryPopUp")
+        .Window(w => w.Title("Մուտքի պատուհան")
+        .Events(e => e
+            .Deactivate("correctPopUpGrid")
+            //.Close("correctPopUpGrid")
+            .Activate("correctPopUpGrid")
+            .Open("correctPopUpGrid")
+            )
+         )
+      )
+    //.Pageable()
+    .Filterable(f => f.Extra(false)
+                                         .Operators(o => o.ForString(s => s.Clear()
+                                          .Contains("Պարունակում է")
+                                          .DoesNotContain("Չի պարունակում")
+                                          .StartsWith("Սկսվում է")
+                                          .EndsWith("Վերջանում է")
+                                          .IsEqualTo("Նույնն է")
+                                          .IsNotEqualTo("Նույնը չէ")
+                                        )).Messages(m => m
+                                        .Filter("Որոնել")
+                                        .Clear("Մաքրել")
+                                        .Info("Գրառում, որը")))
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.IssueCategoryID))
+        .Create(create => create.Action("IssueCategoryCreate", "IssueCategory"))
+        .Read(read => read.Action("IssueCategorySelect", "IssueCategory"))
+        .Update(update => update.Action("IssueCategoryUpdate", "IssueCategory"))
+        .Destroy(update => update.Action("IssueCategoryDelete", "IssueCategory"))
+    )
+    )
+</div>
+
+

@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Gender]
+(
+	[GenderID] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [GenderName] NVARCHAR(10) NULL
+)

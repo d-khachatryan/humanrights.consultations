@@ -1,0 +1,556 @@
+﻿body {
+    overflow: hidden;
+}
+
+
+/* Preloader */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    /* change if the mask should have another color then white */
+    z-index: 9999;
+    /* makes sure it stays on top */
+}
+
+
+
+#status {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    /* centers the loading animation horizontally one the screen */
+    top: 50%;
+    /* centers the loading animation vertically one the screen */
+    /*background-image: url(https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif);*/
+    background-image: url("../img/spiner.gif");
+    /*background-image: url("~/img/giphy.gif");*/
+    /* path to your loading animation */
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -100px 0 0 -100px;
+    /* is width and height divided by two */
+}
+
+/* Grid Loader */
+div.k-loading-mask {
+    background-color: #dbdbdb;
+}
+/*Right-slidePanel*/
+.for-Toolbar {
+    position: relative;
+    width: 100%
+}
+
+.right-slidePanel {
+    position: absolute;
+    top: 8px;
+    right: -230px;
+    z-index: 1000;
+}
+
+    .right-slidePanel input {
+        width: 100%
+    }
+
+    .right-slidePanel .slidePanel-Content {
+        background-color: rgba(136, 136, 136, 0.8);
+        width: 220px;
+        position: relative;
+    }
+
+    .right-slidePanel .slidePanel-btn {
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        top: 0;
+        left: -47px;
+        background-color: #fff;
+        border: 1px solid #dbdbdb;
+        font-size: 18px;
+        padding: 2px 0 0 5px;
+        color: #898989;
+        cursor: pointer;
+    }
+
+        .right-slidePanel .slidePanel-btn:hover {
+            background-color: #21A8D8;
+            color: #fff;
+        }
+
+    .right-slidePanel .slidePanel-Content-fields {
+        padding: 10px;
+        min-height: 150px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+        .right-slidePanel .slidePanel-Content-fields h4 {
+            margin: 0;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 3px;
+        }
+
+        .right-slidePanel .slidePanel-Content-fields label {
+            color: #fff;
+        }
+
+/*Login Form*/
+
+.loginForm a:hover {
+    color: #3c8dbc;
+    text-decoration: underline;
+}
+
+/*Toolbar*/
+.for-Toolbar button {
+    color: #fff;
+    margin: 0 5px;
+}
+
+/*Grid button*/
+.k-grid tbody .k-button {
+    min-width: 45px !important;
+}
+
+a.k-button:hover, a.k-button:focus {
+    border-color: #dbdbdb;
+}
+
+.k-grid tbody td > .k-grid-delete {
+    margin: 0;
+}
+
+.k-grid-header th.k-header {
+    text-align: center;
+}
+
+.k-button.k-button-icontext .k-icon, .k-button.k-button-icontext .k-image {
+    vertical-align: text-top;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+
+
+
+
+/*Theme*/
+.app-header > .nav-link {
+    color: #888;
+    font-size: 20px;
+}
+
+@media(max-width: 991px) {
+    .app-header .navbar-brand {
+        display: none !important;
+    }
+    .app-header .nav-link {
+        color: #888;
+        font-size: 16px;
+    }
+
+    .k-window,
+    .k-window .k-edit-form-container {
+        max-width: 100% !important;
+    }
+}
+
+.clear {
+    clear: both
+}
+
+.align-right {
+    text-align: right;
+}
+
+.border-box {
+    box-sizing: border-box !important;
+}
+
+.margin-5-0 {
+    margin: 5px 0;
+}
+
+.margin-10-0 {
+    margin: 10px 0;
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.container-maxwidth500 {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.trHover a{
+    color: #fff;
+}
+
+.k-detail-row table tr td {
+    color: rgb(76, 83, 86);
+}
+/*Input*/
+.k-tooltip-validation {
+    z-index: 1000;
+}
+
+.validation-summary-errors {
+    margin-top: 10px;
+    background: url(../img/icons/warning.png) no-repeat top 0 left 2px;
+    min-height: 50px;
+    padding: 3px 3px 3px 55px;
+    color: #636363;
+}
+
+    .validation-summary-errors ul {
+        background-color: #fff;
+        padding: 7px;
+        margin-bottom: 0;
+    }
+
+    .validation-summary-errors span {
+        display: block;
+        background-color: #fff;
+        padding: 7px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+.validation-summary-valid span {
+    display: none;
+}
+
+.validation-summary-errors ul li {
+    display: block;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+}
+
+.form-group span.k-icon {
+    color: #fff
+}
+/* Menu */
+.sidebar .nav > .nav-item > .nav-link > i {
+    display: block;
+    height: 25px;
+    margin-top: 5px;
+    float: left;
+}
+
+
+/*Details*/
+
+.pdf-page {
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+}
+
+.pdf-page {
+    margin: 0 auto;
+    box-sizing: border-box;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.3);
+    background-color: #fff;
+    color: #333;
+    position: relative;
+}
+
+.pdf-header {
+    margin: 10px 40px;
+    padding: 30px 30px 0 30px;
+}
+
+.invoice-number {
+    padding-top: .17in;
+    float: right;
+    font-size: 18px;
+}
+
+.pdf-footer {
+    position: absolute;
+    bottom: .1in;
+    height: .6in;
+    left: .5in;
+    right: .5in;
+    padding-top: 10px;
+    border-top: 1px solid #e5e5e5;
+    text-align: left;
+    color: #787878;
+    font-size: 12px;
+}
+
+.pdf-body {
+    margin: 30px;
+    padding: 0 30px 70px 30px;
+}
+
+.size-a4 {
+    width: 8.3in;
+    height: 11.7in;
+}
+
+.size-letter {
+    width: 8.5in;
+    height: 11in;
+}
+
+.size-executive {
+    width: 7.25in;
+    height: 10.5in;
+}
+
+.company-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3aabf0;
+}
+
+.for {
+    position: absolute;
+    top: 1.5in;
+    left: .5in;
+    width: 2.5in;
+}
+
+.consultationRresident {
+    margin: 30px;
+    padding: 0 30px;
+}
+
+    
+.consultationRresident p {
+        font-weight: bold;
+        font-size: 17px;
+        color: #555;
+    }
+
+    .consultationRresident span {
+        font-weight: normal;
+        font-size: 15px;
+    }
+
+.from p, .for p {
+    color: #787878;
+}
+
+.signature {
+    padding-top: .5in;
+}
+
+
+
+#backButton a {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10000;
+    height: 54px;
+    width: 43px;
+    font-size: 24px;
+    border-radius: 0;
+}
+
+@media(max-width: 991px){
+    #backButton a {
+        left: 0;
+    }
+}
+
+
+/*Resident Mobile*/
+#grResidentMobile table[role="grid"] > tbody > tr > td.details > h3 {
+    font-size: 18px; 
+    color: #555;
+    font-weight:bold;
+}
+
+#grResidentMobile table[role="grid"] tr td {
+    padding: 10px;
+}
+
+#grResidentMobile table[role="grid"] > tbody > tr:nth-child(even) {
+    background: #efefef;
+}
+
+#grResidentMobile table[role="grid"] > tbody > tr:nth-child(odd) {
+    background: #fff;
+}
+
+#grResidentMobile .residentDetailsTable {
+    table-layout: auto !important;
+    background: none !important;
+}
+
+#grResidentMobile .residentDetailsTable tr {
+        background: none !important;
+    }
+   
+#grResidentMobile .residentDetailsTable tr td {
+            color: #555;
+            padding: 3px 10px !important;
+        }
+      
+#grResidentMobile .residentDetailsTable tr:not(:first-child) td{
+                border-top: 1px solid #ccc;
+            }
+ 
+#grResidentMobile .residentDetailsTable i {
+        color: #21A8D8;
+    }
+
+#grResidentMobile .details .ResidentName a {
+    cursor: pointer;
+    color: #21A8D8;
+}
+
+#grResidentMobile .details .ResidentName a:hover {
+        color: #888;
+        text-decoration: underline;
+    }
+
+.dispatcherGridToolbar{
+    position:relative;
+    margin:3px 0;
+}
+    .dispatcherGridToolbar > div#searchInputs {
+        position: absolute;
+        right: 0;
+    }
+
+@media(max-width: 550px) {
+    .dispatcherGridToolbar > a {
+        display: block;
+        width:100%;
+    } 
+    .dispatcherGridToolbar > div#searchInputs {
+        position: relative;
+        right: 0;
+    }
+    #searchInputs {
+        width: 100%;
+    } 
+    #searchInputs input, #searchInputs button {
+        display: inline-block;
+        width: 100%;
+    }
+}
+
+/*Consultation Template Body*/
+.consultationTemplateRresident span,
+.consultationTemplateBody .card-header {
+    font-size: 16px;
+    color: #888;
+    font-weight: bold;
+}
+.consultationTemplateRresident p {
+    margin: 10px;
+    padding-top:6px;
+}
+
+    .consultationTemplateRresident p:not(:first-child),
+    .consultationTemplateRresident .issueDescription {
+        border-top: 1px solid #ccc
+    }
+
+.consultationTemplateRresident .issueDescription {
+    margin: 10px;
+}
+        
+.consultationTemplateRresident .issueDescription > div {
+            float: left;
+            padding-top: 6px;
+        }
+
+.consultationTemplateRresident .issueDescription  div p {
+    margin: 0 10px;
+    border: none;
+    padding:0;
+}
+    
+    
+.form-control .k-state-default {
+        border: none;
+    }
+/*Consultation Details*/
+.consultationDetails tr td p span {
+    font-weight: bold;
+}
+
+.kendoEditor {
+    padding-right:2px;
+}
+.kendoEditor table.k-header {
+    background-color: #F0F3F5
+}
+
+    .kendoEditor table.k-header .k-dropdown-wrap,
+    .kendoEditor table.k-header .k-picker-wrap {
+        background-color: #fff;
+        border-color: #888;
+    }
+
+        .kendoEditor table.k-header .k-dropdown-wrap .k-input,
+        .kendoEditor table.k-header .k-dropdown-wrap .k-icon,
+        .kendoEditor table.k-header .k-picker-wrap .k-input,
+        .kendoEditor table.k-header .k-picker-wrap .k-icon {
+            color: #888;
+        }
+
+
+
+/*Validation Error*/
+#errors {
+    max-width:300px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: rgba(240, 0, 0, 0.4);
+    margin-top: 54px;
+    color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#errors ul {
+        /*list-style: symbols("-");*/
+        padding: 15px 15px 15px 25px;
+        margin-bottom: 5px;
+    }
+#errors ul li{
+margin: 5px;
+    }
+
+@media(max-width: 1100px) {
+    #errors {
+        max-height: 110px;
+        overflow-y:auto;
+        margin-top: 0;
+        z-index: 9999;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+        #errors ul {
+            /*list-style: symbols("-");*/
+            padding: 5px 5px 5px 15px;
+            margin-bottom: 5px;
+        }
+}
+
+

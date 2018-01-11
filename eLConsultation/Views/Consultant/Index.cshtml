@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Խորհրդատուներ";
+}
+<div id="catalog">
+    @(Html.Kendo().Grid<eLConsultation.Data.ConsultantItem>()
+    .Name("grid")
+    .NoRecords("Գրառումներ չկան")
+    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ConsultantID).Visible(false);
+        columns.Bound(p => p.FirstName);
+        columns.Bound(p => p.LastName);
+        columns.Bound(p => p.Id);
+        columns.Command(command =>
+        {
+            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+            command.Destroy().Text(" ");
+        }).Width(115);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+        .TemplateName("ConsultantPopUp")
+        .Window(w => w
+            .Title("Մուտքի պատուհան")
+            .Events(e => e
+            .Deactivate("correctPopUpGrid")
+            //.Close("correctPopUpGrid")
+            .Activate("correctPopUpGrid")
+            .Open("correctPopUpGrid"))
+            ))
+    //.Pageable()
+    .Filterable(f => f.Extra(false)
+                                         .Operators(o => o.ForString(s => s.Clear()
+                                          .Contains("Պարունակում է")
+                                          .DoesNotContain("Չի պարունակում")
+                                          .StartsWith("Սկսվում է")
+                                          .EndsWith("Վերջանում է")
+                                          .IsEqualTo("Նույնն է")
+                                          .IsNotEqualTo("Նույնը չէ")
+                                        )).Messages(m => m
+                                        .Filter("Որոնել")
+                                        .Clear("Մաքրել")
+                                        .Info("Գրառում, որը")))
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.ConsultantID))
+        .Create(update => update.Action("ConsultantCreate", "Consultant"))
+        .Read(read => read.Action("ConsultantSelect", "Consultant"))
+        .Update(update => update.Action("ConsultantUpdate", "Consultant"))
+        .Destroy(update => update.Action("ConsultantDelete", "Consultant"))
+    )
+    )
+</div>
+@*<script type="text/javascript">
+    //function error_handler(e, status) {
+    //    alert("Սերվերում առկա է խնդիր։ Տվյալները չեն կարող ցուցադրվել");
+    //}
+
+    //function displayLoading(){
+    //    kendo.ui.progress("#grid", true);
+    //}
+    //function error_handler(e) {
+    //    if (e.errors) {
+    //        var message = "Errors:\n";
+    //        $.each(e.errors, function (key, value) {
+    //            if ('errors' in value) {
+    //                $.each(value.errors, function () {
+    //                    message += this + "\n";
+    //                });
+    //            }
+    //        });
+    //        alert(message);
+    //        $("#grid").data("kendoGrid").dataSource.read();
+    //    }
+    //}
+
+
+    //function error_handler(e, status) {
+    //    if (e.status == "customerror") {
+    //        alert(e.errors);
+    //    }
+    //    else {
+    //        alert("Generic server error.");
+    //    }
+    //}
+
+    
+</script>*@
+
+

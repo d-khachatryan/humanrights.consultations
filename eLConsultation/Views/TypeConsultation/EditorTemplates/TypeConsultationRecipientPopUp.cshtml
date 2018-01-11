@@ -1,0 +1,29 @@
+﻿@model eLConsultation.Data.TypeConsultationRecipientItem
+
+@Html.HiddenFor(model => model.ID)
+@Html.HiddenFor(model => model.TypeConsultationRecipientID)
+@Html.HiddenFor(model => model.TypeConsultationID)
+
+<div class="card-body">
+    <div class="form-group">
+       @Html.LabelFor(model => model.RecipientDate, new { @class = "control-label" })
+       @Html.Kendo().DatePickerFor(model => model.RecipientDate).HtmlAttributes(new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+       @Html.LabelFor(model => model.OrganizationID, new { @class = "control-label" })
+    @(Html.Kendo().ComboBoxFor(model => model.OrganizationID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("OrganizationList", "TypeConsultationRecipient");
+                            });
+                        })
+    )
+    </div>
+</div>

@@ -1,0 +1,209 @@
+﻿@model eLConsultation.Data.ResidentItem
+
+@{
+    ViewBag.Title = "Քաղաքացի";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+
+
+@using (Html.BeginForm("SaveResident", "OralConsultation", FormMethod.Post, new { id = "frmResident" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ResidentID)
+
+    //@Html.HiddenFor(model => model.OperationType)  // shall be removed
+
+    @Html.HiddenFor(model => model.InitializationType)
+    //@Html.HiddenFor(model => model.ConsultationType)
+    //@Html.HiddenFor(model => model.ResidentDestinationType)
+
+    <div class="container-maxwidth500">
+        <div class="card">
+            <div class="card-header">
+                <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MiddleName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.MiddleName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdentificatorNumber, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.IdentificatorNumber).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.BirthDate).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GenderID, new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.GenderID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control" })
+                        .BindTo(ViewBag.vbGenders)
+                        //.DataSource(source =>
+                        //{
+                        //    source.Read(read =>
+                        //    {
+                        //        read.Action("GenderList", "Catalog");
+                        //    });
+                        //})
+                    )
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RegionID, new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RegionID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("GetCascadeRegions", "Cascade");
+                            });
+                        })
+                    )
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CommunityID, new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.CommunityID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("GetCascadeCommunities", "Cascade")
+                                .Data("filterCommunities");
+                            })
+                            .ServerFiltering(true);
+                        })
+                        .Enable(false)
+                          .AutoBind(false)
+                          .CascadeFrom("RegionID")
+                    )
+                    <script>
+                            function filterCommunities() {
+                                return {
+                                    regions: $("#RegionID").val(),
+                                    CommunityFilter: $("#CommunityID").data("kendoComboBox").input.val()
+                                }
+                            }
+                    </script>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Street, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Street).HtmlAttributes(new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Building, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Building).HtmlAttributes(new { @class = "form-control" })
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Home, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Home).HtmlAttributes(new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+            </div>
+        </div>
+    </div>
+}
+<div id="errors"> </div>
+@*<button class="k-button k-primary" id="get">View Order</button>*@
+@*<script>
+
+
+
+        $(".validation-summary-errors").addClass("bg-warning")
+        $(function () {
+            var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+            var validator = $("#frmResident").kendoValidator({
+
+                errorTemplate: errTmplt
+            }).data("kendoValidator");
+
+            $("form").submit(function (event) {
+                if (!validator.validate()) {
+                    return false;
+                }
+            });
+        });
+    </script>*@
+<script>
+    $(".validation-summary-errors").addClass("bg-warning")
+    $("form").kendoValidator({
+        errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>', // change the default message container to show only an *
+        validate: function (e) { // handle the validate event to build the error list
+
+
+            var html = "";
+            if (!e.valid) {
+
+                //$("input.k-invalid").parent("span").parent("span").addClass("k-invalid")
+
+                var errors = this.errors();
+                html += "<ul>";
+                for (var i = 0; i < errors.length; i++) {
+                    html += "<li>" + errors[i] + "</li>";
+                }
+
+                html += "</ul>";
+            }
+            $("#errors").empty().append($(html));
+
+
+
+        }
+    });
+</script>
+@*<script>
+        function onChange() {
+            var comboBoxInput = this.input;
+
+            if (!validator.validateInput(this.element)) {
+                comboBoxInput.addClass("k-invalid");
+                console.log(comboBoxInput);
+            } else {
+                comboBoxInput.removeClass("k-invalid");
+            }
+        }
+    </script>*@
+
+@*<script>
+
+        //var regions = $("#Regions").data("kendoComboBox"),
+        //        communities = $("#Communities").data("kendoComboBox");
+
+        //    $("#get").click(function () {
+        //        //var regions = "\nRegions: { id: " + regions.value() + ", name: " + regions.text() + " }",
+        //        //    communities = "\nCommunities: { id: " + communities.value() + ", name: " + communities.text() + " }";
+
+        //        //alert("Details:\n" + regions.value() + regions.text() + communities.value() + communities.text());
+        //        alert(regions);
+        //    });
+
+
+    </script>*@

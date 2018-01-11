@@ -1,0 +1,99 @@
+﻿@model eLConsultation.Data.ResidentSearch
+
+@{
+    ViewBag.Title = "Քաղաքացի";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+<div id="backButton">
+    @if (Request.QueryString["consultationType"] == "OralConsultation")
+            {
+        <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "OralConsultation")"><i class="icons icon-action-undo"></i></a>
+    }
+    @if (Request.QueryString["consultationType"] == "TypeConsultation")
+            {
+        <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "TypeConsultation")"><i class="icons icon-action-undo"></i></a>
+    }
+</div>
+
+<div class="container" style="max-width:900px; margin:0 auto">
+    <div class="row">
+        
+        <div id="searchInputs" class="col-sm-12 border-box" style="text-align:right">
+            @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն", style = " height:32px; margin:1px" })
+            @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն", style = "height:32px; margin:1px" })
+            <button id="searchSelectResident" style="margin:1px; border-radius:0" class="btn btn-outline-secondary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i></button>
+        </div>
+    </div>
+
+
+
+    @(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem>()
+          .Name("grResidentMobile")
+          .NoRecords("Գրառումներ չկան")
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.ResidentID).Hidden();
+              columns.Template(e => { }).ClientTemplate(" ").Title("Քաղաքացի");
+              //columns.Template(e => { }).ClientTemplate(" ").Title(" ").Width(70);
+          })
+          .ClientRowTemplate(
+                "<tr data-uid='#: ResidentID #'>" +
+                    //"<td class='photo'>" +
+                    //    "<img width='80' src='" + Url.Content("~/img/avatars/") + "#:data.ResidentID#.jpg' alt='#: data.ResidentID #' />" +
+                    //"</td>" +
+                    "<td class='details'>" +
+                        "<h3 class='ResidentName'><a class='residentNameLink' onclick='CreateConsultation(#: ResidentID #)'>" +
+                            "#=(FirstName == null ? '' : FirstName)# " +
+                            //"#=(MiddleName == null ? '' : MiddleName)# " +
+                            "#=(LastName == null ? '' : LastName)# " +
+                        "</a></h3>" +
+                       "<table class='residentDetailsTable'>" +
+                            "<tr>" +
+                                "<td>Ա․Հ․Փ․: <b>#=(IdentificatorNumber == null ? '' : IdentificatorNumber)#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Ծննդյան ա/թ։ <b>#=(BirthDate == null ? '' : kendo.toString(BirthDate,'dd-MM-yyyy'))#</b></td>" +
+                            "</tr>" +
+                            "<tr>" +
+                                "<td>Հասցե։ <b>#=(RegionID == null ? '' : ResidentRegistrationLocation)#</b></td>" +
+                            "</tr>" +
+                        "</table>" +
+                    "</td>" +
+                 //"<td class='command'><button class=\"btn btn-outline-secondary btn-lg\" onclick=\"CreateConsultation(#: ResidentID #)\"><i class=\"fa fa-plus\"></i></button>" +
+                 //"</td>" +
+                 "</tr>"
+            )
+          .HtmlAttributes(new { style = "height:500px;" })
+          .Scrollable()
+          .Pageable()
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("SelectResidents", "Resident").Data("getParameters"))
+          )
+    )
+</div>
+
+
+<script type="text/javascript">
+    function Search() {
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function Clear() {
+        $("#FirstName").val("");
+        $("#LastName").val("");
+        $("#grResidentMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function getParameters() {
+        return {
+            firstName: $("#FirstName").val(),
+            lastName: $("#LastName").val()
+        };
+    }
+    function CreateConsultation(id) {
+        window.location = '@Url.Action("InitInsert", ViewBag.ConsultationType)/?residentID=' + id;
+    }
+
+</script>

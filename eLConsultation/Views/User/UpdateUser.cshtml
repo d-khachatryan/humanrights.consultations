@@ -1,0 +1,94 @@
+﻿@model eLConsultation.Data.UpdateUserItem
+
+@{
+    ViewBag.Title = "Գործարկողի խմբագրում";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+
+@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post, new { id = "frmUser" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="container-maxwidth500">
+        <div class="card">
+            <div class="card-header">@ViewBag.Title</div>
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.UserName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Email).HtmlAttributes(new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Դերեր</label>
+                    @foreach (var item in Model.UserItemRoles)
+                    {
+                        <div class="checkbox">
+                            <label class="switch switch-icon switch-pill switch-primary">
+                                <input type="checkbox" class="switch-input" name="UserItemSelectedRoles" value="@item.Value" @if (Model.UserItemSelectedRoles.Contains(item.Value)) { <text> checked</text> }>
+                                <span class="switch-label" data-on="" data-off=""></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <span>@item.Text</span>
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "User")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+    </div>
+}
+<div id="errors"> </div>
+<script>
+    $(".validation-summary-errors").addClass("bg-warning")
+    $("form").kendoValidator({
+        errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>', // change the default message container to show only an *
+        validate: function (e) { // handle the validate event to build the error list
+            var html = "";
+            if (!e.valid) {
+                var errors = this.errors();
+                html += "<ul>";
+                for (var i = 0; i < errors.length; i++) {
+                    html += "<li>" + errors[i] + "</li>";
+                }
+
+                html += "</ul>";
+            }
+            $("#errors").empty().append($(html));
+        }
+    });
+</script>
+@*<script>
+    $(".validation-summary-errors").addClass("bg-warning")
+    $(function () {
+        var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+        var validator = $("#frmUser").kendoValidator({
+            errorTemplate: errTmplt
+        }).data("kendoValidator");
+
+        $("form").submit(function (event) {
+            if (!validator.validate()) {
+                return false;
+            }
+        });
+    });
+</script>*@
+

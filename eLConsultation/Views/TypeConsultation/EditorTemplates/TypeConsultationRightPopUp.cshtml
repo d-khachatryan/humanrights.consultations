@@ -1,0 +1,25 @@
+﻿@model eLConsultation.Data.TypeConsultationRightItem
+
+@Html.HiddenFor(model => model.ID)
+@Html.HiddenFor(model => model.TypeConsultationRightID)
+@Html.HiddenFor(model => model.TypeConsultationID)
+
+<div class="card-body">
+    <div class="form-group">
+       @Html.LabelFor(model => model.HumanRightID, new { @class = "control-label" })
+    @(Html.Kendo().ComboBoxFor(model => model.HumanRightID)
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .Placeholder("-- Ընտրել --")
+                        .Filter(FilterType.StartsWith)
+                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("HumanRightList", "TypeConsultationRight");
+                            });
+                        })
+    )
+    </div>
+</div>

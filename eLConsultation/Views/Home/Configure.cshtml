@@ -1,0 +1,155 @@
+﻿@model eLConsultation.Data.Configure
+@{
+    ViewBag.Title = "Առաջնային կարգաբերում";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+
+@using (Html.BeginForm("Configure", "Home", FormMethod.Post, new { id = "frmConfigure" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-maxwidth500">
+        <div class="card">
+            <div class="card-header">@ViewBag.Title</div>
+            @*<h6 style="padding:20px; border-bottom: 1px solid #bebdbd; color:#21A8D8">SMTP Սերվեր</h6>
+            <div class="card-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SMTP_Server, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.SMTP_Server).HtmlAttributes(new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SMTP_Email, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.SMTP_Email).HtmlAttributes(new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SMTP_Password, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.SMTP_Password).HtmlAttributes(new { @class = "form-control", type = "password" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SMTP_Port, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.SMTP_Port).HtmlAttributes(new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SMTP_DeliveryMethod, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.SMTP_DeliveryMethod)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .Placeholder("-- Ընտրել --")
+                            .Filter(FilterType.StartsWith)
+                            .HtmlAttributes(new { @class = "form-control" })
+                            .BindTo(new List<SelectListItem>() {
+                              new SelectListItem() {
+                                Text = "Ցանցով", Value = "0"
+                              },
+                              new SelectListItem() {
+                                Text = "Ծրագրային փաթեթով", Value = "1"
+                              },
+                              new SelectListItem() {
+                                Text = "Ինտերնետ ինֆորմացիոն սերվիսով", Value = "2"
+                              }
+                          })
+                        )
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="switch switch-icon switch-pill switch-primary">
+                                <input type="checkbox" class="switch-input" id="UseDefaultCredentials" name="UseDefaultCredentials" value="@Model.SMTP_UseDefaultCredentials.ToString().ToLower()" @if (Model.SMTP_UseDefaultCredentials.ToString().ToLower() == "true") { <text> checked</text> }>
+                                <span class="switch-label" data-on="" data-off=""></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <span>Կիրառել սկզբնական լիազորությունները</span>
+                        </div>
+                        <div class="checkbox">
+                            <label class="switch switch-icon switch-pill switch-primary">
+                                <input type="checkbox" class="switch-input" id="EnableSsl" name="EnableSsl" value="@Model.SMTP_EnableSsl.ToString().ToLower()" @if (Model.SMTP_EnableSsl.ToString().ToLower() == "true") { <text> checked</text> }>
+                                <span class="switch-label" data-on="" data-off=""></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <span>Կիրառել SSL</span>
+                        </div>
+                    </div>
+                </div>*@
+            <h6 style="padding:20px; border-bottom: 1px solid #bebdbd; color:#21A8D8">Գործարկող</h6>
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_UserName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_UserName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_FirstName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_FirstName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_LastName, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_LastName).HtmlAttributes(new { @class = "form-control" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_Email, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_Email).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_Password, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_Password).HtmlAttributes(new { @class = "form-control", type = "password" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User_ConfirmPassword, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.User_ConfirmPassword).HtmlAttributes(new { @class = "form-control", type = "password" })
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հաստատել</button>
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+            </div>
+        </div>
+    </div>
+}
+<div id="errors"> </div>
+
+<script>
+    $("#UseDefaultCredentials").change(function () {
+        var ischecked = $(this).is(':checked');
+        if (!ischecked) {
+            $("#UseDefaultCredentials").val(false);
+        }
+        else {
+            $("#UseDefaultCredentials").val(true);
+        }
+    });
+    $("#EnableSsl").change(function () {
+        var ischecked = $(this).is(':checked');
+        if (!ischecked) {
+            $("#EnableSsl").val(false);
+        }
+        else {
+            $("#EnableSsl").val(true);
+        }
+    });
+
+    $(".validation-summary-errors").addClass("bg-warning")
+
+    $("form").kendoValidator({
+        errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>', // change the default message container to show only an *
+        validate: function (e) { // handle the validate event to build the error list
+
+
+            var html = "";
+            if (!e.valid) {
+
+                var errors = this.errors();
+                html += "<ul>";
+                for (var i = 0; i < errors.length; i++) {
+                    html += "<li>" + errors[i] + "</li>";
+                }
+
+                html += "</ul>";
+            }
+            $("#errors").empty().append($(html));
+        }
+    });
+</script>
+
+

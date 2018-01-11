@@ -1,0 +1,107 @@
+﻿.accordion {
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.accordion-item {
+    position: relative;
+}
+
+    .accordion-item.active .heading {
+        color: #888;
+    }
+
+    .accordion-item.active .icon {
+        background: #fefefe;
+    }
+
+        .accordion-item.active .icon:before {
+            background: #888;
+        }
+
+        .accordion-item.active .icon:after {
+            width: 0;
+        }
+
+    .accordion-item .heading {
+        display: block;
+        text-decoration: none;
+        color: #21A8D8;
+        font-weight: bold;
+        font-size: 18px;
+        position: relative;
+        padding: 10px 0 15px 40px;
+        -webkit-transition: 0.3s ease-in-out;
+        transition: 0.3s ease-in-out;
+    }
+
+@media (min-width: 40rem) {
+    .accordion-item .heading {
+        font-size: 16px;
+    }
+}
+
+.accordion-item .heading:hover {
+    color: #888;
+}
+
+    .accordion-item .heading:hover .icon:before,  .accordion-item .heading:hover .icon:after {
+        background: #888;
+    }
+
+.accordion-item .icon {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #21A8D8;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.accordion-item.active .icon, .accordion-item .heading:hover .icon {
+    border: 2px solid #888;
+}
+
+.accordion-item .icon:before, .accordion-item .icon:after {
+        content: '';
+        width: 12px;
+        height: 2px;
+        background: #21A8D8;
+        position: absolute;
+        border-radius: 3px;
+        left: 50%;
+        top: 50%;
+        -webkit-transition: 0.3s ease-in-out;
+        transition: 0.3s ease-in-out;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .accordion-item .icon:after {
+        -webkit-transform: translate(-50%, -50%) rotate(90deg);
+        transform: translate(-50%, -50%) rotate(90deg);
+        z-index: -1;
+    }
+
+.accordion-item .content {
+    display: none;
+}
+
+    .accordion-item .content p {
+        margin-top: 0;
+    }
+
+@media (min-width: 40rem) {
+    .accordion-item .content {
+        line-height: 1.75;
+    }
+}
+
+html {
+    overflow-y: scroll;
+}

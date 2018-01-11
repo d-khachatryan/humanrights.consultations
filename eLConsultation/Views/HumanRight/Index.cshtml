@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Իրավունքներ";
+}
+<div id="catalog">
+    @(Html.Kendo().Grid<eLConsultation.Data.HumanRightItem>()
+    .Name("grid")
+    .NoRecords("Գրառումներ չկան")
+    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.HumanRightID).Visible(false);
+        columns.Bound(p => p.HumanRightName);
+        columns.Command(command =>
+        {
+            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+            command.Destroy().Text(" ");
+        }).Width(115);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+        .TemplateName("HumanRightPopUp")
+        .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+            .Deactivate("correctPopUpGrid")
+            //.Close("correctPopUpGrid")
+            .Activate("correctPopUpGrid")
+            .Open("correctPopUpGrid"))))
+    //.Pageable()
+    .Filterable(f => f.Extra(false)
+                                         .Operators(o => o.ForString(s => s.Clear()
+                                          .Contains("Պարունակում է")
+                                          .DoesNotContain("Չի պարունակում")
+                                          .StartsWith("Սկսվում է")
+                                          .EndsWith("Վերջանում է")
+                                          .IsEqualTo("Նույնն է")
+                                          .IsNotEqualTo("Նույնը չէ")
+                                        )).Messages(m => m
+                                        .Filter("Որոնել")
+                                        .Clear("Մաքրել")
+                                        .Info("Գրառում, որը")))
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.HumanRightID))
+        .Create(update => update.Action("HumanRightCreate", "HumanRight"))
+        .Read(read => read.Action("HumanRightSelect", "HumanRight"))
+        .Update(update => update.Action("HumanRightUpdate", "HumanRight"))
+        .Destroy(update => update.Action("HumanRightDelete", "HumanRight"))
+    )
+    )
+</div>
+
+

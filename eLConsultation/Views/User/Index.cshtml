@@ -1,0 +1,132 @@
+﻿@model IEnumerable<eLConsultation.Data.IdentityUserItem >
+
+@{
+    ViewBag.Title = "Գործարկողներ";
+}
+
+<script type="text/javascript">
+    function InsertUser() {
+        window.location = '@Url.Action("InitInsertUser", "User")';
+    }
+
+    function UpdateUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grUser").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("InitUpdateUser", "User")/?Id=' + dataItem.Id;
+    }
+
+    function DeleteUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#grUser").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to delete the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteUser", "User")',
+            dataType: "json",
+            type: "GET",
+            data: { Id: dataItem.Id },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#grUser").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+</script>
+
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertUser()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Ավելացնել</button>");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    @*<div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Որոնման դաշտեր</h4>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն" })
+                </div>
+                <div class="form-group margin-10-0">
+                    @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button type="submit" id="btnSearch" class="btn btn-primary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i>&nbsp;Search</button>
+                    <button type="submit" id="btnClear" class="btn btn-danger btn-sm" onclick="return Clear();"><i class="icons icon-close"></i>&nbsp;Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+
+@*@(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("cmdInsertUser").Click("InsertUser");
+    })
+)*@
+
+@(Html.Kendo().Grid<eLConsultation.Data.IdentityUserItem >()
+      .Name("grUser")
+      .NoRecords("Գրառումներ չկան")
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.Id).Hidden();
+          columns.Bound(model => model.UserName).Title("Գործարկող");
+          columns.Bound(model => model.FirstName).Title("Անուն").MinScreenWidth(768);
+          columns.Bound(model => model.LastName).Title("Ազգանուն").MinScreenWidth(768);
+          columns.Bound(model => model.Email).Title("էլ․ Փոստ").MinScreenWidth(768);
+          columns.Command(commands =>
+          {
+              commands.Custom("cmdUpdateUser").Text(" ").Click("UpdateUser").HtmlAttributes(new { @class = "Update_Icon" });
+              commands.Custom("cmdDeleteUser").Text(" ").Click("DeleteUser").HtmlAttributes(new { @class = "Delete_Icon" });
+          }).Title("Հրամաններ").Width(120);
+      })
+      .Events(e => e.DataBound("showCommandIcons"))
+      .Selectable(s => s.Mode(GridSelectionMode.Single))
+      .Pageable()
+      //.Filterable()
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Events(events => events.Error("error_handler"))
+          .Read(read => read.Action("SelectUsers", "User"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("UserName").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.Id);
+              model.Id(p => p.UserName);
+          }
+          )
+)
+)
+

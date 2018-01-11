@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="~/img/favicon.png">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrap/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @Styles.Render("~/Content/kendo/2017.2.621/kendo")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/kendo")
+    <script>
+        $(window).on('load', function () { // makes sure the whole site is loaded 
+            $('#status').fadeOut(); // will first fade out the loading animation 
+            $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website. 
+            $('body').delay(350).css({ 'overflow': 'visible' });
+        })
+    </script>
+
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"></div>
+    </div>
+    <header class="app-header navbar">
+
+        <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">☰</button>
+        <a class="navbar-brand" href="@Url.Action("", "")">ՀՔԱՎ</a>
+        <button class="navbar-toggler sidebar-minimizer d-md-down-none" type="button">☰</button>
+        <span class="nav-link">@ViewBag.Title</span>
+        <ul class="nav navbar-nav d-md-down-none">
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                @Html.Partial("_LoginPartial")
+            </li>
+        </ul>
+        @*<button class="navbar-toggler aside-menu-toggler" type="button">☰</button>*@
+    </header>
+
+    <div class="app-body">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    @*<li class="nav-title">
+                        Գլխավոր մենյու
+                    </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Resident")"><i class="fa fa-users"></i> Քաղաքացիներ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Company")"><i class="fa fa-university"></i> Կազմակերպություն</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="nav-title">
+                        Խորհրդատվություն
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "OralConsultation")"><i class="fa fa-bullhorn"></i> Բանավոր</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "TypeConsultation")"><i class="fa fa-pencil"></i> Գրավոր</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("UnderConstruction", "Home")"><i class="fa fa-bar-chart"></i> Հաշվետվություններ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("UnderConstruction", "Home")"><i class="fa fa-line-chart"></i> Վերլուծություններ</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-database"></i> Շտեմարաններ</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "AgeGroup")"><i class="fa fa-dot-circle-o"></i> Տարիքային խումբ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Community")"><i class="fa fa-dot-circle-o"></i> Բնակավայր</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Consultant")"><i class="fa fa-dot-circle-o"></i> Խորհրդատու</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "ConsultationResult")"><i class="fa fa-dot-circle-o"></i> Արդյունք</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "ConsultationType")"><i class="fa fa-dot-circle-o"></i> Տեսակ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "DeclarationType")"><i class="fa fa-dot-circle-o"></i> Հայտարարություն</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Gender")"><i class="fa fa-dot-circle-o"></i> Սեռ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "HumanRight")"><i class="fa fa-dot-circle-o"></i> Իրավունք</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "InvocationType")"><i class="fa fa-dot-circle-o"></i> Դիմելու ձև</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Organization")"><i class="fa fa-dot-circle-o"></i> Կառույց</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "ProcessStatus")"><i class="fa fa-dot-circle-o"></i> Ընթացք</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Region")"><i class="fa fa-dot-circle-o"></i> Մարզ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "TargetGroup")"><i class="fa fa-dot-circle-o"></i> Թիրախային խումբ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "IssueType")"><i class="fa fa-dot-circle-o"></i> Խնդրի տեսակ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "IssueCategory")"><i class="fa fa-dot-circle-o"></i> Խնդրի կատեգորիա</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user"></i> Կառավարում</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "User")"><i class="fa fa-dot-circle-o"></i> Գործարկողներ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("SmtpSetting", "Setting")"><i class="fa fa-dot-circle-o"></i> SMTP կարգավորում</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main content -->
+        <main class="main">
+            <div class="container-fluid">
+                <div class="animated fadeIn">
+                        @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="app-footer" style="text-align:center">
+           <a href="http://hcav.am/" target="_blank" >Հելսինկյան Քաղաքացիական Ասամբլեայի Վանաձորի գրասենյակ &copy; @DateTime.Now.Year</a>
+        @Html.Action("Version", "Home")
+    </footer>
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

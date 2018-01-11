@@ -1,0 +1,15 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("GenderID")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbGenders)
+                    .OptionLabel(" ")
+                    .ValuePrimitive(true)
+)
