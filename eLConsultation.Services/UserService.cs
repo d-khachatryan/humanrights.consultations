@@ -114,9 +114,9 @@ namespace eLConsultation.Data
                             {
                                 foreach (IdentityRole identityRole in roles)
                                 {
-                                    if (identityRole.Id  == item)
+                                    if (identityRole.Name == item)
                                     {
-                                        instanceUserManager.AddToRole(user.Id, identityRole.Name );
+                                        instanceUserManager.AddToRole(user.Id, identityRole.Name);
                                     }
                                 };
                             }

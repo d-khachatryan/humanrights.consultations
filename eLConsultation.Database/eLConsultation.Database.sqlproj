@@ -116,9 +116,8 @@
     <PostDeploy Include="Script.PostDeploymentScript.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="local.Database.publish.xml" />
-    <None Include="azure.Database.publish.publish.xml" />
-    <None Include="smarterasp.Database.publish.publish.xml" />
+    <None Include="local.publish.xml" />
+    <None Include="smarterasp.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\TargetGroup.sql" />

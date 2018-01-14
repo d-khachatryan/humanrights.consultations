@@ -65,16 +65,6 @@ namespace eLConsultation.Controllers
         public ActionResult Configure(Configure configure)
         {
 
-            //SmtpSetting smtpSetting = new SmtpSetting
-            //{
-            //    Server = configure.SMTP_Server,
-            //    Port = configure.SMTP_Port,
-            //    Email = configure.SMTP_Email,
-            //    EnableSsl = configure.SMTP_EnableSsl,
-            //    DeliveryMethod = configure.SMTP_DeliveryMethod,
-            //    UseDefaultCredentials = configure.SMTP_UseDefaultCredentials,
-            //};
-            //var result = smtpSettingService.SetSmtpSetting(smtpSetting);
             var userItem = userService.InitInsert();
             
             userItem.UserName = configure.User_UserName;
