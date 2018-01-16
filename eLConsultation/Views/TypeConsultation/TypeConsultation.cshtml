@@ -179,48 +179,6 @@
                     )
                 </div>
             </div>
-            @*<div class="card">
-                <div class="card-header">Կառույց որին ուղարկվել է գրություն</div>
-                <div class="card-body padding-0">
-                    @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationRecipientItem>()
-                            .Name("grOrganization")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.TypeConsultationRecipientID).Hidden();
-                                columns.Bound(p => p.TypeConsultationID).Hidden();
-                                columns.Bound(p => p.OrganizationID).Hidden();
-                                columns.Bound(p => p.RecipientDate);
-                                columns.Bound(p => p.OrganizationName);
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("TypeConsultationRecipientPopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("TypeConsultationRecipientCreate", "TypeConsultationRecipient").Data("getParameters"))
-                                .Read(read => read.Action("TypeConsultationRecipientSelect", "TypeConsultationRecipient").Data("getParameters"))
-                                .Update(update => update.Action("TypeConsultationRecipientUpdate", "TypeConsultationRecipient"))
-                                .Destroy(update => update.Action("TypeConsultationRecipientDelete", "TypeConsultationRecipient"))
-                            )
-                            .Scrollable()
-                )
-            </div>
-        </div>*@
         <div class="card">
             <div class="card-header">Կառույց որը խախտում է կատարել</div>
             <div class="card-body padding-0">

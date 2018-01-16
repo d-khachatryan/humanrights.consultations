@@ -66,26 +66,27 @@ namespace eLConsultation.Data
         {
             IList<TypeConsultationDeclarationTypeItem> result = new List<TypeConsultationDeclarationTypeItem>();
 
-            var residentQuery = (from target in db.TmpTypeConsultationDeclarationTypes
-                                 join t1 in db.DeclarationTypes on target.DeclarationTypeID equals t1.DeclarationTypeID into r1
-                                 from declarationtype in r1.DefaultIfEmpty()
-                                 join t2 in db.Organizations on target.OrganizationID equals t2.OrganizationID into r2
-                                 from organization in r2.DefaultIfEmpty()
-                                 join t3 in db.ResponseTypes on target.ResponseTypeID equals t3.ResponseTypeID into r3
-                                 from responsetype in r3.DefaultIfEmpty()
-                                 join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
-                                 from responsecontent in r4.DefaultIfEmpty()
-                                 join t5 in db.ResponseQualities on target.ResponseQualityID equals t5.ResponseQualityID into r5
-                                 from responsequality in r5.DefaultIfEmpty()
-                                 select new
-                                 {
-                                     TargetTable = target,
-                                     DeclarationTypeTable = declarationtype,
-                                     OrganizationTable = organization,
-                                     ResponseTypeTable = responsetype,
-                                     ResponseContentTable = responsecontent,
-                                     ResponseQualityTable = responsequality
-                                 })
+            result = (from target in db.TmpTypeConsultationDeclarationTypes
+                      join t1 in db.DeclarationTypes on target.DeclarationTypeID equals t1.DeclarationTypeID into r1
+                      from declarationtype in r1.DefaultIfEmpty()
+                      join t2 in db.Organizations on target.OrganizationID equals t2.OrganizationID into r2
+                      from organization in r2.DefaultIfEmpty()
+                      join t3 in db.ResponseTypes on target.ResponseTypeID equals t3.ResponseTypeID into r3
+                      from responsetype in r3.DefaultIfEmpty()
+                      join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
+                      from responsecontent in r4.DefaultIfEmpty()
+                      join t5 in db.ResponseQualities on target.ResponseQualityID equals t5.ResponseQualityID into r5
+                      from responsequality in r5.DefaultIfEmpty()
+                      .Where(c => target.GUID == new Guid(prmGUID))
+                      select new
+                      {
+                          TargetTable = target,
+                          DeclarationTypeTable = declarationtype,
+                          OrganizationTable = organization,
+                          ResponseTypeTable = responsetype,
+                          ResponseContentTable = responsecontent,
+                          ResponseQualityTable = responsequality
+                      })
                 .Select(list => new TypeConsultationDeclarationTypeItem
                 {
                     ID = list.TargetTable.ID,
@@ -169,7 +170,7 @@ namespace eLConsultation.Data
                 {
                     item.ResponseQualityName = responseQuality.ResponseQualityName;
                 }
-                
+
 
                 return item;
             }
