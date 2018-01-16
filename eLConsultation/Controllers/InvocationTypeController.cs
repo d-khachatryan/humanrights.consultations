@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
-    //[Authorize(Roles = "administrator")]
+    [Authorize(Roles = "administrator")]
     public class InvocationTypeController : Controller
     {
         InvocationTypeService service;
