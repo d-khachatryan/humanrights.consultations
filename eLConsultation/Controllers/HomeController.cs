@@ -75,9 +75,18 @@ namespace eLConsultation.Controllers
             userItem.ConfirmPassword = configure.User_ConfirmPassword;
 
             userItem.UserItemSelectedRoles.Add(administratorRole);
-                userService.Insert(userItem, HttpContext.GetOwinContext(), Request);
+            int result = userService.Insert(userItem, HttpContext.GetOwinContext(), Request);
 
-            return RedirectToAction("Index", "Home");
+            if (result == 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("error", userService.ErrorMessage);
+                return View("Configure", configure);
+            }
+
         }
 
         public ActionResult UnderConstruction()
