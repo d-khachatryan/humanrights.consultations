@@ -10,6 +10,7 @@ using System.Data.Entity;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator")]
     public class CatalogController : Controller
     {
         public JsonResult GenderList()
