@@ -11,8 +11,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.IssueID)
     @Html.HiddenFor(model => model.ResidentID)
-
-
+    @Html.Hidden("IssueCategoryID", "1")
     @Html.HiddenFor(model => model.InitializationType)
     //@Html.HiddenFor(model => model.IssueTypeID)
 
