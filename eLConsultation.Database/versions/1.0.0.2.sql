@@ -1,0 +1,1 @@
+﻿UPDATE dbo.Setting SET SettingValue = '1.0.0.2' WHERE SettingItem = 'version' --Fixed issue: ELC-7, ELC-8, ELC-10, ELC-11

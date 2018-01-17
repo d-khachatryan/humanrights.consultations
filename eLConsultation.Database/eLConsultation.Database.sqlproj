@@ -120,6 +120,7 @@
     <None Include="local.publish.xml" />
     <None Include="smarterasp.publish.xml" />
     <None Include="versions\1.0.0.1.sql" />
+    <None Include="versions\1.0.0.2.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\TargetGroup.sql" />
