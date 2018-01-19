@@ -91,7 +91,38 @@
         window.location = '@Url.Action("Update", "Issue")/?issueID=' + dataItem.IssueID;
     }
 
-    function DeleteIssue() {
+    function DeleteIssue(e) {
+        var gridName = "#grid_" + CID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել խնդրի գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "Issue")',
+            dataType: "json",
+            type: "GET",
+            data: { issueID: dataItem.IssueID },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                grid.dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
         return false;
     }
 

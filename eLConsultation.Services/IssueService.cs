@@ -306,6 +306,29 @@ namespace eLConsultation.Data
             }
         }
 
+        public bool? DeleteIssue(int issueID)
+        {
+            try
+            {
+                var item = db.Issues.Find(issueID);
+                if (item != null)
+                {
+                    db.Issues.Remove(item);
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                return null;
+            }
+        }
+
     }
 
 }

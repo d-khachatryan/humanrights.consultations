@@ -55,9 +55,17 @@ namespace eLConsultation.Controllers
 
         public ActionResult Update(int issueID)
         {
-            var item = service.GetIssueItemByID(issueID);
-            InitializeViewBugs();
-            return View("Template", item);
+            try
+            {
+                var item = service.GetIssueItemByID(issueID);
+                InitializeViewBugs();
+                return View("Template", item);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+                
         }
 
         [HttpPost]
@@ -88,6 +96,27 @@ namespace eLConsultation.Controllers
             {
                 InitializeViewBugs();
                 return View("Template", item);
+            }
+        }
+
+        public ActionResult Delete([DataSourceRequest]DataSourceRequest request, int issueID)
+        {
+            try
+            {
+                var item = service.DeleteIssue(issueID);
+                if (item == false)
+                {
+                    return Json("No record in the database with the OralConsultationID provided", JsonRequestBehavior.AllowGet);
+                }
+                if (item == null)
+                {
+                    return Json(service.ServiceException.Message, JsonRequestBehavior.AllowGet);
+                }
+                return Json("DELETE_SUCCESS", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
     }
