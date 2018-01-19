@@ -281,7 +281,7 @@ namespace eLConsultation.Data
                     case InitializationTypes.Update:
                         issue = new Issue
                         {
-                            IssueID = 0,
+                            IssueID = issueItem.IssueID,
                             ResidentID = issueItem.ResidentID,
                             IssueName = issueItem.IssueName,
                             IssueDescription = issueItem.IssueDescription,

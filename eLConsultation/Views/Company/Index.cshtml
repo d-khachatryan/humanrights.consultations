@@ -1,11 +1,19 @@
 ﻿@{
     ViewBag.Title = "Կազմակերպություններ";
 }
+<script>
+    function onIssueDetailExpand(e) {
+        currentIssueIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        CID = selectedItem.CompanyID;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+</script>
 <div id="catalog">
     @(Html.Kendo().Grid<eLConsultation.Data.CompanyItem>()
     .Name("grid")
     .NoRecords("Գրառումներ չկան")
-    .Events(e => e.DataBound("correctPopUpGrid"))
+    .Events(e => e.DataBound("correctPopUpGrid").DetailExpand("onIssueDetailExpand"))
     .Columns(columns =>
     {
         columns.Bound(p => p.CompanyID).Visible(false);
@@ -62,8 +70,8 @@
           columns.Bound(o => o.IssueDate).Width(98);
           columns.Command(commands =>
               {
-                  commands.Custom("cmdUpdateIssue").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
-                  commands.Custom("cmdDeleteIssue").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
+                  commands.Custom("cmdUpdateIssue_#=CompanyID#").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteIssue_#=CompanyID#").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
               }).Title("Հրամաններ").Width(120);
       })
 
@@ -75,8 +83,12 @@
 </script>
 <script type="text/javascript">
 
-    function UpdateIssue() {
-        return false;
+    function UpdateIssue(e) {
+        var gridName = "#grid_" + CID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("Update", "Issue")/?issueID=' + dataItem.IssueID;
     }
 
     function DeleteIssue() {
