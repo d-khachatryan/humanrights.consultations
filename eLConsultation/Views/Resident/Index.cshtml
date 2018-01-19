@@ -105,7 +105,6 @@
 @(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem >()
           .Name("grResident")
           .NoRecords("Գրառումներ չկան")
-          //.ColumnMenu(menu => menu.Columns(true).Sortable(false).Messages(msg => msg.Columns("Սյունակներ")))
           .Columns(columns =>
           {
               columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(120);
@@ -119,9 +118,6 @@
               }).Title("Հրամաններ").Width(120);
           })
           .Events(e => e.DataBound("showCommandIcons"))
-          //.Selectable(s => s.Mode(GridSelectionMode.Single))
-          //.Filterable()
-          //.Groupable()
           .Sortable()
           .Resizable(resize => resize.Columns(true))
           .Scrollable()
@@ -132,20 +128,37 @@
               .Events(events => events.Error("error_handler"))
               .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
           )
+          .ClientDetailTemplateId("template")
 )
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+        .Name("grid_#=ResidentID#")
+        .Events(e => e.DataBound("showCommandIcons"))
+          .Columns(columns =>
+          {
+              columns.Bound(o => o.IssueID).Hidden();
+              columns.Bound(o => o.IssueName);
+              columns.Bound(o => o.IssueTypeName);
+              columns.Bound(o => o.IssueDate).Width(98);
+              columns.Command(commands =>
+              {
+                  commands.Custom("cmdUpdateIssue").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteIssue").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(120);
+          })
 
-@*<script>
-    $(function () {
-        var grid = $("#grResident").data("kendoGrid");
-        grid.thead.find("[data-field=LastName]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=MiddleName]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=IdentificatorNumber]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=BirthDate]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=GenderID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=RegionID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=CommunityID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Street]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Building]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Home]>.k-header-column-menu").remove();
-    });
-</script>*@
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("GetIssuesSetItemsByResidentID", "Issue", new { residentID = "#=ResidentID#" }))
+                      )
+         .ToClientTemplate()
+    )
+</script>
+<script type="text/javascript">
+    function UpdateIssue() {
+        return false;
+    }
+    function DeleteIssue() {
+        return false;
+    }
+</script>

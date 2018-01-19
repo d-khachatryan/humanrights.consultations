@@ -21,10 +21,8 @@
         .TemplateName("CompanyPopUp")
         .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
             .Deactivate("correctPopUpGrid")
-            //.Close("correctPopUpGrid")
             .Activate("correctPopUpGrid")
             .Open("correctPopUpGrid"))))
-    //.Pageable()
     .Filterable(f => f.Extra(false)
                                          .Operators(o => o.ForString(s => s.Clear()
                                           .Contains("Պարունակում է")
@@ -49,7 +47,42 @@
         .Update(update => update.Action("CompanyUpdate", "Company"))
         .Destroy(update => update.Action("CompanyDelete", "Company"))
     )
+    .ClientDetailTemplateId("template")
     )
 </div>
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+    .Name("grid_#=CompanyID#")
+    .Events(e => e.DataBound("showCommandIcons"))
+      .Columns(columns =>
+      {
+          columns.Bound(o => o.IssueID).Hidden();
+          columns.Bound(o => o.IssueName);
+          columns.Bound(o => o.IssueTypeName);
+          columns.Bound(o => o.IssueDate).Width(98);
+          columns.Command(commands =>
+              {
+                  commands.Custom("cmdUpdateIssue").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteIssue").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(120);
+      })
+
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("GetIssuesSetItemsByCompanyID", "Issue", new { companyID = "#=CompanyID#" }))
+                      )
+         .ToClientTemplate())
+</script>
+<script type="text/javascript">
+
+    function UpdateIssue() {
+        return false;
+    }
+
+    function DeleteIssue() {
+        return false;
+    }
+
+</script>
 
 
