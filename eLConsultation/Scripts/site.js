@@ -11,14 +11,11 @@ $("#catalog .k-grid").height($(".container-fluid").height());
 
 //For Grid Commands Icons
 function showCommandIcons() {
-    $(".Update_Icon").append("<span class=\"icons icon-pencil\"></span>");
-    $(".Delete_Icon").append("<span class=\"icons icon-trash\"></span>");
-    $(".Details_Icon").append("<span class=\"icons icon-list\"></span>");
-    $(".Plus_Icon").append("<span class=\"fa fa-plus\"></span>");
-    //$(".Plus_Icon").append("<span class=\"icons icon-plus\"></span>");
-    //.find("span").addClass("glyphicon glyphicon-trash");
-    $(".Remove_Icon").append("<span class=\"icons icon-close\"></span>");
-    //.find("span").addClass("glyphicon glyphicon-remove");
+    $(".Update_Icon").html("").append("<span class=\"icons icon-pencil\"></span>");
+    $(".Delete_Icon").html("").append("<span class=\"icons icon-trash\"></span>");
+    $(".Details_Icon").html("").append("<span class=\"icons icon-list\"></span>");
+    $(".Plus_Icon").html("").append("<span class=\"fa fa-plus\"></span>");
+    $(".Remove_Icon").html("").append("<span class=\"icons icon-close\"></span>");
 }
 
 

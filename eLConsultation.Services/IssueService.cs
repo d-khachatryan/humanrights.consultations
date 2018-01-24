@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -281,7 +283,7 @@ namespace eLConsultation.Data
                     case InitializationTypes.Update:
                         issue = new Issue
                         {
-                            IssueID = 0,
+                            IssueID = issueItem.IssueID,
                             ResidentID = issueItem.ResidentID,
                             IssueName = issueItem.IssueName,
                             IssueDescription = issueItem.IssueDescription,
@@ -304,6 +306,68 @@ namespace eLConsultation.Data
                 exception = ex;
                 return null;
             }
+        }
+
+        public bool? DeleteIssue(int issueID)
+        {
+            try
+            {
+                var item = db.Issues.Find(issueID);
+                if (item != null)
+                {
+                    db.Issues.Remove(item);
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+                return null;
+            }
+        }
+
+        public virtual void HandleException(Exception exception)
+        {
+            if (exception is DbUpdateConcurrencyException concurrencyEx)
+            {
+                // A custom exception of yours for concurrency issues
+                throw new Exception(String.Format("Դուք չեք կարող հեռացնել խնդիրը, քանի որ տվյալ խնդրի շրջանակում առկա է խորհրդատվություն"));
+            }
+            else if (exception is DbUpdateException dbUpdateEx)
+            {
+                if (dbUpdateEx.InnerException != null
+                        && dbUpdateEx.InnerException.InnerException != null)
+                {
+                    if (dbUpdateEx.InnerException.InnerException is SqlException sqlException)
+                    {
+                        switch (sqlException.Number)
+                        {
+                            case 2627:  // Unique constraint error
+                            case 547:   // Constraint check violation
+                            case 2601:  // Duplicated key row error
+                                        // Constraint violation exception
+                                        // A custom exception of yours for concurrency issues
+                                throw new Exception(String.Format("Դուք չեք կարող հեռացնել խնդիրը, քանի որ տվյալ խնդրի շրջանակում առկա է խորհրդատվություն"));
+                            default:
+                                //// A custom exception of yours for other DB issues
+                                //throw new DatabaseAccessException(
+                                //dbUpdateEx.Message, dbUpdateEx.InnerException);
+                                throw new Exception(String.Format("Դուք չեք կարող հեռացնել խնդիրը, քանի որ տվյալների բազան հասանելի չէ"));
+                        }
+                    }
+
+                    //throw new DatabaseAccessException(dbUpdateEx.Message, dbUpdateEx.InnerException);
+                    throw new Exception(String.Format("Դուք չեք կարող հեռացնել խնդիրը, քանի որ տվյալների բազան հասանելի չէ"));
+                }
+            }
+
+            // If we're here then no exception has been thrown
+            // So add another piece of code below for other exceptions not yet handled...
         }
 
     }

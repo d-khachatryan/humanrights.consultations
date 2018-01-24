@@ -52,6 +52,22 @@ namespace eLConsultation.Controllers
             return View("Template", item);
         }
 
+
+        public ActionResult Update(int issueID)
+        {
+            try
+            {
+                var item = service.GetIssueItemByID(issueID);
+                InitializeViewBugs();
+                return View("Template", item);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+                
+        }
+
         [HttpPost]
         public ActionResult SaveIssue(IssueItem item)
         {
@@ -67,25 +83,14 @@ namespace eLConsultation.Controllers
                         resultItem = service.SaveIssue(item);
                         break;
                 }
-
-                //if (resultItem != null)
-                //{
-                //    switch (item.ConsultationType)
-                //    {
-                //        case ConsultationTypes.OralConsultation:
-                //            return RedirectToAction("Template", "OralConsultation", new { issueID = resultItem.IssueID });
-                //        case ConsultationTypes.TypeConsultation:
-                //            return RedirectToAction("Template", "TypeConsultation", new { issueID = resultItem.IssueID });
-                //    }
-
-                //}
-                //else
-                //{
-                //    InitializeViewBugs();
-                //    ModelState.AddModelError("error", "Error occured");
-                //    return View("Template", item);
-                //}
-                return View("Template", item);
+                if(item.IssueCategoryID == 1)
+                {
+                    return RedirectToAction("Index", "Resident");
+                }
+                else 
+                {
+                    return RedirectToAction("Index", "Company");
+                }
             }
             else
             {
@@ -94,26 +99,25 @@ namespace eLConsultation.Controllers
             }
         }
 
-        //public ActionResult Delete([DataSourceRequest]DataSourceRequest request, int oralConsultationID)
-        //{
-        //    try
-        //    {
-        //        var item = service.Delete(oralConsultationID);
-        //        if (item == false)
-        //        {
-        //            return Json("No record in the database with the OralConsultationID provided", JsonRequestBehavior.AllowGet);
-        //        }
-        //        if (item == null)
-        //        {
-        //            return Json(service.serviceException.Message, JsonRequestBehavior.AllowGet);
-        //        }
-        //        return Json("DELETE_SUCCESS", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
+        public ActionResult Delete([DataSourceRequest]DataSourceRequest request, int issueID)
+        {
+            try
+            {
+                var item = service.DeleteIssue(issueID);
+                if (item == false)
+                {
+                    return Json("No record in the database with the OralConsultationID provided", JsonRequestBehavior.AllowGet);
+                }
+                if (item == null)
+                {
+                    return Json(service.ServiceException.Message, JsonRequestBehavior.AllowGet);
+                }
+                return Json("DELETE_SUCCESS", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

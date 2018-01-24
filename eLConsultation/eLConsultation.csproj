@@ -2334,12 +2334,12 @@
     <Content Include="Views\TypeConsultation\Company.cshtml" />
     <Content Include="Views\Home\Configure.cshtml" />
     <Content Include="Views\Home\Version.cshtml" />
+    <Content Include="Views\Issue\Template.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="img\Residents\" />
     <Folder Include="img\upload\" />
-    <Folder Include="Views\Issue\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

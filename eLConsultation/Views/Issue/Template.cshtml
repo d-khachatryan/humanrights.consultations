@@ -6,13 +6,14 @@
 }
 
 
-@using (Html.BeginForm("SaveIssue", "OralConsultation", FormMethod.Post, new { id = "frmIssue" }))
+@using (Html.BeginForm("SaveIssue", "Issue", FormMethod.Post, new { id = "frmIssue" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.IssueID)
     @Html.HiddenFor(model => model.ResidentID)
-    @Html.Hidden("IssueCategoryID", "1")
-    @Html.HiddenFor(model => model.InitializationType)
+    @Html.HiddenFor(model => model.CompanyID)
+    @Html.HiddenFor(model => model.IssueCategoryID)
+    @Html.Hidden("InitializationType", "2")
 
     <div class="container-maxwidth500">
         <div class="card">
@@ -20,25 +21,40 @@
                 <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
             </div>
             <header class="header card-header">
-                <h6 style="color:#21A8D8">Քաղաքացի</h6>
-                <div class="consultationTemplateRresident">
-                    <p>
-                        Ա․Ա․Հ․։
-                        <span>
-                            @Html.DisplayFor(model => model.FirstName)
-                            @Html.DisplayFor(model => model.MiddleName)
-                            @Html.DisplayFor(model => model.LastName)
-                        </span>
-                    </p>
-                    <p>
-                        Ա․Հ․Փ։
-                        <span>@Html.DisplayFor(model => model.IdentificatorNumber)</span>
-                    </p>
-                    <p>
-                        Ծննդյան ա/թ։
-                        <span>@Html.DisplayFor(model => model.BirthDate)</span>
-                    </p>
-                </div>
+                @if (Model.IssueCategoryID == 1)
+                {
+                    <h6 style="color:#21A8D8">Քաղաքացի</h6>
+                    <div class="consultationTemplateRresident">
+                        <p>
+                            Ա․Ա․Հ․։
+                            <span>
+                                @Html.DisplayFor(model => model.FirstName)
+                                @Html.DisplayFor(model => model.MiddleName)
+                                @Html.DisplayFor(model => model.LastName)
+                            </span>
+                        </p>
+                        <p>
+                            Ա․Հ․Փ։
+                            <span>@Html.DisplayFor(model => model.IdentificatorNumber)</span>
+                        </p>
+                        <p>
+                            Ծննդյան ա/թ։
+                            <span>@Html.DisplayFor(model => model.BirthDate)</span>
+                        </p>
+                    </div>
+                }
+                @if (Model.IssueCategoryID == 2)
+                {
+                    <h6 style="color:#21A8D8">Կազմակերպություն</h6>
+                    <div class="consultationTemplateRresident">
+                        <p>
+                            Անվանումը։
+                            <span>
+                                @Html.DisplayFor(model => model.CompanyName)
+                            </span>
+                        </p>
+                    </div>
+                }
             </header>
             <div class="card-body consultationTemplateBody">
                 <div class="card">
@@ -60,6 +76,7 @@
                         .Filter(FilterType.StartsWith)
                         .HtmlAttributes(new { @class = "form-control" })
                         .BindTo(ViewBag.vbIssueTypes)
+                        ///.ValuePrimitive(true)
                             )
                         </div>
                     </div>
@@ -111,7 +128,14 @@
             </div>
             <div class="card-footer">
                 <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
-                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Dispatcher", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                @if (Model.IssueCategoryID == 1)
+                {
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Resident")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                }
+                @if (Model.IssueCategoryID == 2)
+                {
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Company")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                }
                 @Html.ValidationSummary("Առկա են խնդիրներ")
             </div>
         </div>

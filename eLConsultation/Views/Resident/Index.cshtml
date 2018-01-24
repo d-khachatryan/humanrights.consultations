@@ -99,13 +99,18 @@
         return false;
     }
 
+    function onIssueDetailExpand(e) {
+        currentIssueIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        RID = selectedItem.ResidentID;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
 
 </script>
 
 @(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem >()
           .Name("grResident")
           .NoRecords("Գրառումներ չկան")
-          //.ColumnMenu(menu => menu.Columns(true).Sortable(false).Messages(msg => msg.Columns("Սյունակներ")))
           .Columns(columns =>
           {
               columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(120);
@@ -118,10 +123,7 @@
                   commands.Custom("cmdDeleteResident").Text(" ").Click("DeleteResident").HtmlAttributes(new { @class = "Delete_Icon" });
               }).Title("Հրամաններ").Width(120);
           })
-          .Events(e => e.DataBound("showCommandIcons"))
-          //.Selectable(s => s.Mode(GridSelectionMode.Single))
-          //.Filterable()
-          //.Groupable()
+          .Events(e => e.DataBound("showCommandIcons").DetailExpand("onIssueDetailExpand"))
           .Sortable()
           .Resizable(resize => resize.Columns(true))
           .Scrollable()
@@ -132,20 +134,73 @@
               .Events(events => events.Error("error_handler"))
               .Read(read => read.Action("FilterResidents", "Resident").Data("getParameters"))
           )
+          .ClientDetailTemplateId("template")
 )
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+        .Name("grid_#=ResidentID#")
+        .Events(e => e.DataBound("showCommandIcons"))
+          .Columns(columns =>
+          {
+              columns.Bound(o => o.IssueID).Hidden();
+              columns.Bound(o => o.IssueName);
+              columns.Bound(o => o.IssueTypeName);
+              columns.Bound(o => o.IssueDate).Width(98);
+              columns.Command(commands =>
+              {
+                  commands.Custom("cmdUpdateIssue_#=ResidentID#").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteIssue_#=ResidentID#").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
+              }).Title("Հրամաններ").Width(120);
+          })
 
-@*<script>
-    $(function () {
-        var grid = $("#grResident").data("kendoGrid");
-        grid.thead.find("[data-field=LastName]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=MiddleName]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=IdentificatorNumber]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=BirthDate]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=GenderID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=RegionID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=CommunityID]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Street]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Building]>.k-header-column-menu").remove();
-        grid.thead.find("[data-field=Home]>.k-header-column-menu").remove();
-    });
-</script>*@
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("GetIssuesSetItemsByResidentID", "Issue", new { residentID = "#=ResidentID#" }))
+                      )
+         .ToClientTemplate()
+    )
+</script>
+<script type="text/javascript">
+    function UpdateIssue(e) {
+        var gridName = "#grid_" + RID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("Update", "Issue")/?issueID=' + dataItem.IssueID;
+    }
+
+    function DeleteIssue(e) {
+        var gridName = "#grid_" + RID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել խնդրի գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "Issue")',
+            dataType: "json",
+            type: "GET",
+            data: { issueID: dataItem.IssueID },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                grid.dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+</script>
