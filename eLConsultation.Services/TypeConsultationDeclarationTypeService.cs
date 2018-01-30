@@ -73,8 +73,8 @@ namespace eLConsultation.Data
                       from organization in r2.DefaultIfEmpty()
                       join t3 in db.ResponseTypes on target.ResponseTypeID equals t3.ResponseTypeID into r3
                       from responsetype in r3.DefaultIfEmpty()
-                      join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
-                      from responsecontent in r4.DefaultIfEmpty()
+                      //join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
+                      //from responsecontent in r4.DefaultIfEmpty()
                       join t5 in db.ResponseQualities on target.ResponseQualityID equals t5.ResponseQualityID into r5
                       from responsequality in r5.DefaultIfEmpty()
                       .Where(c => target.GUID == new Guid(prmGUID))
@@ -84,7 +84,7 @@ namespace eLConsultation.Data
                           DeclarationTypeTable = declarationtype,
                           OrganizationTable = organization,
                           ResponseTypeTable = responsetype,
-                          ResponseContentTable = responsecontent,
+                          //ResponseContentTable = responsecontent,
                           ResponseQualityTable = responsequality
                       })
                 .Select(list => new TypeConsultationDeclarationTypeItem
@@ -96,7 +96,7 @@ namespace eLConsultation.Data
                     DeclarationTypeID = list.TargetTable.DeclarationTypeID,
                     OrganizationID = list.TargetTable.OrganizationID,
                     ResponseTypeID = list.TargetTable.ResponseTypeID,
-                    ResponseContentID = list.TargetTable.ResponseContentID,
+                    //ResponseContentID = list.TargetTable.ResponseContentID,
                     ResponseQualityID = list.TargetTable.ResponseQualityID,
                     DeclarationURL = list.TargetTable.DeclarationURL,
                     DeclarationDeadline = list.TargetTable.DeclarationDeadline,
@@ -105,7 +105,7 @@ namespace eLConsultation.Data
                     DeclarationTypeName = list.DeclarationTypeTable.DeclarationTypeName,
                     OrganizationName = list.OrganizationTable.OrganizationName,
                     ResponseTypeName = list.ResponseTypeTable.ResponseTypeName,
-                    ResponseContentName = list.ResponseContentTable.ResponseContentName,
+                    ResponseContentName = list.TargetTable.ResponseContent,
                     ResponseQualityName = list.ResponseQualityTable.ResponseQualityName
                 }).ToList();
             return result;
@@ -126,7 +126,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContentID = item.ResponseContentID,
+                    ResponseContent = item.ResponseContentName,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };
@@ -197,7 +197,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContentID = item.ResponseContentID,
+                    ResponseContent = item.ResponseContentName,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };
@@ -244,7 +244,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContentID = item.ResponseContentID,
+                    ResponseContent = item.ResponseContentName,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };

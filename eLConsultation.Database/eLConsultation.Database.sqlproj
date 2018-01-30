@@ -66,7 +66,7 @@
     <Folder Include="versions" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\TmpTypeDeclarationType.sql" />
+    <Build Include="dbo\Tables\TmpTypeConsultationDeclarationType.sql" />
     <Build Include="dbo\Tables\TmpTypeConsultationRight.sql" />
     <Build Include="dbo\Tables\TmpTypeConsultationRecipient.sql" />
     <Build Include="dbo\Tables\TmpTypeConsultationInstance.sql" />
@@ -122,6 +122,7 @@
     <None Include="smarterasp.publish.xml" />
     <None Include="versions\1.0.0.1.sql" />
     <None Include="versions\1.0.0.2.sql" />
+    <None Include="versions\1.0.1.0.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\TargetGroup.sql" />

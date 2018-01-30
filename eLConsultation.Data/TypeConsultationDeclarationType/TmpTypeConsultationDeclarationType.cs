@@ -28,10 +28,10 @@ namespace eLConsultation.Data
 
         public int? ResponseTypeID { get; set; }
 
-        public int? ResponseContentID { get; set; }
-
         public int? ResponseQualityID { get; set; }
 
         public Guid? GUID { get; set; }
+
+        public string ResponseContent { get; set; }
     }
 }
