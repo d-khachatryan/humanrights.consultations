@@ -26,9 +26,9 @@ namespace eLConsultation.Data
 
         public int? ResponseTypeID { get; set; }
 
-        public int? ResponseContentID { get; set; }
-
         public int? ResponseQualityID { get; set; }
+
+        public string ResponseContent { get; set; }
 
         public TypeConsultation TypeConsultation { get; set; }
     }
