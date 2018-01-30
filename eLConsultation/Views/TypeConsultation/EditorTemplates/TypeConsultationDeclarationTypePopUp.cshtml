@@ -73,21 +73,8 @@
         )
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ResponseContentID, new { @class = "control-label" })
-        @(Html.Kendo().ComboBoxFor(model => model.ResponseContentID)
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .Placeholder("-- Ընտրել --")
-                        .Filter(FilterType.StartsWith)
-                        .HtmlAttributes(new { @class = "form-control", data_value_primitive = "true" })
-                        .DataSource(source =>
-                        {
-                            source.Read(read =>
-                            {
-                                read.Action("ResponseContentList", "TypeConsultationDeclarationType");
-                            });
-                        })
-        )
+        @Html.LabelFor(model => model.ResponseContent, new { @class = "control-label" })
+        @Html.Kendo().TextBoxFor(model => model.ResponseContent).HtmlAttributes(new { @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ResponseQualityID, new { @class = "control-label" })
