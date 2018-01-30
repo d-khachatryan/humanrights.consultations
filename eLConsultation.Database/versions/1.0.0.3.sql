@@ -1,0 +1,1 @@
+﻿UPDATE dbo.Setting SET SettingValue = '1.0.0.3' WHERE SettingItem = 'version' --Fixed issue:
