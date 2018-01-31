@@ -40,21 +40,19 @@ namespace eLConsultation.Data
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ResponseDate { get; set; }
 
+        [Display(Name = "Պատասխան գրության ժամկետ")]
         public int? ResponseTypeID { get; set; }
 
-        [Display(Name = "Պատասխան")]
+        [Display(Name = "Պատասխան գրության ժամկետ")]
         public string ResponseTypeName { get; set; }
 
-        [Display(Name = "Պատասխանի բովանդակություն")]
-        public int? ResponseContentID { get; set; }
+        [Display(Name = "Պատասխան գրության հղում")]
+        public string ResponseContent { get; set; }
 
-        [Display(Name = "Պատասխանի բովանդակություն")]
-        public string ResponseContentName { get; set; }
-
-        [Display(Name = "Պատասխան")]
+        [Display(Name = "Պատասխանի էություն")]
         public int? ResponseQualityID { get; set; }
 
-        [Display(Name = "Պատասխան")]
+        [Display(Name = "Պատասխանի էություն")]
         public string ResponseQualityName { get; set; }
     }
 }

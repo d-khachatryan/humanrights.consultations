@@ -38,13 +38,13 @@ namespace eLConsultation.Data
             selectedListItem = listItem.GetResponseTypes().Select(x => new SelectListItem { Text = x.ResponseTypeName, Value = x.ResponseTypeID.ToString() }).ToList();
             return selectedListItem;
         }
-        public List<SelectListItem> GetResponseContentDropDownItems()
-        {
-            var selectedListItem = new List<SelectListItem>();
-            ResponseContentService listItem = new ResponseContentService();
-            selectedListItem = listItem.GetResponseContents().Select(x => new SelectListItem { Text = x.ResponseContentName, Value = x.ResponseContentID.ToString() }).ToList();
-            return selectedListItem;
-        }
+        //public List<SelectListItem> GetResponseContentDropDownItems()
+        //{
+        //    var selectedListItem = new List<SelectListItem>();
+        //    ResponseContentService listItem = new ResponseContentService();
+        //    selectedListItem = listItem.GetResponseContents().Select(x => new SelectListItem { Text = x.ResponseContentName, Value = x.ResponseContentID.ToString() }).ToList();
+        //    return selectedListItem;
+        //}
         public List<SelectListItem> GetResponseQuantityDropDownItems()
         {
             var selectedListItem = new List<SelectListItem>();
@@ -96,7 +96,6 @@ namespace eLConsultation.Data
                     DeclarationTypeID = list.TargetTable.DeclarationTypeID,
                     OrganizationID = list.TargetTable.OrganizationID,
                     ResponseTypeID = list.TargetTable.ResponseTypeID,
-                    //ResponseContentID = list.TargetTable.ResponseContentID,
                     ResponseQualityID = list.TargetTable.ResponseQualityID,
                     DeclarationURL = list.TargetTable.DeclarationURL,
                     DeclarationDeadline = list.TargetTable.DeclarationDeadline,
@@ -105,7 +104,7 @@ namespace eLConsultation.Data
                     DeclarationTypeName = list.DeclarationTypeTable.DeclarationTypeName,
                     OrganizationName = list.OrganizationTable.OrganizationName,
                     ResponseTypeName = list.ResponseTypeTable.ResponseTypeName,
-                    ResponseContentName = list.TargetTable.ResponseContent,
+                    ResponseContent = list.TargetTable.ResponseContent,
                     ResponseQualityName = list.ResponseQualityTable.ResponseQualityName
                 }).ToList();
             return result;
@@ -126,7 +125,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContent = item.ResponseContentName,
+                    ResponseContent = item.ResponseContent,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };
@@ -141,7 +140,7 @@ namespace eLConsultation.Data
                 DeclarationType declarationType = db.DeclarationTypes.Find(item.DeclarationTypeID);
                 Organization organization = db.Organizations.Find(item.OrganizationID);
                 ResponseType responseType = db.ResponseTypes.Find(item.ResponseTypeID);
-                ResponseContent responseContent = db.ResponseContents.Find(item.ResponseContentID);
+                //ResponseContent responseContent = db.ResponseContents.Find(item.ResponseContentID);
                 ResponseQuality responseQuality = db.ResponseQualities.Find(item.ResponseQualityID);
 
                 //item.DeclarationTypeName = declarationType.DeclarationTypeName;
@@ -162,10 +161,10 @@ namespace eLConsultation.Data
                 {
                     item.ResponseTypeName = responseType.ResponseTypeName;
                 }
-                if (item.ResponseContentID != null)
-                {
-                    item.ResponseContentName = responseContent.ResponseContentName;
-                }
+                //if (item.ResponseContentID != null)
+                //{
+                //    item.ResponseContentName = responseContent.ResponseContentName;
+                //}
                 if (item.ResponseQualityID != null)
                 {
                     item.ResponseQualityName = responseQuality.ResponseQualityName;
@@ -197,7 +196,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContent = item.ResponseContentName,
+                    ResponseContent = item.ResponseContent,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };
@@ -210,13 +209,13 @@ namespace eLConsultation.Data
                 DeclarationType declarationType = db.DeclarationTypes.Find(item.DeclarationTypeID);
                 Organization organization = db.Organizations.Find(item.OrganizationID);
                 ResponseType responseType = db.ResponseTypes.Find(item.ResponseTypeID);
-                ResponseContent responseContent = db.ResponseContents.Find(item.ResponseContentID);
+                //ResponseContent responseContent = db.ResponseContents.Find(item.ResponseContentID);
                 ResponseQuality responseQuality = db.ResponseQualities.Find(item.ResponseQualityID);
 
                 item.DeclarationTypeName = declarationType.DeclarationTypeName;
                 item.OrganizationName = organization.OrganizationName;
                 item.ResponseTypeName = responseType.ResponseTypeName;
-                item.ResponseContentName = responseContent.ResponseContentName;
+                //item.ResponseContent = responseContent.ResponseContentName;
                 item.ResponseQualityName = responseQuality.ResponseQualityName;
 
                 return item;
@@ -244,7 +243,7 @@ namespace eLConsultation.Data
                     OrganizationID = item.OrganizationID,
                     ResponseDate = item.ResponseDate,
                     ResponseTypeID = item.ResponseTypeID,
-                    ResponseContent = item.ResponseContentName,
+                    ResponseContent = item.ResponseContent,
                     ResponseQualityID = item.ResponseQualityID,
                     GUID = item.GUID
                 };

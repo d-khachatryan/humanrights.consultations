@@ -76,11 +76,11 @@ namespace eLConsultation.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ResponseContentList()
-        {
-            var list = service.GetResponseContentDropDownItems();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult ResponseContentList()
+        //{
+        //    var list = service.GetResponseContentDropDownItems();
+        //    return Json(list, JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult ResponseQuantityList()
         {

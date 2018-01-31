@@ -1021,7 +1021,7 @@ namespace eLConsultation.Data
                                DeclarationTypeName = list.DeclarationTypeTable.DeclarationTypeName,
                                OrganizationName = list.OrganizationTable.OrganizationName,
                                ResponseTypeName = list.ResponseTypeTable.ResponseTypeName,
-                               ResponseContentName = list.TargetTable.ResponseContent,
+                               ResponseContent = list.TargetTable.ResponseContent,
                                ResponseQualityName = list.ResponseQualityTable.ResponseQualityName
                            }).ToList();
         }
