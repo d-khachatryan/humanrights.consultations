@@ -48,6 +48,15 @@ namespace eLConsultation.Data
         [Display(Name = "Բնակարան")]
         public string Home { get; set; }
 
+        [Display(Name = "Ծննդյան ամսաթիվ")]
+        public string BirthYear { get; set; }
+
+        [Display(Name = "Հեռախոս")]
+        public string Phone { get; set; }
+
+        [Display(Name = "Էլ․ փոստ")]
+        public string Email { get; set; }
+
         public string OperationType { get; set; }
 
         public InitializationTypes InitializationType { get; set; }
