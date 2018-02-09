@@ -115,7 +115,7 @@
           {
               columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(120);
               columns.Bound(c => c.ResidentName);
-              columns.Bound(c => c.BirthDate).Title("Ծննդայան ա/թ").Width(135).MinScreenWidth(768).HtmlAttributes(new { style="text-align:center"});
+              columns.Bound(c => c.BirthYear).Title("Ծննդայան տ/թ").Width(135).MinScreenWidth(768).HtmlAttributes(new { style="text-align:center"});
               columns.Bound(c => c.ResidentRegistrationLocation ).MinScreenWidth(768);
               columns.Command(commands =>
               {
