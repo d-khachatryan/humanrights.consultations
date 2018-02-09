@@ -47,7 +47,7 @@ namespace eLConsultation.Data
         public string Home { get; set; }
 
         [Display(Name = "Ծննդյան տարեթիվ")]
-        public string BirthYear { get; set; }
+        public Int16 BirthYear { get; set; }
 
         [Display(Name = "Հեռախոս")]
         public string Phone { get; set; }

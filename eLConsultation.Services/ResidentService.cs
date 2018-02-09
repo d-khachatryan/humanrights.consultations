@@ -167,7 +167,7 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = Convert.ToDateTime("01.01." + resident.BirthYear),
+                            BirthDate = Convert.ToDateTime("01.01." + residentItem.BirthYear),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -175,9 +175,9 @@ namespace eLConsultation.Data
                             Street = residentItem.Street,
                             Building = residentItem.Building,
                             Home = residentItem.Home,
-                            BirthYear = resident.BirthYear,
-                            Phone = resident.Phone,
-                            Email = resident.Email
+                            BirthYear = residentItem.BirthYear,
+                            Phone = residentItem.Phone,
+                            Email = residentItem.Email
                         };
                         db.Residents.Add(resident);
                         break;
@@ -188,7 +188,7 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = Convert.ToDateTime("01.01." + resident.BirthYear),
+                            BirthDate = Convert.ToDateTime("01.01." + residentItem.BirthYear),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -196,9 +196,9 @@ namespace eLConsultation.Data
                             Street = residentItem.Street,
                             Building = residentItem.Building,
                             Home = residentItem.Home,
-                            BirthYear = resident.BirthYear,
-                            Phone = resident.Phone,
-                            Email = resident.Email
+                            BirthYear = residentItem.BirthYear,
+                            Phone = residentItem.Phone,
+                            Email = residentItem.Email
                         };
                         db.Residents.Attach(resident);
                         db.Entry(resident).State = EntityState.Modified;

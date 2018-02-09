@@ -29,7 +29,7 @@
                   .Title("Քաղաքացի");
 
                   columns.Bound(c => c.IdentificatorNumber);
-                  columns.Bound(c => c.BirthDate);
+                  columns.Bound(c => c.BirthYear).HtmlAttributes(new { style = "text-align:center" });
                   columns.Bound(c => c.RegionName);
               })
               .Scrollable()
