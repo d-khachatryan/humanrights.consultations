@@ -51,7 +51,7 @@ namespace eLConsultation.Data
         [Display(Name = "Բնակարան")]
         public string Home { get; set; }
 
-        [Display(Name = "Ծննդյան ամսաթիվ")]
+        [Display(Name = "Ծննդյան տարեթիվ")]
         public string BirthYear { get; set; }
 
         [Display(Name = "Հեռախոս")]
