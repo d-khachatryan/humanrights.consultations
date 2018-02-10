@@ -554,3 +554,12 @@ margin: 5px;
 }
 
 
+/* ToolTip */
+.entryTooltip{
+    color: #ff6a00;
+    float:right;
+    margin-top:6px;
+}
+.k-tooltip-content {
+    text-align: left;
+}

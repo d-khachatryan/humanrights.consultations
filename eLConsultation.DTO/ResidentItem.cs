@@ -23,7 +23,7 @@ namespace eLConsultation.Data
         [Display(Name = "Անձը հաստատող փաստաթուղթ")]
         public string IdentificatorNumber { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Ծննդյան ամսաթիվը պարտադիր է")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Ծննդյան ամսաթիվը պարտադիր է")]
         [Display(Name = "Ծննդյան ամսաթիվ")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -47,6 +47,15 @@ namespace eLConsultation.Data
 
         [Display(Name = "Բնակարան")]
         public string Home { get; set; }
+
+        [Display(Name = "Ծննդյան տարեթիվ")]
+        public Int16 BirthYear { get; set; }
+
+        [Display(Name = "Հեռախոս")]
+        public string Phone { get; set; }
+
+        [Display(Name = "Էլ․ փոստ")]
+        public string Email { get; set; }
 
         public string OperationType { get; set; }
 

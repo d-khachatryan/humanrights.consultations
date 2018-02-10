@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Data
 {
-    public class ResidentService: ServiceBase
+    public class ResidentService : ServiceBase
     {
         public ResidentService()
             : base()
@@ -89,7 +89,10 @@ namespace eLConsultation.Data
                         Home = item.ResidentTable.Home,
                         GenderName = item.GenderTable.GenderName,
                         RegionName = item.RegionTable.RegionName,
-                        CommunityName = item.CommunityTable.CommunityName
+                        CommunityName = item.CommunityTable.CommunityName,
+                        BirthYear = item.ResidentTable.BirthYear,
+                        Phone = item.ResidentTable.Phone,
+                        Email = item.ResidentTable.Email
                     }).ToList();
 
                 return result;
@@ -99,8 +102,8 @@ namespace eLConsultation.Data
                 exception = ex;
                 return null;
             }
-        }       
-        
+        }
+
         /// <summary>
         /// Get existing temporary Resident and return it as a result
         /// </summary>
@@ -126,10 +129,13 @@ namespace eLConsultation.Data
                         Street = resident.Street,
                         Building = resident.Building,
                         Home = resident.Home,
+                        BirthYear = resident.BirthYear,
+                        Phone = resident.Phone,
+                        Email = resident.Email,
 
                         InitializationType = InitializationTypes.Update,
                     };
-                    return item;                    
+                    return item;
                 }
                 else
                 {
@@ -161,14 +167,17 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = residentItem.BirthDate,
+                            BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
                             CommunityID = residentItem.CommunityID,
                             Street = residentItem.Street,
                             Building = residentItem.Building,
-                            Home = residentItem.Home
+                            Home = residentItem.Home,
+                            BirthYear = residentItem.BirthYear,
+                            Phone = residentItem.Phone,
+                            Email = residentItem.Email
                         };
                         db.Residents.Add(resident);
                         break;
@@ -179,14 +188,17 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = residentItem.BirthDate,
+                            BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
                             CommunityID = residentItem.CommunityID,
                             Street = residentItem.Street,
                             Building = residentItem.Building,
-                            Home = residentItem.Home
+                            Home = residentItem.Home,
+                            BirthYear = residentItem.BirthYear,
+                            Phone = residentItem.Phone,
+                            Email = residentItem.Email
                         };
                         db.Residents.Attach(resident);
                         db.Entry(resident).State = EntityState.Modified;

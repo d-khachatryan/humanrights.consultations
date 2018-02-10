@@ -33,9 +33,21 @@
                     @Html.LabelFor(model => model.IdentificatorNumber, new { @class = "control-label" })
                     @Html.Kendo().TextBoxFor(model => model.IdentificatorNumber).HtmlAttributes(new { @class = "form-control" })
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
                     @Html.Kendo().DatePickerFor(model => model.BirthDate).HtmlAttributes(new { @class = "form-control" })
+                </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BirthYear, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.BirthYear).HtmlAttributes(new { @class = "form-control" }).Format("g").Min(1900).Max(@Convert.ToInt16(DateTime.Now.Year))
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Phone).HtmlAttributes(new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Email).HtmlAttributes(new { @class = "form-control" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.GenderID, new { @class = "control-label" })
