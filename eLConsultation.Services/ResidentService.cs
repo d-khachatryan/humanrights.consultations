@@ -242,6 +242,114 @@ namespace eLConsultation.Data
                 return null;
             }
         }
+
+        public IList<ResidentTypeConsultationSet> GetTypeConsultationsByResidentID(int residentID)
+        {
+            IList<ResidentTypeConsultationSet> result = new List<ResidentTypeConsultationSet>();
+
+            var query = from typeconsultation in db.TypeConsultations
+                        join t1 in db.Issues on typeconsultation.IssueID equals t1.IssueID
+                        into r1
+                        from issue in r1.DefaultIfEmpty().Where(p => p.ResidentID == residentID)
+                        join t11 in db.IssueTypes on issue.IssueTypeID equals t11.IssueTypeID into r11
+                        from issueType in r11.DefaultIfEmpty()
+                        join t12 in db.IssueCategorys on issue.IssueCategoryID equals t12.IssueCategoryID into r12
+                        from issueCategory in r12.DefaultIfEmpty()
+                        join t2 in db.ConsultationTypes on typeconsultation.ConsultationTypeID equals t2.ConsultationTypeID into r2
+                        from consultationtype in r2.DefaultIfEmpty()
+                        join t3 in db.TargetGroups on typeconsultation.TargetGroupID equals t3.TargetGroupID into r3
+                        from targetgroup in r3.DefaultIfEmpty()
+                        join t4 in db.ProcessStatuss on typeconsultation.ProcessStatusID equals t4.ProcessStatusID into r4
+                        from processstatus in r4.DefaultIfEmpty()
+                        join t5 in db.ConsultationResults on typeconsultation.ConsultationResultID equals t5.ConsultationResultID into r5
+                        from consultationresult in r5.DefaultIfEmpty()
+                        select new
+                        {
+                            TypeConsultationTable = typeconsultation,
+                            IssueTable = issue,
+                            IssueTypeTable = issueType,
+                            IssueCategoryTable = issueCategory,
+                            ConsultationTypeTable = consultationtype,
+                            TargetGroupTable = targetgroup,
+                            ProcessStatusTable = processstatus,
+                            ConsultationResultTable = consultationresult
+                        };
+
+
+
+            result = query.Select(list => new ResidentTypeConsultationSet
+            {
+                TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
+                ResidentID = list.TypeConsultationTable.ResidentID,
+                TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
+                IssueName = list.IssueTable.IssueName,
+                IssueDescription = list.IssueTable.IssueDescription,
+                IssueDate = list.IssueTable.IssueDate,
+                IssueTypeID = list.IssueTable.IssueTypeID,
+                IssueTypeName = list.IssueTypeTable.IssueTypeName,
+                IssueCategoryID = list.IssueTable.IssueCategoryID,
+                IssueCategoryName = list.IssueCategoryTable.IssueCategoryName,
+                ConsultationTypeID = list.TypeConsultationTable.ConsultationTypeID,
+                ConsultationTypeName = list.ConsultationTypeTable.ConsultationTypeName,
+                ProcessStatusID = list.TypeConsultationTable.ProcessStatusID,
+                ProcessStatusName = list.ProcessStatusTable.ProcessStatusName,
+                ConsultationResultID = list.TypeConsultationTable.ConsultationResultID,
+                ConsultationResultName = list.ConsultationResultTable.ConsultationResultName,
+                TargetGroupID = list.TypeConsultationTable.TargetGroupID,
+                TargetGroupName = list.TargetGroupTable.TargetGroupName,
+                TypeConsultationName = list.TypeConsultationTable.TypeConsultationName
+            }).ToList();
+
+            return result;
+        }
+
+        public IList<ResidentOralConsultationSet> GetOralConsultationsByResidentID(int residentID)
+        {
+            IList<ResidentOralConsultationSet> result = new List<ResidentOralConsultationSet>();
+
+            var query = from oralconsultation in db.OralConsultations
+                        join t1 in db.Issues on oralconsultation.IssueID equals t1.IssueID
+                        into r1
+                        from issue in r1.DefaultIfEmpty().Where(p => p.ResidentID == residentID)
+                        join t11 in db.IssueTypes on issue.IssueTypeID equals t11.IssueTypeID into r11
+                        from issueType in r11.DefaultIfEmpty()
+                        join t12 in db.IssueCategorys on issue.IssueCategoryID equals t12.IssueCategoryID into r12
+                        from issueCategory in r12.DefaultIfEmpty()
+                        join t2 in db.InvocationTypes on oralconsultation.InvocationTypeID equals t2.InvocationTypeID into r2
+                        from invocationtype in r2.DefaultIfEmpty()
+                        join t3 in db.TargetGroups on oralconsultation.TargetGroupID equals t3.TargetGroupID into r3
+                        from targetgroup in r3.DefaultIfEmpty()
+
+                        select new
+                        {
+                            OralConsultationTable = oralconsultation,
+                            IssueTable = issue,
+                            IssueTypeTable = issueType,
+                            IssueCategoryTable = issueCategory,
+                            InvocationTypeTable = invocationtype,
+                            TargetGroupTable = targetgroup
+                        };
+
+
+            result = query.Select(list => new ResidentOralConsultationSet
+            {
+                OralConsultationID = list.OralConsultationTable.OralConsultationID,
+                ResidentID = list.OralConsultationTable.ResidentID,
+                IssueName = list.IssueTable.IssueName,
+                IssueDescription = list.IssueTable.IssueDescription,
+                IssueDate = list.IssueTable.IssueDate,
+                IssueTypeID = list.IssueTable.IssueTypeID,
+                IssueTypeName = list.IssueTypeTable.IssueTypeName,
+                IssueCategoryID = list.IssueTable.IssueCategoryID,
+                IssueCategoryName = list.IssueCategoryTable.IssueCategoryName,
+                OralConsultationDate = list.OralConsultationTable.OralConsultationDate,
+                TargetGroupName = list.TargetGroupTable.TargetGroupName,
+                InvocationTypeName = list.InvocationTypeTable.InvocationTypeName
+            }).ToList();
+
+            return result;
+        }
+
     }
 }
 

@@ -91,11 +91,13 @@
     <Compile Include="IdentityUserItem.cs" />
     <Compile Include="InvocationTypeItem.cs" />
     <Compile Include="IssueItem.cs" />
+    <Compile Include="ResidentOralConsultationSet.cs" />
     <Compile Include="IssueSetItem.cs" />
     <Compile Include="CompanyItem.cs" />
     <Compile Include="CompanySearch.cs" />
     <Compile Include="CompanySetItem.cs" />
     <Compile Include="IssueCategoryItem.cs" />
+    <Compile Include="ResidentTypeConsultationSet.cs" />
     <Compile Include="LoginItem.cs" />
     <Compile Include="ResetPasswordItem.cs" />
     <Compile Include="ResponseQualityItem.cs" />
