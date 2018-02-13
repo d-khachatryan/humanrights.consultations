@@ -1,4 +1,5 @@
 ﻿using eLConsultation.Data;
+using System;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,24 +12,46 @@ namespace eLConsultation.Controllers
         SettingService settingService;
         SmtpSettingService smtpSettingService;
         UserService userService;
+        string strAppVersion = String.Empty;
+        string strDbVersion = String.Empty;
 
         public HomeController()
         {
             settingService = new SettingService();
             userService = new UserService();
             smtpSettingService = new SmtpSettingService();
+            strAppVersion = System.Configuration.ConfigurationManager.AppSettings["Version"];
+            strDbVersion = settingService.GetSettingByItem("version").SettingValue;
+
         }
 
         public ActionResult Start()
         {
 
-            if (userService.IsUserInRole(administratorRole))
+
+            if (strAppVersion == strDbVersion)
             {
-                return RedirectToAction("Index", "Home");
+                if (userService.IsUserInRole(administratorRole))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Configure", "Home");
+                }
             }
             else
             {
-                return RedirectToAction("Configure", "Home");
+                Exception ex = new Exception("The application and database version mismatch");
+                var model = new HandleErrorInfo(ex,
+                    ControllerContext.RouteData.Values["controller"].ToString(),
+                            ControllerContext.RouteData.Values["action"].ToString());
+                var result = new ViewResult()
+                {
+                    ViewName = "Error",
+                    ViewData = new ViewDataDictionary(model)
+                };
+                return result;
             }
         }
 
@@ -66,7 +89,7 @@ namespace eLConsultation.Controllers
         {
 
             var userItem = userService.InitInsert();
-            
+
             userItem.UserName = configure.User_UserName;
             userItem.FirstName = configure.User_FirstName;
             userItem.LastName = configure.User_LastName;
@@ -97,7 +120,7 @@ namespace eLConsultation.Controllers
         [ChildActionOnly]
         public ActionResult Version()
         {
-            ViewBag.Version = settingService.GetSettingByItem("version").SettingValue;
+            ViewBag.Version = strAppVersion;
             return PartialView();
         }
     }
