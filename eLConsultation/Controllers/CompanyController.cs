@@ -43,6 +43,13 @@ namespace eLConsultation.Controllers
             return Json(service.GetCompanys().ToDataSourceResult(request));
         }
 
+        public ActionResult GetTypeConsultationsByCompanyID([DataSourceRequest] DataSourceRequest request, int companyID)
+        {
+            DataSourceResult result = service.GetTypeConsultationsByCompanyID(companyID).ToDataSourceResult(request);
+            return Json(result);
+        }
+
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CompanyCreate([DataSourceRequest] DataSourceRequest request, CompanyItem companyItem)
         {

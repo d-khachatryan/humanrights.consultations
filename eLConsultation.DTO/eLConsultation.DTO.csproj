@@ -97,6 +97,7 @@
     <Compile Include="CompanySearch.cs" />
     <Compile Include="CompanySetItem.cs" />
     <Compile Include="IssueCategoryItem.cs" />
+    <Compile Include="CompanyTypeConsultationSet.cs" />
     <Compile Include="ResidentTypeConsultationSet.cs" />
     <Compile Include="LoginItem.cs" />
     <Compile Include="ResetPasswordItem.cs" />

@@ -239,6 +239,7 @@ namespace eLConsultation.Controllers
             ViewBag.vbConsultationResults = typeConsultationService.GetConsultationResultDropDownItems();
             ViewBag.vbConsultationTypes = typeConsultationService.GetConsultationTypeDropDownItems();
             ViewBag.vbProcessStatuses = typeConsultationService.GetProcessStatusDropDownItems();
+            ViewBag.PrevUrl = Request.UrlReferrer.AbsolutePath.ToString();
         }
 
         private void InitializeTypeConsultationIssueViewBugs(IssueItem item)
