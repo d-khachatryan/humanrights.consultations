@@ -10,6 +10,7 @@
     {
         items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertResidentTypeConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Քաղաքացի</button>");
         items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertCompanyTypeConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Կազմակերպություն</button>");
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertIssueTypeConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Անանուն</button>");
     })
     )
     @* Search Panel - Right Slide *@
@@ -66,6 +67,10 @@
 
     function InsertResidentTypeConsultation() {
         window.location = '@Url.Action("ResidentDispatcher", "TypeConsultation")';
+    }
+
+    function InsertIssueTypeConsultation() {
+        window.location = '@Url.Action("IssueDispatcher", "TypeConsultation")';
     }
 
     function InsertCompanyTypeConsultation() {

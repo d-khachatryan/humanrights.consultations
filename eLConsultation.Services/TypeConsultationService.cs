@@ -48,8 +48,8 @@ namespace eLConsultation.Data
             IList<TypeConsultationSetItem> result = new List<TypeConsultationSetItem>();
 
             var query = from typeconsultation in db.TypeConsultations
-                        //join t1 in db.Residents on typeconsultation.ResidentID equals t1.ResidentID into r1
-                        //from resident in r1.DefaultIfEmpty()
+                            //join t1 in db.Residents on typeconsultation.ResidentID equals t1.ResidentID into r1
+                            //from resident in r1.DefaultIfEmpty()
                         join t2 in db.ConsultationTypes on typeconsultation.ConsultationTypeID equals t2.ConsultationTypeID into r2
                         from consultationtype in r2.DefaultIfEmpty()
                         join t3 in db.TargetGroups on typeconsultation.TargetGroupID equals t3.TargetGroupID into r3
@@ -89,13 +89,8 @@ namespace eLConsultation.Data
             result = query.Select(list => new TypeConsultationSetItem
             {
                 TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
-                ResidentID = list.TypeConsultationTable.ResidentID,
+                //ResidentID = list.TypeConsultationTable.ResidentID,
                 TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
-                //FirstName = list.ResidentTable.FirstName,
-                //LastName = list.ResidentTable.LastName,
-                //MiddleName = list.ResidentTable.MiddleName,
-                //BirthDate = list.ResidentTable.BirthDate,
-                //IdentificatorNumber = list.ResidentTable.IdentificatorNumber,
                 ConsultationTypeID = list.TypeConsultationTable.ConsultationTypeID,
                 ConsultationTypeName = list.ConsultationTypeTable.ConsultationTypeName,
                 ProcessStatusID = list.TypeConsultationTable.ProcessStatusID,
@@ -112,8 +107,6 @@ namespace eLConsultation.Data
         public TypeConsultationDetail GetTypeConsultationDetail(int? typeConsultationID)
         {
             var typeConsultationQuery = from typeconsultation in db.TypeConsultations
-                                        join t1 in db.Residents on typeconsultation.ResidentID equals t1.ResidentID into r1
-                                        from resident in r1.DefaultIfEmpty()
                                         join t2 in db.ConsultationTypes on typeconsultation.ConsultationTypeID equals t2.ConsultationTypeID into r2
                                         from consultationtype in r2.DefaultIfEmpty()
                                         join t3 in db.TargetGroups on typeconsultation.TargetGroupID equals t3.TargetGroupID into r3
@@ -126,7 +119,6 @@ namespace eLConsultation.Data
                                         select new
                                         {
                                             TypeConsultationTable = typeconsultation,
-                                            ResidentTable = resident,
                                             ConsultationTypeTable = consultationtype,
                                             TargetGroupTable = targetgroup,
                                             ProcessStatusTable = processstatus,
@@ -137,12 +129,6 @@ namespace eLConsultation.Data
             {
                 TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
                 TypeConsultationName = list.TypeConsultationTable.TypeConsultationName,
-                ResidentID = list.TypeConsultationTable.ResidentID,
-                FirstName = list.ResidentTable.FirstName,
-                LastName = list.ResidentTable.LastName,
-                MiddleName = list.ResidentTable.MiddleName,
-                IdentificatorNumber = list.ResidentTable.IdentificatorNumber,
-                BirthDate = list.ResidentTable.BirthDate,
                 TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
                 ConsultationTypeID = list.TypeConsultationTable.ConsultationTypeID,
                 ConsultationTypeName = list.ConsultationTypeTable.ConsultationTypeName,
@@ -165,17 +151,10 @@ namespace eLConsultation.Data
         public TypeConsultationItem GetTypeConsultationByIssueID(int issueID)
         {
             var issue = db.Issues.Find(issueID);
-            //var resident = db.Residents.Find(issue.ResidentID);
 
             TypeConsultationItem item = new TypeConsultationItem
             {
                 TypeConsultationID = 0,
-                //ResidentID = resident.ResidentID,
-                //FirstName = resident.FirstName,
-                //LastName = resident.LastName,
-                //MiddleName = resident.MiddleName,
-                //IdentificatorNumber = resident.IdentificatorNumber,
-                //BirthDate = resident.BirthDate,
                 IssueID = issue.IssueID,
                 IssueName = issue.IssueName,
                 IssueDate = issue.IssueDate,
@@ -198,8 +177,18 @@ namespace eLConsultation.Data
         {
             var typeConsultation = db.TypeConsultations.Find(typeConsultationID);
             var issue = db.Issues.Find(typeConsultation.IssueID);
-            var resident = db.Residents.Find(issue.ResidentID);
-            var company = db.Companys.Find(issue.CompanyID);
+
+            Resident resident = null;
+            if (issue.ResidentID != null)
+            {
+                resident = db.Residents.Find(issue.ResidentID);
+            }
+
+            Company company = null;
+            if (issue.CompanyID != null)
+            {
+                company = db.Companys.Find(issue.CompanyID);
+            }
 
             IssueItem item = new IssueItem();
 
@@ -207,11 +196,15 @@ namespace eLConsultation.Data
             {
                 item.IssueID = issue.IssueID;
                 item.ResidentID = issue.ResidentID;
-                item.FirstName = resident.FirstName;
-                item.LastName = resident.LastName;
-                item.MiddleName = resident.MiddleName;
-                item.IdentificatorNumber = resident.IdentificatorNumber;
-                item.BirthDate = resident.BirthDate;
+
+                if (resident != null)
+                {
+                    item.FirstName = resident.FirstName;
+                    item.LastName = resident.LastName;
+                    item.MiddleName = resident.MiddleName;
+                    item.IdentificatorNumber = resident.IdentificatorNumber;
+                    item.BirthDate = resident.BirthDate;
+                }
                 item.IssueName = issue.IssueName;
                 item.IssueDescription = issue.IssueDescription;
                 item.IssueDate = issue.IssueDate;
@@ -228,7 +221,11 @@ namespace eLConsultation.Data
                 item.IssueCategoryID = issue.IssueCategoryID;
                 item.IssueTypeID = issue.IssueTypeID;
                 item.CompanyID = issue.CompanyID;
-                item.CompanyName = company.CompanyName;
+
+                if (company != null)
+                {
+                    item.CompanyName = company.CompanyName;
+                }
             }
             else
             {
@@ -238,12 +235,22 @@ namespace eLConsultation.Data
         }
 
 
-            public TypeConsultationItem GetTypeConsultationItemByID(int typeConsultationID)
+        public TypeConsultationItem GetTypeConsultationItemByID(int typeConsultationID)
         {
             var typeConsultation = db.TypeConsultations.Find(typeConsultationID);
             var issue = db.Issues.Find(typeConsultation.IssueID);
-            var resident = db.Residents.Find(issue.ResidentID);
-            var company = db.Companys.Find(issue.CompanyID);
+
+            Resident resident = null;
+            if (issue.ResidentID != null)
+            {
+                resident = db.Residents.Find(issue.ResidentID);
+            }
+
+            Company company = null;
+            if (issue.CompanyID != null)
+            {
+                company = db.Companys.Find(issue.CompanyID);
+            }
 
             //TypeConsultationItem item = new TypeConsultationItem();
             //if (issue.IssueCategoryID == 1)
@@ -264,12 +271,14 @@ namespace eLConsultation.Data
             {
                 TypeConsultationID = typeConsultationID,
                 TypeConsultationName = typeConsultation.TypeConsultationName,
-                ResidentID = issue.ResidentID,
+                //ResidentID = issue.ResidentID,
+
                 //FirstName = resident.FirstName,
                 //LastName = resident.LastName,
                 //MiddleName = resident.MiddleName,
-               // IdentificatorNumber = resident.IdentificatorNumber,
+                // IdentificatorNumber = resident.IdentificatorNumber,
                 //BirthDate = resident.BirthDate,
+
                 IssueID = issue.IssueID,
                 IssueName = issue.IssueName,
                 IssueDate = issue.IssueDate,
@@ -284,6 +293,15 @@ namespace eLConsultation.Data
                 UserID = String.Empty,
                 ChangeDate = null,
             };
+
+            //if (resident != null)
+            //{
+            //    item.FirstName = resident.FirstName;
+            //    item.LastName = resident.LastName;
+            //    item.MiddleName = resident.MiddleName;
+            //    item.IdentificatorNumber = resident.IdentificatorNumber;
+            //    item.BirthDate = resident.BirthDate;
+            //}
 
             foreach (var consultant in db.TypeConsultationConsultants.Where(p => p.TypeConsultationID == typeConsultationID))
             {
@@ -417,7 +435,7 @@ namespace eLConsultation.Data
             {
                 TypeConsultationID = item.TypeConsultationID,
                 TypeConsultationName = item.TypeConsultationName,
-                ResidentID = item.ResidentID,
+                //ResidentID = item.ResidentID,
                 IssueID = (int)item.IssueID,
                 TypeConsultationDate = item.TypeConsultationDate,
                 ConsultationTypeID = item.ConsultationTypeID,
@@ -991,8 +1009,8 @@ namespace eLConsultation.Data
                            from organization in r2.DefaultIfEmpty()
                            join t3 in db.ResponseTypes on target.ResponseTypeID equals t3.ResponseTypeID into r3
                            from responsetype in r3.DefaultIfEmpty()
-                           //join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
-                           //from responsecontent in r4.DefaultIfEmpty()
+                               //join t4 in db.ResponseContents on target.ResponseContentID equals t4.ResponseContentID into r4
+                               //from responsecontent in r4.DefaultIfEmpty()
                            join t5 in db.ResponseQualities on target.ResponseQualityID equals t5.ResponseQualityID into r5
                            from responsequality in r5.DefaultIfEmpty()
                            where target.TypeConsultationID == typeConsultationID

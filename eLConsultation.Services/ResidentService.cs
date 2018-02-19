@@ -280,7 +280,7 @@ namespace eLConsultation.Data
             result = query.Select(list => new ResidentTypeConsultationSet
             {
                 TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
-                ResidentID = list.TypeConsultationTable.ResidentID,
+                //ResidentID = list.TypeConsultationTable.ResidentID,
                 TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
                 IssueName = list.IssueTable.IssueName,
                 IssueDescription = list.IssueTable.IssueDescription,

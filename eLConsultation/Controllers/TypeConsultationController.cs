@@ -52,6 +52,12 @@ namespace eLConsultation.Controllers
             return View("ResidentDispatcher", residentSearch);
         }
 
+        public ActionResult IssueDispatcher()
+        {
+            var issueSearch = new IssueSearch();
+            return View("IssueDispatcher", issueSearch);
+        }
+
         public ActionResult CompanyDispatcher()
         {
             var companySearch = new CompanySearch();
@@ -76,6 +82,13 @@ namespace eLConsultation.Controllers
             var item = issueService.GetIssueItemByResidentID(residentID);
             InitializeIssueViewBugs();
             return View("Issue", item);
+        }
+
+        public ActionResult AnonymousIssue()
+        {
+            var item = issueService.GetAnonymousIssueItem();
+            InitializeIssueViewBugs();
+            return View("AnonymousIssue", item);
         }
 
         public ActionResult CompanyIssue(int companyID)
@@ -149,6 +162,23 @@ namespace eLConsultation.Controllers
             {
                 InitializeIssueViewBugs();
                 return View("Issue", item);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveAnonymousIssue(AnonymousIssueItem item)
+        {
+            if (ModelState.IsValid)
+            {
+                item = issueService.SaveAnonymousIssue(item);
+                InitializeTypeConsultationViewBugs();
+                InitializeTypeConsultationAnonymousIssueViewBugs(item);
+                return RedirectToAction("InitTypeConsultation", new { issueID = item.IssueID });
+            }
+            else
+            {
+                InitializeIssueViewBugs();
+                return View("AnonymousIssue", item);
             }
         }
 
@@ -244,12 +274,19 @@ namespace eLConsultation.Controllers
 
         private void InitializeTypeConsultationIssueViewBugs(IssueItem item)
         {
+            ViewBag.ResidentID = item.ResidentID;
             ViewBag.IssueCategoryID = item.IssueCategoryID;
             ViewBag.ResidentName = item.FirstName + " " + item.MiddleName + " " + item.LastName;
             ViewBag.IdentificatorNumber = item.IdentificatorNumber;
             //ViewBag.BirthDate = DateTime.ParseExact(item.BirthDate.ToString(), "{0:yyyy-MM-dd}", CultureInfo.InvariantCulture);
             ViewBag.BirthDate = String.Format("{0:yyyy-MM-dd}", item.BirthDate);
             ViewBag.CompanyName = item.CompanyName;
+        }
+
+        private void InitializeTypeConsultationAnonymousIssueViewBugs(AnonymousIssueItem item)
+        {
+            ViewBag.IssueCategoryID = item.IssueCategoryID;
+            ViewBag.IssueName = item.IssueName;
         }
     }
 }

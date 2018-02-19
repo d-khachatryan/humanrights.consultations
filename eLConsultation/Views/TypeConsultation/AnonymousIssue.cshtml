@@ -1,0 +1,96 @@
+﻿@model eLConsultation.Data.AnonymousIssueItem
+
+@{
+    ViewBag.Title = "Խնդիր";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+
+@using (Html.BeginForm("SaveAnonymousIssue", "TypeConsultation", FormMethod.Post, new { id = "frmIssue" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IssueID)    
+    @Html.HiddenFor(model => model.IssueCategoryID)
+    @Html.HiddenFor(model => model.InitializationType)
+
+    <div class="container-maxwidth500">
+        <div class="card">
+            <div class="card-header">
+                <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
+            </div>
+            <div class="card-body consultationTemplateBody">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueName, new { @class = "control-label" })
+                            @Html.Kendo().TextBoxFor(model => model.IssueName).HtmlAttributes(new { @class = "form-control", maxlength = "50" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueDate, new { @class = "control-label" })
+                            @Html.Kendo().DatePickerFor(model => model.IssueDate).HtmlAttributes(new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IssueTypeID, new { @class = "control-label" })
+                            @(Html.Kendo().ComboBoxFor(model => model.IssueTypeID)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbIssueTypes)
+                            )
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Խնդրի նկարագրությունը</div>
+                    <div class="card-body padding-0 kendoEditor">
+                        @(Html.Kendo().EditorFor(m => m.IssueDescription)
+                                          .Name("IssueDescription")
+                                          .Encode(false)
+                                          .HtmlAttributes(new { aria_label = "IssueDescription" })
+                                          .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                          .Tools(tools => tools
+                                              .Clear()
+                                              .Formatting()
+                                              .FontColor()
+                                              .Bold().Italic().Underline().Strikethrough()
+                                              .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                                              .InsertUnorderedList().InsertOrderedList()
+                                              .Outdent().Indent()
+                                              .CleanFormatting()
+                                              .TableEditing()
+
+                                          )
+                        )
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("IssueDispatcher", "TypeConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+                @Html.ValidationSummary("Առկա են խնդիրներ")
+            </div>
+        </div>
+    </div>
+}
+<div id="errors"> </div>
+
+<script>
+    $(".validation-summary-errors").addClass("bg-warning")
+    $("form").kendoValidator({
+        errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>', // change the default message container to show only an *
+        validate: function (e) {
+            var html = "";
+            if (!e.valid) {
+                var errors = this.errors();
+                html += "<ul>";
+                for (var i = 0; i < errors.length; i++) {
+                    html += "<li>" + errors[i] + "</li>";
+                }
+
+                html += "</ul>";
+            }
+            $("#errors").empty().append($(html));
+        }
+    });
+</script>

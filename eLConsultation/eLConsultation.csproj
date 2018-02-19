@@ -2335,6 +2335,8 @@
     <Content Include="Views\Home\Configure.cshtml" />
     <Content Include="Views\Home\Version.cshtml" />
     <Content Include="Views\Issue\Template.cshtml" />
+    <Content Include="Views\TypeConsultation\IssueDispatcher.cshtml" />
+    <Content Include="Views\TypeConsultation\AnonymousIssue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2384,7 +2386,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53549</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

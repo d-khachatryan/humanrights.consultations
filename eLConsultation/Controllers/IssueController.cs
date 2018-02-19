@@ -26,6 +26,15 @@ namespace eLConsultation.Controllers
             ViewBag.vbIssueCategorys = service.GetIssueCategoryDropDownItems();
         }
 
+        public ActionResult FilterIssues([DataSourceRequest]DataSourceRequest request, string issueName)
+        {
+            ViewBag.ScreenWidth = Request.Browser.ScreenPixelsWidth;
+            var issueSearch = new IssueSearch { IssueName = issueName};
+            Session["issueSearch"] = issueSearch;
+            DataSourceResult result = service.SearchIssueSetItems(issueSearch).ToDataSourceResult(request);
+            return Json(result);
+        }
+
         public ActionResult GetIssuesSetItemsByResidentID([DataSourceRequest] DataSourceRequest request, int residentID)
         {
             DataSourceResult result = service.GetIssueSetItemsByResidentID(residentID).ToDataSourceResult(request);
