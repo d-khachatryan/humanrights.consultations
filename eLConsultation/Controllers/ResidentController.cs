@@ -153,6 +153,18 @@ namespace eLConsultation.Controllers
             }
         }
 
+        public ActionResult GetOralConsultationsByResidentID([DataSourceRequest] DataSourceRequest request, int residentID)
+        {
+            DataSourceResult result = service.GetOralConsultationsByResidentID(residentID).ToDataSourceResult(request);
+            return Json(result);
+        }
+
+        public ActionResult GetTypeConsultationsByResidentID([DataSourceRequest] DataSourceRequest request, int residentID)
+        {
+            DataSourceResult result = service.GetTypeConsultationsByResidentID(residentID).ToDataSourceResult(request);
+            return Json(result);
+        }
+
         private void OrganizeViewBugs(StoreContext db)
         {
             var lGenders = new List<SelectListItem>();

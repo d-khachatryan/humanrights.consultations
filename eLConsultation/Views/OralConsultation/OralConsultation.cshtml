@@ -369,7 +369,15 @@
         </div>
         <div class="card-footer" style="padding-left:10px;">
             <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
-            <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            @if (ViewBag.PrevUrl == "/Resident/Index")
+            {
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Resident")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            }
+            
             @Html.ValidationSummary("Առկա են խնդիրներ")
         </div>
     </div>

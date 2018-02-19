@@ -59,39 +59,40 @@
     )
 </div>
 <script id="template" type="text/kendo-tmpl">
-    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+    @(Html.Kendo().Grid<eLConsultation.Data.CompanyTypeConsultationSet>()
     .Name("grid_#=CompanyID#")
     .Events(e => e.DataBound("showCommandIcons"))
+    .NoRecords("Գրառումներ չկան")
       .Columns(columns =>
       {
-          columns.Bound(o => o.IssueID).Hidden();
-          columns.Bound(o => o.IssueName);
-          columns.Bound(o => o.IssueTypeName);
-          columns.Bound(o => o.IssueDate).Width(98);
+          columns.Bound(o => o.TypeConsultationID).Hidden();
+          columns.Bound(o => o.TypeConsultationName);
+          columns.Bound(o => o.TypeConsultationDate);
           columns.Command(commands =>
               {
-                  commands.Custom("cmdUpdateIssue_#=CompanyID#").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
-                  commands.Custom("cmdDeleteIssue_#=CompanyID#").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
+                  commands.Custom("cmdUpdateTypeConsultation_#=CompanyID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                  commands.Custom("cmdDeleteTypeConsultation_#=CompanyID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
               }).Title("Հրամաններ").Width(120);
       })
 
           .DataSource(dataSource => dataSource
               .Ajax()
-              .Read(read => read.Action("GetIssuesSetItemsByCompanyID", "Issue", new { companyID = "#=CompanyID#" }))
+              .Events(events => events.Error("error_handler"))
+              .Read(read => read.Action("GetTypeConsultationsByCompanyID", "Company", new { companyID = "#=CompanyID#" }))
                       )
          .ToClientTemplate())
 </script>
 <script type="text/javascript">
 
-    function UpdateIssue(e) {
+    function UpdateTypeConsultation(e) {
         var gridName = "#grid_" + CID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
         var dataItem = grid.dataItem(row);
-        window.location = '@Url.Action("Update", "Issue")/?issueID=' + dataItem.IssueID;
+        window.location = '@Url.Action("UpdateTypeConsultation", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
     }
 
-    function DeleteIssue(e) {
+    function DeleteTypeConsultation(e) {
         var gridName = "#grid_" + CID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
@@ -103,10 +104,10 @@
         var rt = false;
         var dt;
         var q = $.ajax({
-            url: '@Url.Action("Delete", "Issue")',
+            url: '@Url.Action("Delete", "TypeConsultation")',
             dataType: "json",
             type: "GET",
-            data: { issueID: dataItem.IssueID },
+            data: { typeConsultationID: dataItem.TypeConsultationID },
             async: false,
             success: function (data) { dt = data; rt = true; },
             error: function (xhr) { dt = xhr; rt = false; }

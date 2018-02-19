@@ -18,7 +18,7 @@
             <div class="slidePanel-Content-fields create-item">
                 <h4>Որոնման դաշտեր</h4>
                 <div class="form-group margin-10-0">
-                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new {placeholder="անուն" })
+                    @Html.Kendo().TextBoxFor(model => model.FirstName).HtmlAttributes(new { placeholder = "անուն" })
                 </div>
                 <div class="form-group margin-10-0">
                     @Html.Kendo().TextBoxFor(model => model.LastName).HtmlAttributes(new { placeholder = "ազգանուն" })
@@ -62,7 +62,7 @@
         var grid = $("#grResident").data("kendoGrid");
         var dataItem = grid.dataItem(row);
         window.location = '@Url.Action("InitResidentTemplateByResidentID", "Resident")/?residentID=' + dataItem.ResidentID;
-    }   
+    }
 
 
     function DeleteResident(e) {
@@ -108,15 +108,15 @@
 
 </script>
 
-@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem >()
+@(Html.Kendo().Grid<eLConsultation.Data.ResidentSetItem>()
           .Name("grResident")
           .NoRecords("Գրառումներ չկան")
           .Columns(columns =>
           {
               columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(120);
               columns.Bound(c => c.ResidentName);
-              columns.Bound(c => c.BirthYear).Title("Ծննդայան տ/թ").Width(135).MinScreenWidth(768).HtmlAttributes(new { style="text-align:center"});
-              columns.Bound(c => c.ResidentRegistrationLocation ).MinScreenWidth(768);
+              columns.Bound(c => c.BirthYear).Title("Ծննդայան տ/թ").Width(135).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
+              columns.Bound(c => c.ResidentRegistrationLocation).MinScreenWidth(768);
               columns.Command(commands =>
               {
                   commands.Custom("cmdUpdateResident").Text(" ").Click("UpdateResident").HtmlAttributes(new { @class = "Update_Icon" });
@@ -137,54 +137,133 @@
           .ClientDetailTemplateId("template")
 )
 <script id="template" type="text/kendo-tmpl">
-    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
-        .Name("grid_#=ResidentID#")
-        .Events(e => e.DataBound("showCommandIcons"))
-          .Columns(columns =>
+    @(Html.Kendo().TabStrip()
+          .Name("tabStrip_#=ResidentID#")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
           {
-              columns.Bound(o => o.IssueID).Hidden();
-              columns.Bound(o => o.IssueName);
-              columns.Bound(o => o.IssueTypeName);
-              columns.Bound(o => o.IssueDate).Width(98);
-              columns.Command(commands =>
-              {
-                  commands.Custom("cmdUpdateIssue_#=ResidentID#").Text(" ").Click("UpdateIssue").HtmlAttributes(new { @class = "Update_Icon" });
-                  commands.Custom("cmdDeleteIssue_#=ResidentID#").Text(" ").Click("DeleteIssue").HtmlAttributes(new { @class = "Delete_Icon" });
-              }).Title("Հրամաններ").Width(120);
-          })
+          items.Add().Text("Բանավոր").Content(@<text>
+        @(Html.Kendo().Grid<eLConsultation.Data.ResidentOralConsultationSet>()
+                      .Name("Oral_#=ResidentID#")
+                      .NoRecords("Գրառումներ չկան")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(o => o.OralConsultationID).Hidden();
+                            columns.Bound(c => c.IssueName);
+                            columns.Bound(c => c.OralConsultationDate);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("cmdUpdateOralConsultation_#=ResidentID#").Text(" ").Click("UpdateOralConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                                commands.Custom("cmdDeleteOralConsultation_#=ResidentID#").Text(" ").Click("DeleteOralConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
+                            }).Title("Հրամաններ").Width(120);
+                        })
 
-          .DataSource(dataSource => dataSource
-              .Ajax()
-              .Read(read => read.Action("GetIssuesSetItemsByResidentID", "Issue", new { residentID = "#=ResidentID#" }))
-                      )
-         .ToClientTemplate()
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Events(events => events.Error("error_handler"))
+                            .Read(read => read.Action("GetOralConsultationsByResidentID", "Resident", new { residentID = "#=ResidentID#" }))
+                                    )
+                       .ToClientTemplate()
+        )
+        </text>);
+              items.Add().Text("Գրավոր").Content(@<text>
+    @(Html.Kendo().Grid<eLConsultation.Data.ResidentTypeConsultationSet>()
+                      .Name("Type_#=ResidentID#")
+                      .NoRecords("Գրառումներ չկան")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(o => o.TypeConsultationID).Hidden();
+                            columns.Bound(c => c.TypeConsultationName);
+                            columns.Bound(c => c.TypeConsultationDate);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("cmdUpdateTypeConsultation_#=ResidentID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                                commands.Custom("cmdDeleteTypeConsultation_#=ResidentID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
+                            }).Title("Հրամաններ").Width(120);
+                        })
+
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Events(events => events.Error("error_handler"))
+                            .Read(read => read.Action("GetTypeConsultationsByResidentID", "Resident", new { residentID = "#=ResidentID#" }))
+                                    )
+                       .ToClientTemplate()
     )
+    </text>);
+          })
+          .ToClientTemplate())
 </script>
 <script type="text/javascript">
-    function UpdateIssue(e) {
-        var gridName = "#grid_" + RID;
+    function UpdateOralConsultation(e) {
+        var gridName = "#Oral_" + RID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
         var dataItem = grid.dataItem(row);
-        window.location = '@Url.Action("Update", "Issue")/?issueID=' + dataItem.IssueID;
+        window.location = '@Url.Action("UpdateOralConsultation", "OralConsultation")/?oralConsultationID=' + dataItem.OralConsultationID;
     }
 
-    function DeleteIssue(e) {
-        var gridName = "#grid_" + RID;
+    function DeleteOralConsultation(e) {
+        var gridName = "#Oral_" + RID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
         var dataItem = grid.dataItem(row);
-        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել խնդրի գրառումը");
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել խորհրդատվության գրառումը");
         if (r == false) {
             return false;
         }
         var rt = false;
         var dt;
         var q = $.ajax({
-            url: '@Url.Action("Delete", "Issue")',
+            url: '@Url.Action("DeleteOralConsultation", "OralConsultation")',
             dataType: "json",
             type: "GET",
-            data: { issueID: dataItem.IssueID },
+            data: { oralConsultationID: dataItem.OralConsultationID },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "DELETE_SUCCESS") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                grid.dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function UpdateTypeConsultation(e) {
+        var gridName = "#Type_" + RID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.location = '@Url.Action("UpdateTypeConsultation", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
+    }
+
+    function DeleteTypeConsultation(e) {
+        var gridName = "#Type_" + RID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Համոզված ե՞ք, որ ցանկանում եք հեռացնել խորհրդատվության գրառումը");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "TypeConsultation")',
+            dataType: "json",
+            type: "GET",
+            data: { typeConsultationID: dataItem.TypeConsultationID },
             async: false,
             success: function (data) { dt = data; rt = true; },
             error: function (xhr) { dt = xhr; rt = false; }

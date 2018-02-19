@@ -26,6 +26,66 @@ namespace eLConsultation.Data
             return result;
         }
 
+        public IList<CompanyTypeConsultationSet> GetTypeConsultationsByCompanyID(int companyID)
+        {
+            IList<CompanyTypeConsultationSet> result = new List<CompanyTypeConsultationSet>();
+
+            var query = from typeconsultation in db.TypeConsultations
+                        join t1 in db.Issues on typeconsultation.IssueID equals t1.IssueID
+                        into r1
+                        from issue in r1.DefaultIfEmpty().Where(p => p.CompanyID == companyID)
+                        join t11 in db.IssueTypes on issue.IssueTypeID equals t11.IssueTypeID into r11
+                        from issueType in r11.DefaultIfEmpty()
+                        join t12 in db.IssueCategorys on issue.IssueCategoryID equals t12.IssueCategoryID into r12
+                        from issueCategory in r12.DefaultIfEmpty()
+                        join t2 in db.ConsultationTypes on typeconsultation.ConsultationTypeID equals t2.ConsultationTypeID into r2
+                        from consultationtype in r2.DefaultIfEmpty()
+                        join t3 in db.TargetGroups on typeconsultation.TargetGroupID equals t3.TargetGroupID into r3
+                        from targetgroup in r3.DefaultIfEmpty()
+                        join t4 in db.ProcessStatuss on typeconsultation.ProcessStatusID equals t4.ProcessStatusID into r4
+                        from processstatus in r4.DefaultIfEmpty()
+                        join t5 in db.ConsultationResults on typeconsultation.ConsultationResultID equals t5.ConsultationResultID into r5
+                        from consultationresult in r5.DefaultIfEmpty()
+                        select new
+                        {
+                            TypeConsultationTable = typeconsultation,
+                            IssueTable = issue,
+                            IssueTypeTable = issueType,
+                            IssueCategoryTable = issueCategory,
+                            ConsultationTypeTable = consultationtype,
+                            TargetGroupTable = targetgroup,
+                            ProcessStatusTable = processstatus,
+                            ConsultationResultTable = consultationresult
+                        };
+
+
+
+            result = query.Select(list => new CompanyTypeConsultationSet
+            {
+                TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
+                CompanyID = list.IssueTable.CompanyID,
+                TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
+                IssueName = list.IssueTable.IssueName,
+                IssueDescription = list.IssueTable.IssueDescription,
+                IssueDate = list.IssueTable.IssueDate,
+                IssueTypeID = list.IssueTable.IssueTypeID,
+                IssueTypeName = list.IssueTypeTable.IssueTypeName,
+                IssueCategoryID = list.IssueTable.IssueCategoryID,
+                IssueCategoryName = list.IssueCategoryTable.IssueCategoryName,
+                ConsultationTypeID = list.TypeConsultationTable.ConsultationTypeID,
+                ConsultationTypeName = list.ConsultationTypeTable.ConsultationTypeName,
+                ProcessStatusID = list.TypeConsultationTable.ProcessStatusID,
+                ProcessStatusName = list.ProcessStatusTable.ProcessStatusName,
+                ConsultationResultID = list.TypeConsultationTable.ConsultationResultID,
+                ConsultationResultName = list.ConsultationResultTable.ConsultationResultName,
+                TargetGroupID = list.TypeConsultationTable.TargetGroupID,
+                TargetGroupName = list.TargetGroupTable.TargetGroupName,
+                TypeConsultationName = list.TypeConsultationTable.TypeConsultationName
+            }).ToList();
+
+            return result;
+        }
+
 
         public IList<CompanySetItem> SearchCompanySetItems(CompanySearch companySearch)
         {
