@@ -1314,4 +1314,6 @@ IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = O
 	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP CONSTRAINT [FK_OralConsultation_Resident]
 	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP COLUMN [ResidentID]
 	END
+
+UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version' 
 --1.0.2.0
