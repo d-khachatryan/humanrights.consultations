@@ -9,21 +9,21 @@ namespace eLConsultation.Data
         [Display(Name = "Խորհրդատվության համար")]
         public int OralConsultationID { get; set; }
 
-        public int? ResidentID { get; set; }
+        public int? IssueID { get; set; }
 
-        public string FirstName { get; set; }
+        public string IssueName { get; set; }
 
-        public string LastName { get; set; }
+        //public string LastName { get; set; }
 
-        public string MiddleName { get; set; }
+        //public string MiddleName { get; set; }
 
-        [Display(Name = "Նույնականացման համար")]
-        public string IdentificatorNumber { get; set; }
+        //[Display(Name = "Նույնականացման համար")]
+        //public string IdentificatorNumber { get; set; }
 
-        [Display(Name = "Ծննդյան ամսաթիվ")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? BirthDate { get; set; }
+        //[Display(Name = "Ծննդյան ամսաթիվ")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //public DateTime? BirthDate { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Խորհրդատվության ամսաթիվը պարտադիր է")]
         [Display(Name = "Խորհրդատվության ամսաթիվ")]
@@ -43,12 +43,12 @@ namespace eLConsultation.Data
         [Display(Name = "Թիրախային խումբ")]
         public string TargetGroupName { get; set; }
 
-        public string ResidentName
-        {
-            get
-            {
-                return FirstName + " " + MiddleName + " " + LastName;
-            }
-        }
+        //public string ResidentName
+        //{
+        //    get
+        //    {
+        //        return FirstName + " " + MiddleName + " " + LastName;
+        //    }
+        //}
     }
 }

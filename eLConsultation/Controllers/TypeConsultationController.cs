@@ -172,7 +172,7 @@ namespace eLConsultation.Controllers
             {
                 item = issueService.SaveAnonymousIssue(item);
                 InitializeTypeConsultationViewBugs();
-                InitializeTypeConsultationAnonymousIssueViewBugs(item);
+                InitializeAnonymousIssueViewBugs(item);
                 return RedirectToAction("InitTypeConsultation", new { issueID = item.IssueID });
             }
             else
@@ -278,12 +278,11 @@ namespace eLConsultation.Controllers
             ViewBag.IssueCategoryID = item.IssueCategoryID;
             ViewBag.ResidentName = item.FirstName + " " + item.MiddleName + " " + item.LastName;
             ViewBag.IdentificatorNumber = item.IdentificatorNumber;
-            //ViewBag.BirthDate = DateTime.ParseExact(item.BirthDate.ToString(), "{0:yyyy-MM-dd}", CultureInfo.InvariantCulture);
             ViewBag.BirthDate = String.Format("{0:yyyy-MM-dd}", item.BirthDate);
             ViewBag.CompanyName = item.CompanyName;
         }
 
-        private void InitializeTypeConsultationAnonymousIssueViewBugs(AnonymousIssueItem item)
+        private void InitializeAnonymousIssueViewBugs(AnonymousIssueItem item)
         {
             ViewBag.IssueCategoryID = item.IssueCategoryID;
             ViewBag.IssueName = item.IssueName;

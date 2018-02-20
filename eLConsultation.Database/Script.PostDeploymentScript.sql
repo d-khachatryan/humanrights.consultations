@@ -1308,4 +1308,10 @@ IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = O
 	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP CONSTRAINT [FK_TypeConsultation_Resident]
 	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP COLUMN [ResidentID]
 	END
+
+IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = Object_ID(N'dbo.OralConsultation'))
+	BEGIN
+	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP CONSTRAINT [FK_OralConsultation_Resident]
+	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP COLUMN [ResidentID]
+	END
 --1.0.2.0

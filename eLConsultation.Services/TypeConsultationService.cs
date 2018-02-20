@@ -48,8 +48,8 @@ namespace eLConsultation.Data
             IList<TypeConsultationSetItem> result = new List<TypeConsultationSetItem>();
 
             var query = from typeconsultation in db.TypeConsultations
-                            //join t1 in db.Residents on typeconsultation.ResidentID equals t1.ResidentID into r1
-                            //from resident in r1.DefaultIfEmpty()
+                        join t1 in db.Issues on typeconsultation.IssueID equals t1.IssueID into r1
+                        from issue in r1.DefaultIfEmpty()
                         join t2 in db.ConsultationTypes on typeconsultation.ConsultationTypeID equals t2.ConsultationTypeID into r2
                         from consultationtype in r2.DefaultIfEmpty()
                         join t3 in db.TargetGroups on typeconsultation.TargetGroupID equals t3.TargetGroupID into r3
@@ -61,7 +61,7 @@ namespace eLConsultation.Data
                         select new
                         {
                             TypeConsultationTable = typeconsultation,
-                            //ResidentTable = resident,
+                            IssueTable = issue,
                             ConsultationTypeTable = consultationtype,
                             TargetGroupTable = targetgroup,
                             ProcessStatusTable = processstatus,
@@ -89,7 +89,8 @@ namespace eLConsultation.Data
             result = query.Select(list => new TypeConsultationSetItem
             {
                 TypeConsultationID = list.TypeConsultationTable.TypeConsultationID,
-                //ResidentID = list.TypeConsultationTable.ResidentID,
+                IssueID = list.TypeConsultationTable.IssueID,
+                IssueName = list.IssueTable .IssueName, 
                 TypeConsultationDate = list.TypeConsultationTable.TypeConsultationDate,
                 ConsultationTypeID = list.TypeConsultationTable.ConsultationTypeID,
                 ConsultationTypeName = list.ConsultationTypeTable.ConsultationTypeName,

@@ -2337,6 +2337,8 @@
     <Content Include="Views\Issue\Template.cshtml" />
     <Content Include="Views\TypeConsultation\IssueDispatcher.cshtml" />
     <Content Include="Views\TypeConsultation\AnonymousIssue.cshtml" />
+    <Content Include="Views\OralConsultation\AnonymousIssue.cshtml" />
+    <Content Include="Views\OralConsultation\IssueDispatcher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

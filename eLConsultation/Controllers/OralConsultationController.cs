@@ -1,11 +1,7 @@
 ﻿using eLConsultation.Data;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
@@ -53,6 +49,13 @@ namespace eLConsultation.Controllers
             var residentSearch = new ResidentSearch();
             return View("Dispatcher", residentSearch);
         }
+
+        public ActionResult IssueDispatcher()
+        {
+            var issueSearch = new IssueSearch();
+            return View("IssueDispatcher", issueSearch);
+        }
+
         public ActionResult Resident(int? residentID = null)
         {
             var item = residentService.GetResidentItem();
@@ -65,11 +68,20 @@ namespace eLConsultation.Controllers
             var item = issueService.GetIssueItemByResidentID(residentID);
             InitializeIssueViewBugs();
             return View("Issue", item);
-        }        
+        }
+
+        public ActionResult AnonymousIssue()
+        {
+            var item = issueService.GetAnonymousIssueItem();
+            InitializeIssueViewBugs();
+            return View("AnonymousIssue", item);
+        }
 
         public ActionResult InitOralConsultation(int issueID)
         {
             InitializeOralConsultationViewBugs();
+            var issueItem = issueService.GetIssueItemByID(issueID);
+            InitializeOralConsultationIssueViewBugs(issueItem);
             var item = oralConsultationService.GetOralConsultationItemByIssueID(issueID);
             return View("OralConsultation", item);
         }
@@ -110,6 +122,23 @@ namespace eLConsultation.Controllers
             {
                 InitializeIssueViewBugs();
                 return View("Issue", item);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveAnonymousIssue(AnonymousIssueItem item)
+        {
+            if (ModelState.IsValid)
+            {
+                item = issueService.SaveAnonymousIssue(item);
+                InitializeOralConsultationViewBugs();
+                InitializeAnonymousIssueViewBugs(item);
+                return RedirectToAction("InitOralConsultation", new { issueID = item.IssueID });
+            }
+            else
+            {
+                InitializeIssueViewBugs();
+                return View("AnonymousIssue", item);
             }
         }
 
@@ -199,6 +228,22 @@ namespace eLConsultation.Controllers
             ViewBag.vbTargetGroups = oralConsultationService.GetTargetGroupDropDownItems();
             ViewBag.vbInvocationTypes = oralConsultationService.GetInvocationTypeDropDownItems();
             ViewBag.PrevUrl = Request.UrlReferrer.AbsolutePath.ToString();
+        }
+
+        private void InitializeOralConsultationIssueViewBugs(IssueItem item)
+        {
+            ViewBag.ResidentID = item.ResidentID;
+            ViewBag.IssueCategoryID = item.IssueCategoryID;
+            ViewBag.ResidentName = item.FirstName + " " + item.MiddleName + " " + item.LastName;
+            ViewBag.IdentificatorNumber = item.IdentificatorNumber;
+            ViewBag.BirthDate = String.Format("{0:yyyy-MM-dd}", item.BirthDate);
+            ViewBag.CompanyName = item.CompanyName;
+        }
+
+        private void InitializeAnonymousIssueViewBugs(AnonymousIssueItem item)
+        {
+            ViewBag.IssueCategoryID = item.IssueCategoryID;
+            ViewBag.IssueName = item.IssueName;
         }
 
     }

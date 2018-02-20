@@ -11,8 +11,6 @@ namespace eLConsultation.Data
     {
         public int OralConsultationID { get; set; }
 
-        public int ResidentID { get; set; }
-
         public int IssueID { get; set; }
 
         public DateTime? OralConsultationDate { get; set; }
