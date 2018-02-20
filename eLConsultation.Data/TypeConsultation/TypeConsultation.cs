@@ -12,7 +12,7 @@ namespace eLConsultation.Data
 
         public string TypeConsultationName { get; set; }
 
-        public int? ResidentID { get; set; }
+        //public int? ResidentID { get; set; }
 
         public int IssueID { get; set; }
 

@@ -20,7 +20,7 @@
                 <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
             </div>
             <header class="header card-header">
-                @if(Model.IssueCategoryID == 1)
+                @if(Model.IssueCategoryID == 1 && Model.ResidentID !=null)
                 { 
                 <h6 style="color:#21A8D8">Քաղաքացի</h6>
                 <div class="consultationTemplateRresident">

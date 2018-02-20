@@ -8,7 +8,8 @@
     .Name("ToolBar")
     .Items(items =>
     {
-        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertOralConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Ավելացնել</button>");
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"InsertOralConsultation()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Քաղաքացի</button>");
+        items.Add().Template("<button type=\"button\" name=\"Insert\" onclick=\"OpenIssueDispatcher()\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus\"></i>&nbsp; Անանուն</button>");
     })
     )
     @* Search Panel - Right Slide *@
@@ -65,6 +66,10 @@
 
     function InsertOralConsultation() {
         window.location = '@Url.Action("Dispatcher", "OralConsultation")';
+    }
+
+    function OpenIssueDispatcher() {
+        window.location = '@Url.Action("IssueDispatcher", "OralConsultation")';
     }
 
     function DetailsOralConsultation(e) {
@@ -146,8 +151,8 @@
           .Columns(columns =>
           {
               columns.Bound(c => c.OralConsultationID).Title("Հ/հ").Width(50).MinScreenWidth(768);
-              columns.Bound(c => c.ResidentName).Title("Քաղաքացի");
-              columns.Bound(c => c.IdentificatorNumber).Title("Ա․Հ․Փ․").Width(130).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
+              //columns.Bound(c => c.ResidentName).Title("Քաղաքացի");
+              columns.Bound(c => c.IssueName ).Title("Խնդիր").Width(130).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
               columns.Bound(c => c.OralConsultationDate).Title("Խորհրդատվության ա/թ").Width(180).MinScreenWidth(768).HtmlAttributes(new { style = "text-align:center" });
               columns.Command(commands =>
               {

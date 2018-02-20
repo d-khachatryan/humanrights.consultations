@@ -38,22 +38,23 @@ namespace eLConsultation.Data
             IList<OralConsultationSetItem> result = new List<OralConsultationSetItem>();
 
             var query = from oralconsultation in db.OralConsultations
-                        join t1 in db.Residents on oralconsultation.ResidentID equals t1.ResidentID into r1
-                        from resident in r1.DefaultIfEmpty()
+                        join t1 in db.Issues on oralconsultation.IssueID equals t1.IssueID into r1
+                        from issue in r1.DefaultIfEmpty()
                         join t2 in db.InvocationTypes on oralconsultation.InvocationTypeID equals t2.InvocationTypeID into r2
                         from invocationtype in r2.DefaultIfEmpty()
                         join t3 in db.TargetGroups on oralconsultation.TargetGroupID equals t3.TargetGroupID into r3
                         from targetgroup in r3.DefaultIfEmpty()
-                        select new { OralConsultationTable = oralconsultation, ResidentTable = resident, InvocationTypeTable = invocationtype, TargetGroupTable = targetgroup };
+                        select new { OralConsultationTable = oralconsultation, IssueTable = issue, InvocationTypeTable = invocationtype, TargetGroupTable = targetgroup };
 
-            if (oralConsultationSearch.FirstName != "")
-            {
-                query = from p in query where p.ResidentTable.FirstName.StartsWith(oralConsultationSearch.FirstName) select p;
-            }
-            if (oralConsultationSearch.LastName != "")
-            {
-                query = from p in query where p.ResidentTable.LastName.StartsWith(oralConsultationSearch.LastName) select p;
-            }
+            //if (oralConsultationSearch.FirstName != "")
+            //{
+            //    query = from p in query where p.ResidentTable.FirstName.StartsWith(oralConsultationSearch.FirstName) select p;
+            //}
+            //if (oralConsultationSearch.LastName != "")
+            //{
+            //    query = from p in query where p.ResidentTable.LastName.StartsWith(oralConsultationSearch.LastName) select p;
+            //}
+
             if (oralConsultationSearch.OralConsultationDate != null)
             {
                 query = from p in query where p.OralConsultationTable.OralConsultationDate == oralConsultationSearch.OralConsultationDate select p;
@@ -66,13 +67,9 @@ namespace eLConsultation.Data
             result = query.Select(list => new OralConsultationSetItem
             {
                 OralConsultationID = list.OralConsultationTable.OralConsultationID,
-                ResidentID = list.OralConsultationTable.ResidentID,
                 OralConsultationDate = list.OralConsultationTable.OralConsultationDate,
-                FirstName = list.ResidentTable.FirstName,
-                LastName = list.ResidentTable.LastName,
-                MiddleName = list.ResidentTable.MiddleName,
-                BirthDate = list.ResidentTable.BirthDate,
-                IdentificatorNumber = list.ResidentTable.IdentificatorNumber,
+                IssueID = list.OralConsultationTable.IssueID,
+                IssueName = list.IssueTable.IssueName,
                 TargetGroupName = list.TargetGroupTable.TargetGroupName,
                 InvocationTypeName = list.InvocationTypeTable.InvocationTypeName
             }).ToList();
@@ -83,24 +80,16 @@ namespace eLConsultation.Data
         public OralConsultationDetail GetOralConsultationDetail(int oralConsultationID)
         {
             var oralConsultationQuery = from oralconsultation in db.OralConsultations
-                                        join t1 in db.Residents on oralconsultation.ResidentID equals t1.ResidentID into r1
-                                        from resident in r1.DefaultIfEmpty()
                                         join t2 in db.InvocationTypes on oralconsultation.InvocationTypeID equals t2.InvocationTypeID into r2
                                         from invocationtype in r2.DefaultIfEmpty()
                                         join t3 in db.TargetGroups on oralconsultation.TargetGroupID equals t3.TargetGroupID into r3
                                         from targetgroup in r3.DefaultIfEmpty()
                                         where oralconsultation.OralConsultationID == oralConsultationID
-                                        select new { DetailTable = oralconsultation, ResidentTable = resident, InvocationTypeTable = invocationtype, TargetGroupTable = targetgroup };
+                                        select new { DetailTable = oralconsultation, InvocationTypeTable = invocationtype, TargetGroupTable = targetgroup };
 
             OralConsultationDetail oralConsultationDetail = oralConsultationQuery.Select(list => new OralConsultationDetail
             {
                 OralConsultationID = list.DetailTable.OralConsultationID,
-                ResidentID = list.DetailTable.ResidentID,
-                FirstName = list.ResidentTable.FirstName,
-                LastName = list.ResidentTable.LastName,
-                MiddleName = list.ResidentTable.MiddleName,
-                IdentificatorNumber = list.ResidentTable.IdentificatorNumber,
-                BirthDate = list.ResidentTable.BirthDate,
                 OralConsultationDate = list.DetailTable.OralConsultationDate,
                 InvocationTypeID = list.DetailTable.InvocationTypeID,
                 InvocationTypeName = list.InvocationTypeTable.InvocationTypeName,
@@ -121,17 +110,14 @@ namespace eLConsultation.Data
         public OralConsultationItem GetOralConsultationItemByIssueID(int issueID)
         {
             var issue = db.Issues.Find(issueID);
-            var resident = db.Residents.Find(issue.ResidentID);
-
+            Resident resident = null;
+            if (issue.ResidentID != null)
+            {
+                resident = db.Residents.Find(issue.ResidentID);
+            }
             OralConsultationItem item = new OralConsultationItem
             {
                 OralConsultationID = 0,
-                ResidentID = resident.ResidentID,
-                FirstName = resident.FirstName,
-                LastName = resident.LastName,
-                MiddleName = resident.MiddleName,
-                IdentificatorNumber = resident.IdentificatorNumber,
-                BirthDate = resident.BirthDate,
                 IssueID = issue.IssueID,
                 IssueName = issue.IssueName,
                 IssueDate = issue.IssueDate,
@@ -147,6 +133,16 @@ namespace eLConsultation.Data
                 ChangeDate = null
             };
 
+            //if (issue.ResidentID != null)
+            //{
+            //    item.ResidentID = resident.ResidentID;
+            //    item.FirstName = resident.FirstName;
+            //    item.LastName = resident.LastName;
+            //    item.MiddleName = resident.MiddleName;
+            //    item.IdentificatorNumber = resident.IdentificatorNumber;
+            //    item.BirthDate = resident.BirthDate;
+            //}
+
             return item;
         }
 
@@ -154,17 +150,17 @@ namespace eLConsultation.Data
         {
             var oralConsultation = db.OralConsultations.Find(oralConsultationID);
             var issue = db.Issues.Find(oralConsultation.IssueID);
-            var resident = db.Residents.Find(oralConsultation.ResidentID);
+            //var resident = db.Residents.Find(oralConsultation.ResidentID);
 
             OralConsultationItem item = new OralConsultationItem
             {
                 OralConsultationID = oralConsultation.OralConsultationID,
-                ResidentID = resident.ResidentID,
-                FirstName = resident.FirstName,
-                LastName = resident.LastName,
-                MiddleName = resident.MiddleName,
-                IdentificatorNumber = resident.IdentificatorNumber,
-                BirthDate = resident.BirthDate,
+                //ResidentID = resident.ResidentID,
+                //FirstName = resident.FirstName,
+                //LastName = resident.LastName,
+                //MiddleName = resident.MiddleName,
+                //IdentificatorNumber = resident.IdentificatorNumber,
+                //BirthDate = resident.BirthDate,
                 IssueID = issue.IssueID,
                 IssueName = issue.IssueName,
                 IssueDate = issue.IssueDate,
@@ -284,7 +280,7 @@ namespace eLConsultation.Data
             OralConsultation entity = new OralConsultation
             {
                 OralConsultationID = item.OralConsultationID,
-                ResidentID = (int)item.ResidentID,
+                //ResidentID = (int)item.ResidentID,
                 IssueID = (int)item.IssueID,
                 OralConsultationDate = item.OralConsultationDate,
                 InvocationTypeID = item.InvocationTypeID,
@@ -314,7 +310,7 @@ namespace eLConsultation.Data
             OralConsultation entity = new OralConsultation
             {
                 OralConsultationID = item.OralConsultationID,
-                ResidentID = (int)item.ResidentID,
+                //ResidentID = (int)item.ResidentID,
                 IssueID = (int)item.IssueID,
                 OralConsultationDate = item.OralConsultationDate,
                 InvocationTypeID = item.InvocationTypeID,

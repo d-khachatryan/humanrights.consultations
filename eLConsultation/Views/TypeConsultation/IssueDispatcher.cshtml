@@ -1,0 +1,72 @@
+﻿@model eLConsultation.Data.IssueSearch
+
+@{
+    ViewBag.Title = "Քաղաքացի";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+<div id="backButton">
+    <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "TypeConsultation")"><i class="icons icon-action-undo"></i></a>
+</div>
+
+
+
+<div class="container" style="max-width:900px; margin:0 auto">
+    <div class="row dispatcherGridToolbar">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("AnonymousIssue", "TypeConsultation")"><i class="icons icon-plus"></i> Խնդիր</a>
+        <div id="searchInputs" style="text-align:right">
+            @Html.Kendo().TextBoxFor(model => model.IssueName).HtmlAttributes(new { placeholder = "անուն", style = " height:32px; margin:1px" })
+            <button id="searchSelectResident" style="margin:1px; border-radius:0" class="btn btn-outline-secondary btn-sm" onclick="return Search();"><i class="icons icon-magnifier"></i></button>
+        </div>
+    </div>
+    @(Html.Kendo().Grid<eLConsultation.Data.IssueSetItem>()
+              .Name("grIssueMobile")
+              .Events(e => e.DataBound("dispatcherExtraStylingToGrid"))
+              .NoRecords("Գրառումներ չկան")
+              .Columns(columns =>
+              {
+
+              columns.Bound(o => o.IssueID).Hidden();
+              columns
+                  .Template(@<text></text>)
+                  .ClientTemplate("<a href='" + Url.Action("InitTypeConsultation", "TypeConsultation", new { issueID = "#= IssueID #" }) + "'>#= IssueName #</a>")
+                  .Title("Խնդիր");
+                  columns.Bound(o => o.IssueDate).Width(98);
+              })
+              .Scrollable()
+              .Pageable()
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Events(events => events.Error("error_handler"))
+                  .Read(read => read.Action("FilterIssues", "Issue").Data("getParameters"))
+              )
+)
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#grIssueMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function Clear() {
+        $("#IssueName").val("");
+        $("#grIssueMobile").data("kendoGrid").dataSource.read();
+        return false;
+    }
+    function getParameters() {
+        return {
+            issueName: $("#IssueName").val()
+        };
+    }
+</script>
+
+<script>
+    //Correction Grid Height
+    var winHeight = $(window).height();
+    var headerHeight = $("header.navbar").height();
+    $(".k-grid").height(winHeight - headerHeight - 60);
+
+    //Corection Toolbar height
+    if ($(window).width() > 550) {
+        $(".dispatcherGridToolbar").height($("div#searchInputs").height());
+    }
+</script>

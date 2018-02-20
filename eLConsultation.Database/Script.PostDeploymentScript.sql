@@ -1277,7 +1277,8 @@ if EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTR
 IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResponseContentID' AND Object_ID = Object_ID(N'dbo.TypeConsultationDeclarationType'))
 	ALTER TABLE [dbo].[TypeConsultationDeclarationType] DROP COLUMN [ResponseContentID]
 
-ALTER TABLE [dbo].[TypeConsultationDeclarationType] ADD [ResponseContent] NVARCHAR(100)
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResponseContent' AND Object_ID = Object_ID(N'dbo.TypeConsultationDeclarationType'))
+	ALTER TABLE [dbo].[TypeConsultationDeclarationType] ADD [ResponseContent] NVARCHAR(100)
 
 if EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME ='FK_TmpTypeConsultationDeclarationType_ResponseContent')
 	ALTER TABLE [dbo].[TmpTypeConsultationDeclarationType] DROP CONSTRAINT [FK_TmpTypeConsultationDeclarationType_ResponseContent]
@@ -1285,15 +1286,34 @@ if EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTR
 IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResponseContentID' AND Object_ID = Object_ID(N'dbo.TmpTypeConsultationDeclarationType'))
 ALTER TABLE [dbo].[TmpTypeConsultationDeclarationType] DROP COLUMN [ResponseContentID]
 
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResponseContent' AND Object_ID = Object_ID(N'dbo.TmpTypeConsultationDeclarationType'))
 ALTER TABLE [dbo].[TmpTypeConsultationDeclarationType] ADD [ResponseContent] NVARCHAR(100)
 
 UPDATE dbo.Setting SET SettingValue = '1.0.1.0' WHERE SettingItem = 'version' 
 GO
+--1.0.1.0
 
 --1.0.2.0
-ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD BirthYear SMALLINT
-ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Phone nvarchar(20)
-ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Email nvarchar(50)
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'BirthYear' AND Object_ID = Object_ID(N'dbo.Resident'))
+	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD BirthYear SMALLINT
 
-UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version'
-GO
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'Phone' AND Object_ID = Object_ID(N'dbo.Resident'))
+	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Phone nvarchar(20)
+
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'Email' AND Object_ID = Object_ID(N'dbo.Resident'))
+	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Email nvarchar(50)
+
+IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = Object_ID(N'dbo.TypeConsultation'))
+	BEGIN
+	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP CONSTRAINT [FK_TypeConsultation_Resident]
+	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP COLUMN [ResidentID]
+	END
+
+IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = Object_ID(N'dbo.OralConsultation'))
+	BEGIN
+	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP CONSTRAINT [FK_OralConsultation_Resident]
+	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP COLUMN [ResidentID]
+	END
+
+UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version' 
+--1.0.2.0

@@ -13,19 +13,6 @@ namespace eLConsultation.Data
         [Display(Name = "Գործի անվանում")]
         public string TypeConsultationName { get; set; }
 
-        public int? ResidentID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string MiddleName { get; set; }
-
-        [Display(Name = "Նույնականացման համար")]
-        public string IdentificatorNumber { get; set; }
-
-        [Display(Name = "Ծննդյան ամսաթիվ")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? BirthDate { get; set; }
-
         public int? IssueID { get; set; }
         public string IssueName { get; set; }
         public string IssueDescription { get; set; }
@@ -61,12 +48,5 @@ namespace eLConsultation.Data
 
         public DateTime? ChangeDate { get; set; }
 
-        public string ResidentName
-        {
-            get
-            {
-                return FirstName + " " + MiddleName + " " + LastName;
-            }
-        }
     }
 }

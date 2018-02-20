@@ -19,13 +19,13 @@
     @Html.HiddenFor(model => model.GUID)
     @Html.HiddenFor(model => model.InitializationType)
     @Html.HiddenFor(model => model.IssueID)
-    @Html.HiddenFor(model => model.ResidentID)
+
     <div class="card" style="max-width:670px; margin:0 auto">
         <div class="card-header">
             <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
         </div>
         <header class="header card-header">
-            @if (ViewBag.IssueCategoryID == 1)
+            @if (ViewBag.IssueCategoryID == 1 && ViewBag.ResidentID != null)
             {
                 <h6 style="color:#21A8D8">Քաղաքացի</h6>
                 <div class="consultationTemplateRresident">
@@ -45,7 +45,7 @@
                     </p>
                 </div>
             }
-            @if (ViewBag.IssueCategoryID == 2)
+            @if (ViewBag.IssueCategoryID == 2 && ViewBag.CompanyID != null)
             {
                 <h6 style="color:#21A8D8">Կազմակերպություն</h6>
                 <div class="consultationTemplateRresident">
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </header>
-        
+
 
         <div class="accordion consultationTemplateBody card-body">
             <div class="card">
@@ -95,45 +95,45 @@
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.ConsultationTypeID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.ConsultationTypeID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbConsultationTypes)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbConsultationTypes)
                         )
                     </div>
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.ProcessStatusID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.ProcessStatusID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbProcessStatuses)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbProcessStatuses)
                         )
                     </div>
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.ConsultationResultID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.ConsultationResultID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbConsultationResults)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbConsultationResults)
                         )
                     </div>
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.TargetGroupID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.TargetGroupID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbTargetGroups)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbTargetGroups)
                         )
                     </div>
                 </div>
@@ -142,241 +142,241 @@
                 <div class="card-header">Խորհրդատու</div>
                 <div class="card-body padding-0">
                     @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationConsultantItem>()
-                                .Name("grConsultant")
-                                .Events(e => e.DataBound("correctPopUpGrid"))
-                                .Columns(columns =>
-                                {
-                                    columns.Bound(p => p.ID).Hidden();
-                                    columns.Bound(p => p.TypeConsultationConsultantID).Hidden();
-                                    columns.Bound(p => p.TypeConsultationID).Hidden();
-                                    columns.Bound(p => p.ConsultantID).Hidden();
-                                    columns.Bound(p => p.ConsultantName);
-                                    columns.Command(command =>
-                                    {
-                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                        command.Destroy().Text(" ");
-                                    }).Width(115);
-                                })
-                                .HtmlAttributes(new { style = "height: 271px" })
-                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                    .TemplateName("TypeConsultationConsultantPopUp")
-                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                                .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(model => model.Id(p => p.ID))
-                                    .Create(update => update.Action("TypeConsultationConsultantCreate", "TypeConsultationConsultant").Data("getParameters"))
-                                    .Read(read => read.Action("TypeConsultationConsultantSelect", "TypeConsultationConsultant").Data("getParameters"))
-                                    .Update(update => update.Action("TypeConsultationConsultantUpdate", "TypeConsultationConsultant"))
-                                    .Destroy(update => update.Action("TypeConsultationConsultantDelete", "TypeConsultationConsultant"))
-                                )
-                                .Scrollable()
+                                        .Name("grConsultant")
+                                        .Events(e => e.DataBound("correctPopUpGrid"))
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.ID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationConsultantID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationID).Hidden();
+                                            columns.Bound(p => p.ConsultantID).Hidden();
+                                            columns.Bound(p => p.ConsultantName);
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                command.Destroy().Text(" ");
+                                            }).Width(115);
+                                        })
+                                        .HtmlAttributes(new { style = "height: 271px" })
+                                        .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                            .TemplateName("TypeConsultationConsultantPopUp")
+                                            .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid")
+                    )))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Create(update => update.Action("TypeConsultationConsultantCreate", "TypeConsultationConsultant").Data("getParameters"))
+                                            .Read(read => read.Action("TypeConsultationConsultantSelect", "TypeConsultationConsultant").Data("getParameters"))
+                                            .Update(update => update.Action("TypeConsultationConsultantUpdate", "TypeConsultationConsultant"))
+                                            .Destroy(update => update.Action("TypeConsultationConsultantDelete", "TypeConsultationConsultant"))
+                                        )
+                                        .Scrollable()
                     )
                 </div>
             </div>
-        <div class="card">
-            <div class="card-header">Կառույց որը խախտում է կատարել</div>
-            <div class="card-body padding-0">
-                @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationInstanceItem>()
-                            .Name("grConsultationInstance")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.TypeConsultationInstanceID).Hidden();
-                                columns.Bound(p => p.TypeConsultationID).Hidden();
-                                columns.Bound(p => p.OrganizationID).Hidden();
-                                columns.Bound(p => p.OrganizationName);
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("TypeConsultationInstancePopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("TypeConsultationInstanceCreate", "TypeConsultationInstance").Data("getParameters"))
-                                .Read(read => read.Action("TypeConsultationInstanceSelect", "TypeConsultationInstance").Data("getParameters"))
-                                .Update(update => update.Action("TypeConsultationInstanceUpdate", "TypeConsultationInstance"))
-                                .Destroy(update => update.Action("TypeConsultationInstanceDelete", "TypeConsultationInstance"))
-                            )
-                            .Scrollable()
-                )
+            <div class="card">
+                <div class="card-header">Կառույց որը խախտում է կատարել</div>
+                <div class="card-body padding-0">
+                    @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationInstanceItem>()
+                                        .Name("grConsultationInstance")
+                                        .Events(e => e.DataBound("correctPopUpGrid"))
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.ID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationInstanceID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationID).Hidden();
+                                            columns.Bound(p => p.OrganizationID).Hidden();
+                                            columns.Bound(p => p.OrganizationName);
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                command.Destroy().Text(" ");
+                                            }).Width(115);
+                                        })
+                                        .HtmlAttributes(new { style = "height: 271px" })
+                                        .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                            .TemplateName("TypeConsultationInstancePopUp")
+                                            .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                        .Deactivate("correctPopUpGrid")
+                        .Activate("correctPopUpGrid")
+                        .Open("correctPopUpGrid")
+                        )))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Create(update => update.Action("TypeConsultationInstanceCreate", "TypeConsultationInstance").Data("getParameters"))
+                                            .Read(read => read.Action("TypeConsultationInstanceSelect", "TypeConsultationInstance").Data("getParameters"))
+                                            .Update(update => update.Action("TypeConsultationInstanceUpdate", "TypeConsultationInstance"))
+                                            .Destroy(update => update.Action("TypeConsultationInstanceDelete", "TypeConsultationInstance"))
+                                        )
+                                        .Scrollable()
+                    )
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Գրություն</div>
+                <div class="card-body padding-0">
+                    @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationDeclarationTypeItem>()
+                                        .Name("grTypeConsultationDeclarationType")
+                                        .Events(e => e.DataBound("correctPopUpGrid"))
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.ID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationDeclarationTypeID).Hidden();
+                                            columns.Bound(p => p.TypeConsultationID).Hidden();
+                                            columns.Bound(p => p.DeclarationTypeID).Hidden();
+                                            columns.Bound(p => p.DeclarationTypeName);
+                                            columns.Bound(p => p.DeclarationDate).Width(95).Title("Ամսաթիվ");
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                command.Destroy().Text(" ");
+                                            }).Width(115);
+                                        })
+                                        .HtmlAttributes(new { style = "height: 271px" })
+                                        .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                            .TemplateName("TypeConsultationDeclarationTypePopUp")
+                                            .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                        .Deactivate("correctPopUpGrid")
+                        .Activate("correctPopUpGrid")
+                        .Open("correctPopUpGrid")
+                        )))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Create(update => update.Action("TypeConsultationDeclarationTypeCreate", "TypeConsultationDeclarationType").Data("getParameters"))
+                                            .Read(read => read.Action("TypeConsultationDeclarationTypeSelect", "TypeConsultationDeclarationType").Data("getParameters"))
+                                            .Update(update => update.Action("TypeConsultationDeclarationTypeUpdate", "TypeConsultationDeclarationType"))
+                                            .Destroy(update => update.Action("TypeConsultationDeclarationTypeDelete", "TypeConsultationDeclarationType"))
+                                        )
+                                        .Scrollable()
+                    )
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Իրավունք</div>
+                <div class="card-body padding-0">
+                    @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationRightItem>()
+                                                .Name("grRight")
+                                                .Events(e => e.DataBound("correctPopUpGrid"))
+                                                .Columns(columns =>
+                                                {
+                                                    columns.Bound(p => p.ID).Hidden();
+                                                    columns.Bound(p => p.TypeConsultationRightID).Hidden();
+                                                    columns.Bound(p => p.TypeConsultationID).Hidden();
+                                                    columns.Bound(p => p.HumanRightID).Hidden();
+                                                    columns.Bound(p => p.HumanRightName);
+                                                    columns.Command(command =>
+                                                    {
+                                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                        command.Destroy().Text(" ");
+                                                    }).Width(115);
+                                                })
+                                                .HtmlAttributes(new { style = "height: 271px" })
+                                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                                    .TemplateName("TypeConsultationRightPopUp")
+                                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                            .Deactivate("correctPopUpGrid")
+                            .Activate("correctPopUpGrid")
+                            .Open("correctPopUpGrid")
+                            )))
+                                                .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                    .PageSize(20)
+                                                    .Model(model => model.Id(p => p.ID))
+                                                    .Create(update => update.Action("TypeConsultationRightCreate", "TypeConsultationRight").Data("getParameters"))
+                                                    .Read(read => read.Action("TypeConsultationRightSelect", "TypeConsultationRight").Data("getParameters"))
+                                                    .Update(update => update.Action("TypeConsultationRightUpdate", "TypeConsultationRight"))
+                                                    .Destroy(update => update.Action("TypeConsultationRightDelete", "TypeConsultationRight"))
+                                                )
+                                                .Scrollable()
+                    )
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <a href="#" class="heading">
+                    <div class="icon"></div>
+                    <div class="title">Լիազորություններ</div>
+                </a>
+
+                <div class="content">
+                    @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationPermissionItem>()
+                                                .Name("grPermission")
+                                                .Events(e => e.DataBound("correctPopUpGrid"))
+                                                .Columns(columns =>
+                                                {
+                                                    columns.Bound(p => p.ID).Hidden();
+                                                    columns.Bound(p => p.UserName);
+                                                    columns.Bound(p => p.IsRead).HtmlAttributes(new { style = "text-align: center;" })
+                                                            .ClientTemplate("#if(IsRead){#" +
+                                                                   "<i class=\"fa fa-check\"></i>" +
+                                                                   "#} else {#" +
+                                                                   "<i class=\"fa fa-minus\"></i>" +
+                                                                   "# } #");
+                                                    columns.Bound(p => p.IsChange).HtmlAttributes(new { style = "text-align: center;" })
+                                                            .ClientTemplate("#if(IsChange){#" +
+                                                                   "<i class=\"fa fa-check\"></i>" +
+                                                                   "#} else {#" +
+                                                                   "<i class=\"fa fa-minus\"></i>" +
+                                                                   "# } #");
+                                                    columns.Command(command =>
+                                                    {
+                                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                        command.Destroy().Text(" ");
+                                                    }).Width(115);
+                                                })
+                                                .HtmlAttributes(new { style = "height: 271px" })
+                                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                                    .TemplateName("TypeConsultationPermissionPopUp")
+                                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                                .Deactivate("correctPopUpGrid")
+                                .Activate("correctPopUpGrid")
+                                .Open("correctPopUpGrid")
+                                )))
+                                                .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                    .PageSize(20)
+                                                    .Model(model => model.Id(p => p.ID))
+                                                    .Create(update => update.Action("TypeConsultationPermissionCreate", "TypeConsultationPermission").Data("getParameters"))
+                                                    .Read(read => read.Action("TypeConsultationPermissionSelect", "TypeConsultationPermission").Data("getParameters"))
+                                                    .Update(update => update.Action("TypeConsultationPermissionUpdate", "TypeConsultationPermission"))
+                                                    .Destroy(update => update.Action("TypeConsultationPermissionDelete", "TypeConsultationPermission"))
+                                                )
+                                                .Scrollable()
+                    )
+                </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">Գրություն</div>
-            <div class="card-body padding-0">
-                @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationDeclarationTypeItem>()
-                            .Name("grTypeConsultationDeclarationType")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.TypeConsultationDeclarationTypeID).Hidden();
-                                columns.Bound(p => p.TypeConsultationID).Hidden();
-                                columns.Bound(p => p.DeclarationTypeID).Hidden();
-                                columns.Bound(p => p.DeclarationTypeName);
-                                columns.Bound(p => p.DeclarationDate).Width(95).Title("Ամսաթիվ");
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("TypeConsultationDeclarationTypePopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("TypeConsultationDeclarationTypeCreate", "TypeConsultationDeclarationType").Data("getParameters"))
-                                .Read(read => read.Action("TypeConsultationDeclarationTypeSelect", "TypeConsultationDeclarationType").Data("getParameters"))
-                                .Update(update => update.Action("TypeConsultationDeclarationTypeUpdate", "TypeConsultationDeclarationType"))
-                                .Destroy(update => update.Action("TypeConsultationDeclarationTypeDelete", "TypeConsultationDeclarationType"))
-                            )
-                            .Scrollable()
-            )
+        <div class="card-footer" style="padding-left:10px;">
+            <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
+            @if (ViewBag.PrevUrl == "/Resident/Index")
+            {
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Resident")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            }
+            else if (ViewBag.PrevUrl == "/Company/Index")
+            {
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Company")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "TypeConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
+            }
+
+            @Html.ValidationSummary(false, "Առկա են խնդիրներ")
         </div>
     </div>
-    <div class="card">
-        <div class="card-header">Իրավունք</div>
-        <div class="card-body padding-0">
-            @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationRightItem>()
-                                .Name("grRight")
-                                .Events(e => e.DataBound("correctPopUpGrid"))
-                                .Columns(columns =>
-                                {
-                                    columns.Bound(p => p.ID).Hidden();
-                                    columns.Bound(p => p.TypeConsultationRightID).Hidden();
-                                    columns.Bound(p => p.TypeConsultationID).Hidden();
-                                    columns.Bound(p => p.HumanRightID).Hidden();
-                                    columns.Bound(p => p.HumanRightName);
-                                    columns.Command(command =>
-                                    {
-                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                        command.Destroy().Text(" ");
-                                    }).Width(115);
-                                })
-                                .HtmlAttributes(new { style = "height: 271px" })
-                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                    .TemplateName("TypeConsultationRightPopUp")
-                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                                .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(model => model.Id(p => p.ID))
-                                    .Create(update => update.Action("TypeConsultationRightCreate", "TypeConsultationRight").Data("getParameters"))
-                                    .Read(read => read.Action("TypeConsultationRightSelect", "TypeConsultationRight").Data("getParameters"))
-                                    .Update(update => update.Action("TypeConsultationRightUpdate", "TypeConsultationRight"))
-                                    .Destroy(update => update.Action("TypeConsultationRightDelete", "TypeConsultationRight"))
-                                )
-                                .Scrollable()
-        )
-    </div>
-</div>
-
-<div class="accordion-item">
-    <a href="#" class="heading">
-        <div class="icon"></div>
-        <div class="title">Լիազորություններ</div>
-    </a>
-
-    <div class="content">
-        @(Html.Kendo().Grid<eLConsultation.Data.TypeConsultationPermissionItem>()
-                            .Name("grPermission")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.UserName);
-                                columns.Bound(p => p.IsRead).HtmlAttributes(new { style = "text-align: center;" })
-                                        .ClientTemplate("#if(IsRead){#" +
-                                               "<i class=\"fa fa-check\"></i>" +
-                                               "#} else {#" +
-                                               "<i class=\"fa fa-minus\"></i>" +
-                                               "# } #");
-                                columns.Bound(p => p.IsChange).HtmlAttributes(new { style = "text-align: center;" })
-                                        .ClientTemplate("#if(IsChange){#" +
-                                               "<i class=\"fa fa-check\"></i>" +
-                                               "#} else {#" +
-                                               "<i class=\"fa fa-minus\"></i>" +
-                                               "# } #");
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("TypeConsultationPermissionPopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("TypeConsultationPermissionCreate", "TypeConsultationPermission").Data("getParameters"))
-                                .Read(read => read.Action("TypeConsultationPermissionSelect", "TypeConsultationPermission").Data("getParameters"))
-                                .Update(update => update.Action("TypeConsultationPermissionUpdate", "TypeConsultationPermission"))
-                                .Destroy(update => update.Action("TypeConsultationPermissionDelete", "TypeConsultationPermission"))
-                            )
-                            .Scrollable()
-        )
-    </div>
-</div>
-</div>
-<div class="card-footer" style="padding-left:10px;">
-    <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
-@if (ViewBag.PrevUrl == "/Resident/Index")
-{
-    <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Resident")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
-}
-else if (ViewBag.PrevUrl == "/Company/Index")
-{
-    <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Company")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
-}
-else
-{
-    <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "TypeConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
-}
-    
-    @Html.ValidationSummary(false, "Առկա են խնդիրներ")
-</div>
-</div>
 }
 <div id="errors"> </div>
 @Scripts.Render("~/Scripts/accordion.js")

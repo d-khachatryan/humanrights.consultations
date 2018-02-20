@@ -19,32 +19,32 @@
     @Html.HiddenFor(model => model.GUID)
     @Html.HiddenFor(model => model.InitializationType)
     @Html.HiddenFor(model => model.IssueID)
-    @Html.HiddenFor(model => model.ResidentID)
+
     <div class="card" style="max-width:670px; margin:0 auto">
         <div class="card-header">
             <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
         </div>
         <header class="header card-header">
-            <h6 style="color:#21A8D8">Քաղաքացի</h6>
-            <div class="consultationTemplateRresident">
-                <p>
-                    Ա․Ա․Հ․։
-                    <span>
-                        @Html.DisplayFor(model => model.FirstName)
-                        @Html.DisplayFor(model => model.MiddleName)
-                        @Html.DisplayFor(model => model.LastName)
-
-                    </span>
-                </p>
-                <p>
-                    Ա․Հ․Փ․։
-                    <span>@Html.DisplayFor(model => model.IdentificatorNumber)</span>
-                </p>
-                <p>
-                    Ծննդյան ա/թ։
-                    <span>@Html.DisplayFor(model => model.BirthDate)</span>
-                </p>
-            </div>
+            @if (ViewBag.IssueCategoryID == 1 && ViewBag.ResidentID != null)
+            {
+                <h6 style="color:#21A8D8">Քաղաքացի</h6>
+                <div class="consultationTemplateRresident">
+                    <p>
+                        Ա․Ա․Հ․։
+                        <span>
+                            @ViewBag.ResidentName
+                        </span>
+                    </p>
+                    <p>
+                        Ա․Հ․Փ․։
+                        <span>@ViewBag.IdentificatorNumber</span>
+                    </p>
+                    <p>
+                        Ծննդյան ա/թ։
+                        <span>@ViewBag.BirthDate</span>
+                    </p>
+                </div>
+            }
         </header>
         <header class="header card-header">
             <h6 style="color:#21A8D8">Խնդիր</h6>
@@ -67,11 +67,11 @@
                 </div>
             </div>
         </header>
-        
-        
+
+
         <div class="accordion consultationTemplateBody card-body">
             <div class="card">
-                
+
                 <div class="card-body">
                     <div class="form-group col-lg-6">
                         @Html.LabelFor(model => model.OralConsultationDate, new { @class = "control-label" })
@@ -80,23 +80,23 @@
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.InvocationTypeID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.InvocationTypeID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbInvocationTypes)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbInvocationTypes)
                         )
                     </div>
                     <div class="form-group col-lg-12">
                         @Html.LabelFor(model => model.TargetGroupID, new { @class = "control-label" })
                         @(Html.Kendo().ComboBoxFor(model => model.TargetGroupID)
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .Placeholder("-- Ընտրել --")
-                                .Filter(FilterType.StartsWith)
-                                .HtmlAttributes(new { @class = "form-control" })
-                                .BindTo(ViewBag.vbTargetGroups)
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Placeholder("-- Ընտրել --")
+                                        .Filter(FilterType.StartsWith)
+                                        .HtmlAttributes(new { @class = "form-control" })
+                                        .BindTo(ViewBag.vbTargetGroups)
                         )
                     </div>
                 </div>
@@ -105,41 +105,41 @@
                 <div class="card-header">Խորհրդատու</div>
                 <div class="card-body padding-0">
                     @(Html.Kendo().Grid<eLConsultation.Data.OralConsultationConsultantItem>()
-                                .Name("grConsultant")
-                                .Events(e => e.DataBound("correctPopUpGrid"))
-                                .Columns(columns =>
-                                {
-                                    columns.Bound(p => p.ID).Hidden();
-                                    columns.Bound(p => p.OralConsultationConsultantID).Hidden();
-                                    columns.Bound(p => p.OralConsultationID).Hidden();
-                                    columns.Bound(p => p.ConsultantID).Hidden();
-                                    columns.Bound(p => p.ConsultantName);
-                                    columns.Command(command =>
-                                    {
-                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                        command.Destroy().Text(" ");
-                                    }).Width(115);
-                                })
-                                .HtmlAttributes(new { style = "height: 271px" })
-                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                    .TemplateName("OralConsultationConsultantPopUp")
-                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            //.Close("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                                .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(model => model.Id(p => p.ID))
-                                    .Create(update => update.Action("OralConsultationConsultantCreate", "OralConsultationConsultant").Data("getParameters"))
-                                    .Read(read => read.Action("OralConsultationConsultantSelect", "OralConsultationConsultant").Data("getParameters"))
-                                    .Update(update => update.Action("OralConsultationConsultantUpdate", "OralConsultationConsultant"))
-                                    .Destroy(update => update.Action("OralConsultationConsultantDelete", "OralConsultationConsultant"))
-                                )
-                                .Scrollable()
+                                        .Name("grConsultant")
+                                        .Events(e => e.DataBound("correctPopUpGrid"))
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.ID).Hidden();
+                                            columns.Bound(p => p.OralConsultationConsultantID).Hidden();
+                                            columns.Bound(p => p.OralConsultationID).Hidden();
+                                            columns.Bound(p => p.ConsultantID).Hidden();
+                                            columns.Bound(p => p.ConsultantName);
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                command.Destroy().Text(" ");
+                                            }).Width(115);
+                                        })
+                                        .HtmlAttributes(new { style = "height: 271px" })
+                                        .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                            .TemplateName("OralConsultationConsultantPopUp")
+                                            .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    //.Close("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid")
+                    )))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Create(update => update.Action("OralConsultationConsultantCreate", "OralConsultationConsultant").Data("getParameters"))
+                                            .Read(read => read.Action("OralConsultationConsultantSelect", "OralConsultationConsultant").Data("getParameters"))
+                                            .Update(update => update.Action("OralConsultationConsultantUpdate", "OralConsultationConsultant"))
+                                            .Destroy(update => update.Action("OralConsultationConsultantDelete", "OralConsultationConsultant"))
+                                        )
+                                        .Scrollable()
                     )
                 </div>
             </div>
@@ -147,41 +147,41 @@
                 <div class="card-header">Կառույց</div>
                 <div class="card-body padding-0">
                     @(Html.Kendo().Grid<eLConsultation.Data.OralConsultationOrganizationItem>()
-                            .Name("grOrganization")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.OralConsultationOrganizationID).Hidden();
-                                columns.Bound(p => p.OralConsultationID).Hidden();
-                                columns.Bound(p => p.OrganizationID).Hidden();
-                                columns.Bound(p => p.OrganizationName);
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("OralConsultationOrganizationPopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            //.Close("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("OralConsultationOrganizationCreate", "OralConsultationOrganization").Data("getParameters"))
-                                .Read(read => read.Action("OralConsultationOrganizationSelect", "OralConsultationOrganization").Data("getParameters"))
-                                .Update(update => update.Action("OralConsultationOrganizationUpdate", "OralConsultationOrganization"))
-                                .Destroy(update => update.Action("OralConsultationOrganizationDelete", "OralConsultationOrganization"))
-                            )
-                            .Scrollable()
+                                    .Name("grOrganization")
+                                    .Events(e => e.DataBound("correctPopUpGrid"))
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(p => p.ID).Hidden();
+                                        columns.Bound(p => p.OralConsultationOrganizationID).Hidden();
+                                        columns.Bound(p => p.OralConsultationID).Hidden();
+                                        columns.Bound(p => p.OrganizationID).Hidden();
+                                        columns.Bound(p => p.OrganizationName);
+                                        columns.Command(command =>
+                                        {
+                                            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                            command.Destroy().Text(" ");
+                                        }).Width(115);
+                                    })
+                                    .HtmlAttributes(new { style = "height: 271px" })
+                                    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                        .TemplateName("OralConsultationOrganizationPopUp")
+                                        .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    //.Close("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid")
+                    )))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(20)
+                                        .Model(model => model.Id(p => p.ID))
+                                        .Create(update => update.Action("OralConsultationOrganizationCreate", "OralConsultationOrganization").Data("getParameters"))
+                                        .Read(read => read.Action("OralConsultationOrganizationSelect", "OralConsultationOrganization").Data("getParameters"))
+                                        .Update(update => update.Action("OralConsultationOrganizationUpdate", "OralConsultationOrganization"))
+                                        .Destroy(update => update.Action("OralConsultationOrganizationDelete", "OralConsultationOrganization"))
+                                    )
+                                    .Scrollable()
                     )
                 </div>
             </div>
@@ -189,123 +189,123 @@
                 <div class="card-header">Իրավունք</div>
                 <div class="card-body padding-0">
                     @(Html.Kendo().Grid<eLConsultation.Data.OralConsultationRightItem>()
-                                .Name("grRight")
-                                .Events(e => e.DataBound("correctPopUpGrid"))
-                                .Columns(columns =>
-                                {
-                                    columns.Bound(p => p.ID).Hidden();
-                                    columns.Bound(p => p.OralConsultationRightID).Hidden();
-                                    columns.Bound(p => p.OralConsultationID).Hidden();
-                                    columns.Bound(p => p.HumanRightID).Hidden();
-                                    columns.Bound(p => p.HumanRightName);
-                                    columns.Command(command =>
-                                    {
-                                        command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                        command.Destroy().Text(" ");
-                                    }).Width(115);
-                                })
-                                .HtmlAttributes(new { style = "height: 271px" })
-                                .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                                .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                    .TemplateName("OralConsultationRightPopUp")
-                                    .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            //.Close("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                                .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(model => model.Id(p => p.ID))
-                                    .Create(update => update.Action("OralConsultationRightCreate", "OralConsultationRight").Data("getParameters"))
-                                    .Read(read => read.Action("OralConsultationRightSelect", "OralConsultationRight").Data("getParameters"))
-                                    .Update(update => update.Action("OralConsultationRightUpdate", "OralConsultationRight"))
-                                    .Destroy(update => update.Action("OralConsultationRightDelete", "OralConsultationRight"))
-                                )
-                                .Scrollable()
+                                        .Name("grRight")
+                                        .Events(e => e.DataBound("correctPopUpGrid"))
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.ID).Hidden();
+                                            columns.Bound(p => p.OralConsultationRightID).Hidden();
+                                            columns.Bound(p => p.OralConsultationID).Hidden();
+                                            columns.Bound(p => p.HumanRightID).Hidden();
+                                            columns.Bound(p => p.HumanRightName);
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                                command.Destroy().Text(" ");
+                                            }).Width(115);
+                                        })
+                                        .HtmlAttributes(new { style = "height: 271px" })
+                                        .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                            .TemplateName("OralConsultationRightPopUp")
+                                            .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    //.Close("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid")
+                    )))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Create(update => update.Action("OralConsultationRightCreate", "OralConsultationRight").Data("getParameters"))
+                                            .Read(read => read.Action("OralConsultationRightSelect", "OralConsultationRight").Data("getParameters"))
+                                            .Update(update => update.Action("OralConsultationRightUpdate", "OralConsultationRight"))
+                                            .Destroy(update => update.Action("OralConsultationRightDelete", "OralConsultationRight"))
+                                        )
+                                        .Scrollable()
                     )
                 </div>
             </div>
             @*<div class="card">
-                <div class="card-header">Խնդիր</div>
-                <div class="card-body padding-0 kendoEditor">
-                    @(Html.Kendo().EditorFor(m => m.ProblemDescription)
-                          .Name("ProblemDescription")
-                          .Encode(false)
-                          .HtmlAttributes(new {aria_label = "ProblemDescription" })
-                          .Resizable(resizable => resizable.Content(true).Toolbar(true))
-                          .Tools(tools => tools
-                              .Clear()
-                              .Formatting()
-                              //.FontName()
-                              //.FontSize()
-                              .FontColor()
-                              //.BackColor()
-                              .Bold().Italic().Underline().Strikethrough()
-                              .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
-                              .InsertUnorderedList().InsertOrderedList()
-                              .Outdent().Indent()
-                              //.CreateLink().Unlink()
-                              //.InsertImage()
-                              //.InsertFile()
-                              //.SubScript()
-                              //.SuperScript()
-                              .CleanFormatting()
-                              .TableEditing()
-                          //.ViewHtml()
-                          //.Print()
-                          //.ExportAs()
-                          )
-                    //.ImageBrowser(imageBrowser => imageBrowser
-                    //      .Image("~/img/upload/{0}")
-                    //      .Read("Read", "ImageBrowser")
-                    //      .Create("Create", "ImageBrowser")
-                    //      .Destroy("Destroy", "ImageBrowser")
-                    //      .Upload("Upload", "ImageBrowser")
-                    //      .Thumbnail("Thumbnail", "ImageBrowser")
-                    //  )
-                    )
-                </div>
-            </div>*@
+                    <div class="card-header">Խնդիր</div>
+                    <div class="card-body padding-0 kendoEditor">
+                        @(Html.Kendo().EditorFor(m => m.ProblemDescription)
+                              .Name("ProblemDescription")
+                              .Encode(false)
+                              .HtmlAttributes(new {aria_label = "ProblemDescription" })
+                              .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                              .Tools(tools => tools
+                                  .Clear()
+                                  .Formatting()
+                                  //.FontName()
+                                  //.FontSize()
+                                  .FontColor()
+                                  //.BackColor()
+                                  .Bold().Italic().Underline().Strikethrough()
+                                  .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                                  .InsertUnorderedList().InsertOrderedList()
+                                  .Outdent().Indent()
+                                  //.CreateLink().Unlink()
+                                  //.InsertImage()
+                                  //.InsertFile()
+                                  //.SubScript()
+                                  //.SuperScript()
+                                  .CleanFormatting()
+                                  .TableEditing()
+                              //.ViewHtml()
+                              //.Print()
+                              //.ExportAs()
+                              )
+                        //.ImageBrowser(imageBrowser => imageBrowser
+                        //      .Image("~/img/upload/{0}")
+                        //      .Read("Read", "ImageBrowser")
+                        //      .Create("Create", "ImageBrowser")
+                        //      .Destroy("Destroy", "ImageBrowser")
+                        //      .Upload("Upload", "ImageBrowser")
+                        //      .Thumbnail("Thumbnail", "ImageBrowser")
+                        //  )
+                        )
+                    </div>
+                </div>*@
             <div class="card">
                 <div class="card-header">Խորհրդատվություն</div>
                 <div class="card-body padding-0 kendoEditor">
                     @(Html.Kendo().EditorFor(m => m.ConsultationDescription)
-                          .Name("ConsultationDescription")
-                          .Encode(false)
-                          .HtmlAttributes(new { aria_label = "ConsultationDescription" })
-                          .Resizable(resizable => resizable.Content(true).Toolbar(true))
-                          .Tools(tools => tools
-                              .Clear()
-                              .Formatting()
-                              //.FontName()
-                              //.FontSize()
-                              .FontColor()
-                              //.BackColor()
-                              .Bold().Italic().Underline().Strikethrough()
-                              .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
-                              .InsertUnorderedList().InsertOrderedList()
-                              .Outdent().Indent()
-                              //.CreateLink().Unlink()
-                              //.InsertImage()
-                              //.InsertFile()
-                              //.SubScript()
-                              //.SuperScript()
-                              .CleanFormatting()
-                              .TableEditing()
-                          //.ViewHtml()
-                          //.Print()
-                          //.ExportAs()
-                          )
-                    //.ImageBrowser(imageBrowser => imageBrowser
-                    //      .Image("~/img/upload/{0}")
-                    //      .Read("Read", "ImageBrowser")
-                    //      .Create("Create", "ImageBrowser")
-                    //      .Destroy("Destroy", "ImageBrowser")
-                    //      .Upload("Upload", "ImageBrowser")
-                    //      .Thumbnail("Thumbnail", "ImageBrowser")
-                    //  )
+                                  .Name("ConsultationDescription")
+                                  .Encode(false)
+                                  .HtmlAttributes(new { aria_label = "ConsultationDescription" })
+                                  .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                  .Tools(tools => tools
+                                      .Clear()
+                                      .Formatting()
+                                      //.FontName()
+                                      //.FontSize()
+                                      .FontColor()
+                                      //.BackColor()
+                                      .Bold().Italic().Underline().Strikethrough()
+                                      .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                                      .InsertUnorderedList().InsertOrderedList()
+                                      .Outdent().Indent()
+                                      //.CreateLink().Unlink()
+                                      //.InsertImage()
+                                      //.InsertFile()
+                                      //.SubScript()
+                                      //.SuperScript()
+                                      .CleanFormatting()
+                                      .TableEditing()
+                                  //.ViewHtml()
+                                  //.Print()
+                                  //.ExportAs()
+                                  )
+                            //.ImageBrowser(imageBrowser => imageBrowser
+                            //      .Image("~/img/upload/{0}")
+                            //      .Read("Read", "ImageBrowser")
+                            //      .Create("Create", "ImageBrowser")
+                            //      .Destroy("Destroy", "ImageBrowser")
+                            //      .Upload("Upload", "ImageBrowser")
+                            //      .Thumbnail("Thumbnail", "ImageBrowser")
+                            //  )
                     )
                     @*@Html.TextAreaFor(model => model.ConsultationDescription, new { @class = "form-control k-textbox", @rows = 12 })*@
                 </div>
@@ -319,50 +319,50 @@
 
                 <div class="content">
                     @(Html.Kendo().Grid<eLConsultation.Data.OralConsultationPermissionItem>()
-                            .Name("grPermission")
-                            .Events(e => e.DataBound("correctPopUpGrid"))
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.ID).Hidden();
-                                columns.Bound(p => p.UserName);
-                                columns.Bound(p => p.IsRead).HtmlAttributes(new { style = "text-align: center;" })
-                                        .ClientTemplate("#if(IsRead){#" +
-                                               "<i class=\"fa fa-check\"></i>" +
-                                               "#} else {#" +
-                                               "<i class=\"fa fa-minus\"></i>" +
-                                               "# } #");
-                                columns.Bound(p => p.IsChange).HtmlAttributes(new { style = "text-align: center;" })
-                                        .ClientTemplate("#if(IsChange){#" +
-                                               "<i class=\"fa fa-check\"></i>" +
-                                               "#} else {#" +
-                                               "<i class=\"fa fa-minus\"></i>" +
-                                               "# } #");
-                                columns.Command(command =>
-                                {
-                                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-                                    command.Destroy().Text(" ");
-                                }).Width(115);
-                            })
-                            .HtmlAttributes(new { style = "height: 271px" })
-                            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                .TemplateName("OralConsultationPermissionPopUp")
-                                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            //.Close("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid")
-            )))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => model.Id(p => p.ID))
-                                .Create(update => update.Action("OralConsultationPermissionCreate", "OralConsultationPermission").Data("getParameters"))
-                                .Read(read => read.Action("OralConsultationPermissionSelect", "OralConsultationPermission").Data("getParameters"))
-                                .Update(update => update.Action("OralConsultationPermissionUpdate", "OralConsultationPermission"))
-                                .Destroy(update => update.Action("OralConsultationPermissionDelete", "OralConsultationPermission"))
-                            )
-                            .Scrollable()
+                                    .Name("grPermission")
+                                    .Events(e => e.DataBound("correctPopUpGrid"))
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(p => p.ID).Hidden();
+                                        columns.Bound(p => p.UserName);
+                                        columns.Bound(p => p.IsRead).HtmlAttributes(new { style = "text-align: center;" })
+                                                .ClientTemplate("#if(IsRead){#" +
+                                                       "<i class=\"fa fa-check\"></i>" +
+                                                       "#} else {#" +
+                                                       "<i class=\"fa fa-minus\"></i>" +
+                                                       "# } #");
+                                        columns.Bound(p => p.IsChange).HtmlAttributes(new { style = "text-align: center;" })
+                                                .ClientTemplate("#if(IsChange){#" +
+                                                       "<i class=\"fa fa-check\"></i>" +
+                                                       "#} else {#" +
+                                                       "<i class=\"fa fa-minus\"></i>" +
+                                                       "# } #");
+                                        columns.Command(command =>
+                                        {
+                                            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                                            command.Destroy().Text(" ");
+                                        }).Width(115);
+                                    })
+                                    .HtmlAttributes(new { style = "height: 271px" })
+                                    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+                                    .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                        .TemplateName("OralConsultationPermissionPopUp")
+                                        .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    //.Close("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid")
+                    )))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(20)
+                                        .Model(model => model.Id(p => p.ID))
+                                        .Create(update => update.Action("OralConsultationPermissionCreate", "OralConsultationPermission").Data("getParameters"))
+                                        .Read(read => read.Action("OralConsultationPermissionSelect", "OralConsultationPermission").Data("getParameters"))
+                                        .Update(update => update.Action("OralConsultationPermissionUpdate", "OralConsultationPermission"))
+                                        .Destroy(update => update.Action("OralConsultationPermissionDelete", "OralConsultationPermission"))
+                                    )
+                                    .Scrollable()
                     )
                 </div>
             </div>
@@ -377,7 +377,7 @@
             {
                 <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
             }
-            
+
             @Html.ValidationSummary("Առկա են խնդիրներ")
         </div>
     </div>
