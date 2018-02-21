@@ -180,7 +180,7 @@
                             columns.Bound(c => c.TypeConsultationDate);
                             columns.Command(commands =>
                             {
-                                //commands.Custom("cmdUpdateTypeConsultation_#=ResidentID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                                //27commands.Custom("cmdUpdateTypeConsultation_#=ResidentID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
                                 commands.Custom("cmdDeleteTypeConsultation_#=ResidentID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
                             }).Title("Հրամաններ").Width(120);
                         })
