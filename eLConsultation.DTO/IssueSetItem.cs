@@ -9,8 +9,6 @@ namespace eLConsultation.Data
         [Display(Name = "Քաղաքացի")]
         public int? ResidentID { get; set; }
 
-        
-
         [Display(Name = "Անուն")]
         public string FirstName { get; set; }
 

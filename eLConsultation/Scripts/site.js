@@ -21,10 +21,11 @@ function showCommandIcons() {
 
 function dispatcherExtraStylingToGrid() {
     //$(".k-grid  table tr").hover(function () {
-    $(".k-grid > div.k-grid-content > table > tbody > tr.k-master-row").hover(function () {
-        $(this).addClass('trHover');
+    //$(".k-grid > div.k-grid-content > table > tbody > tr.k-master-row").hover(function () {
+    $(".k-grid > div.k-grid-content > table > tbody > tr").hover(function () {
+        $(this).addClass('trHover').css("background-color", "#21A8D8");
     }, function () {
-        $(this).removeClass('trHover');
+        $(this).removeClass('trHover').css("background-color", "#fff");
     });
 }
 

@@ -1,9 +1,17 @@
 ﻿@model eLConsultation.Data.OralConsultationItem
 @Styles.Render("~/Content/accordion")
 @{
-    ViewBag.Title = "Բանավոր Խորհրդատվություն";
+    if (ViewBag.ResidentID == null)
+    {
+        ViewBag.Title = "Անանուն բանավոր Խորհրդատվություն";
+    }
+    else
+    {
+        ViewBag.Title = "Բանավոր Խորհրդատվություն";
+    }
+
     Layout = "~/Views/Shared/_LayoutNull.cshtml";
-}
+    }
 <script type="text/javascript">
     function getParameters() {
         return {
@@ -24,28 +32,29 @@
         <div class="card-header">
             <h5 style="color:#21A8D8; text-align:center">@ViewBag.Title</h5>
         </div>
-        <header class="header card-header">
-            @if (ViewBag.IssueCategoryID == 1 && ViewBag.ResidentID != null)
-            {
-                <h6 style="color:#21A8D8">Քաղաքացի</h6>
-                <div class="consultationTemplateRresident">
-                    <p>
-                        Ա․Ա․Հ․։
-                        <span>
-                            @ViewBag.ResidentName
-                        </span>
-                    </p>
-                    <p>
-                        Ա․Հ․Փ․։
-                        <span>@ViewBag.IdentificatorNumber</span>
-                    </p>
-                    <p>
-                        Ծննդյան ա/թ։
-                        <span>@ViewBag.BirthDate</span>
-                    </p>
-                </div>
-            }
+
+        @if (ViewBag.IssueCategoryID == 1 && ViewBag.ResidentID != null)
+        {<header class="header card-header">
+            <h6 style="color:#21A8D8">Քաղաքացի</h6>
+            <div class="consultationTemplateRresident">
+                <p>
+                    Ա․Ա․Հ․։
+                    <span>
+                        @ViewBag.ResidentName
+                    </span>
+                </p>
+                <p>
+                    Ա․Հ․Փ․։
+                    <span>@ViewBag.IdentificatorNumber</span>
+                </p>
+                <p>
+                    Ծննդյան ա/թ։
+                    <span>@ViewBag.BirthDate</span>
+                </p>
+            </div>
         </header>
+        }
+
         <header class="header card-header">
             <h6 style="color:#21A8D8">Խնդիր</h6>
             <div class="consultationTemplateRresident">
@@ -298,14 +307,14 @@
                                   //.Print()
                                   //.ExportAs()
                                   )
-                            //.ImageBrowser(imageBrowser => imageBrowser
-                            //      .Image("~/img/upload/{0}")
-                            //      .Read("Read", "ImageBrowser")
-                            //      .Create("Create", "ImageBrowser")
-                            //      .Destroy("Destroy", "ImageBrowser")
-                            //      .Upload("Upload", "ImageBrowser")
-                            //      .Thumbnail("Thumbnail", "ImageBrowser")
-                            //  )
+                    //.ImageBrowser(imageBrowser => imageBrowser
+                    //      .Image("~/img/upload/{0}")
+                    //      .Read("Read", "ImageBrowser")
+                    //      .Create("Create", "ImageBrowser")
+                    //      .Destroy("Destroy", "ImageBrowser")
+                    //      .Upload("Upload", "ImageBrowser")
+                    //      .Thumbnail("Thumbnail", "ImageBrowser")
+                    //  )
                     )
                     @*@Html.TextAreaFor(model => model.ConsultationDescription, new { @class = "form-control k-textbox", @rows = 12 })*@
                 </div>
@@ -369,14 +378,14 @@
         </div>
         <div class="card-footer" style="padding-left:10px;">
             <button type="submit" id="btnSave" class="btn btn-sm btn-primary"><i class="icons icon-check"></i>&nbsp;Հիշել</button>
-            @if (ViewBag.PrevUrl == "/Resident/Index")
+            @*@if (ViewBag.PrevUrl == "/Resident/Index")
             {
                 <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "Resident")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
             }
             else
-            {
+            {*@
                 <button type="button" class="btn btn-sm btn-secondary" onclick="location.href='@Url.Action("Index", "OralConsultation")'"><i class="icons icon-close"></i>&nbsp;Չեղարկել</button>
-            }
+            @*}*@
 
             @Html.ValidationSummary("Առկա են խնդիրներ")
         </div>

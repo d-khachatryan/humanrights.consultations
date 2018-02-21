@@ -70,7 +70,7 @@
           columns.Bound(o => o.TypeConsultationDate);
           columns.Command(commands =>
               {
-                  commands.Custom("cmdUpdateTypeConsultation_#=CompanyID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                  //commands.Custom("cmdUpdateTypeConsultation_#=CompanyID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
                   commands.Custom("cmdDeleteTypeConsultation_#=CompanyID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
               }).Title("Հրամաններ").Width(120);
       })
@@ -84,13 +84,13 @@
 </script>
 <script type="text/javascript">
 
-    function UpdateTypeConsultation(e) {
+    @*function UpdateTypeConsultation(e) {
         var gridName = "#grid_" + CID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
         var dataItem = grid.dataItem(row);
         window.location = '@Url.Action("UpdateTypeConsultation", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
-    }
+    }*@
 
     function DeleteTypeConsultation(e) {
         var gridName = "#grid_" + CID;

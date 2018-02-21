@@ -139,10 +139,6 @@ a.k-button:hover, a.k-button:focus {
     margin-top: 2px;
 }
 
-
-
-
-
 /*Theme*/
 .app-header > .nav-link {
     color: #888;
@@ -201,7 +197,11 @@ a.k-button:hover, a.k-button:focus {
     margin: 0 auto;
 }
 
-.trHover a{
+.trHover {
+  background-color: #21A8D8;
+}
+
+.trHover a {
     color: #fff;
 }
 
