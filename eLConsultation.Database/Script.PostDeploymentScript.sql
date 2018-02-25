@@ -1295,24 +1295,24 @@ GO
 
 --1.0.2.0
 IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'BirthYear' AND Object_ID = Object_ID(N'dbo.Resident'))
-	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD BirthYear SMALLINT
+	ALTER TABLE [dbo].[Resident] ADD BirthYear SMALLINT
 
 IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'Phone' AND Object_ID = Object_ID(N'dbo.Resident'))
-	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Phone nvarchar(20)
+	ALTER TABLE [dbo].[Resident] ADD Phone nvarchar(20)
 
 IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'Email' AND Object_ID = Object_ID(N'dbo.Resident'))
-	ALTER TABLE [eConsultationDB].[dbo].[Resident] ADD Email nvarchar(50)
+	ALTER TABLE [dbo].[Resident] ADD Email nvarchar(50)
 
 IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = Object_ID(N'dbo.TypeConsultation'))
 	BEGIN
-	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP CONSTRAINT [FK_TypeConsultation_Resident]
-	ALTER TABLE [eConsultationDB].[dbo].[TypeConsultation] DROP COLUMN [ResidentID]
+	ALTER TABLE[dbo].[TypeConsultation] DROP CONSTRAINT [FK_TypeConsultation_Resident]
+	ALTER TABLE [dbo].[TypeConsultation] DROP COLUMN [ResidentID]
 	END
 
 IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = Object_ID(N'dbo.OralConsultation'))
 	BEGIN
-	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP CONSTRAINT [FK_OralConsultation_Resident]
-	ALTER TABLE [eConsultationDB].[dbo].[OralConsultation] DROP COLUMN [ResidentID]
+	ALTER TABLE [dbo].[OralConsultation] DROP CONSTRAINT [FK_OralConsultation_Resident]
+	ALTER TABLE [dbo].[OralConsultation] DROP COLUMN [ResidentID]
 	END
 
 UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version' 

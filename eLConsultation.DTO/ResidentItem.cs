@@ -19,7 +19,7 @@ namespace eLConsultation.Data
         [Display(Name = "Հայրանուն")]
         public string MiddleName { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Նույնականացման համարը պարտադիր է")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Նույնականացման համարը պարտադիր է")]
         [Display(Name = "Անձը հաստատող փաստաթուղթ")]
         public string IdentificatorNumber { get; set; }
 
