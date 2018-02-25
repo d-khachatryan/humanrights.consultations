@@ -167,7 +167,7 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
+                            //BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -179,6 +179,10 @@ namespace eLConsultation.Data
                             Phone = residentItem.Phone,
                             Email = residentItem.Email
                         };
+                        if(residentItem.BirthYear != null)
+                        {
+                            resident.BirthDate = new DateTime((Int16)residentItem.BirthYear, 1, 1);
+                        }
                         db.Residents.Add(resident);
                         break;
                     case InitializationTypes.Update:
@@ -188,7 +192,7 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
+                            //BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -200,6 +204,10 @@ namespace eLConsultation.Data
                             Phone = residentItem.Phone,
                             Email = residentItem.Email
                         };
+                        if (residentItem.BirthYear != null)
+                        {
+                            resident.BirthDate = new DateTime((Int16)residentItem.BirthYear, 1, 1);
+                        }
                         db.Residents.Attach(resident);
                         db.Entry(resident).State = EntityState.Modified;
                         break;
