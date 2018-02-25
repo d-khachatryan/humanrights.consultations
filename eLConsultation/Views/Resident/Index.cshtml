@@ -155,7 +155,7 @@
                             columns.Bound(c => c.OralConsultationDate);
                             columns.Command(commands =>
                             {
-                                commands.Custom("cmdUpdateOralConsultation_#=ResidentID#").Text(" ").Click("UpdateOralConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                               // commands.Custom("cmdUpdateOralConsultation_#=ResidentID#").Text(" ").Click("UpdateOralConsultation").HtmlAttributes(new { @class = "Update_Icon" });
                                 commands.Custom("cmdDeleteOralConsultation_#=ResidentID#").Text(" ").Click("DeleteOralConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
                             }).Title("Հրամաններ").Width(120);
                         })
@@ -180,7 +180,7 @@
                             columns.Bound(c => c.TypeConsultationDate);
                             columns.Command(commands =>
                             {
-                                commands.Custom("cmdUpdateTypeConsultation_#=ResidentID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+                                //27commands.Custom("cmdUpdateTypeConsultation_#=ResidentID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
                                 commands.Custom("cmdDeleteTypeConsultation_#=ResidentID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
                             }).Title("Հրամաններ").Width(120);
                         })
@@ -240,13 +240,13 @@
         return false;
     }
 
-    function UpdateTypeConsultation(e) {
+    @*function UpdateTypeConsultation(e) {
         var gridName = "#Type_" + RID;
         var row = $(e.target).closest("tr");
         var grid = $(gridName).data("kendoGrid");
         var dataItem = grid.dataItem(row);
         window.location = '@Url.Action("UpdateTypeConsultation", "TypeConsultation")/?typeConsultationID=' + dataItem.TypeConsultationID;
-    }
+    }*@
 
     function DeleteTypeConsultation(e) {
         var gridName = "#Type_" + RID;

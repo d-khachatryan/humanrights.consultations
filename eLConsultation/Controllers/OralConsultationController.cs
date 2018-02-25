@@ -227,7 +227,7 @@ namespace eLConsultation.Controllers
         {
             ViewBag.vbTargetGroups = oralConsultationService.GetTargetGroupDropDownItems();
             ViewBag.vbInvocationTypes = oralConsultationService.GetInvocationTypeDropDownItems();
-            ViewBag.PrevUrl = Request.UrlReferrer.AbsolutePath.ToString();
+            //ViewBag.PrevUrl = Request.UrlReferrer.AbsolutePath.ToString();
         }
 
         private void InitializeOralConsultationIssueViewBugs(IssueItem item)
