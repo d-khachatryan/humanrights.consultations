@@ -43,7 +43,7 @@ namespace eLConsultation.Data
         public DateTime? IssueDate { get; set; }
 
         [Display(Name = "Խնդրի տեսակը")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Խնդրի տեսակը պարտադիր է")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Խնդրի տեսակը պարտադիր է")]
         public int? IssueTypeID { get; set; }
 
         [Display(Name = "Խնդրի կատեգորիան")]

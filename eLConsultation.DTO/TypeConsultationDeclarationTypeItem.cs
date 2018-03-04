@@ -18,7 +18,7 @@ namespace eLConsultation.Data
         [Display(Name = "Գրություն")]
         public string DeclarationTypeName { get; set; }
 
-        [Display(Name = "Կից ֆայլ (URL)")]
+        [Display(Name = "Ուղարկված գրության հղումը")]
         public string DeclarationURL { get; set; }
 
         [Display(Name = "Վերջնաժամկետ")]

@@ -45,18 +45,35 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.DeclarationURL, new { @class = "control-label" })
+        <span id="tooltip-DeclarationURL" class="entryTooltip fa fa-question-circle"></span>
         @Html.Kendo().TextBoxFor(model => model.DeclarationURL).HtmlAttributes(new { @class = "form-control" })
+        @(Html.Kendo().Tooltip()
+                            .For("#tooltip-DeclarationURL")
+                            .AutoHide(false)
+                            .Position(TooltipPosition.Left)
+                            .Content("<p>Ուղարկված գրության հղումը վերցվում է կազմակերպության կողմից ուղարկված գրությունների և դրանց պատասխանների <a target='_blank' style='color:#b8e9fc' href='https://docs.google.com/spreadsheets/u/0/?tgif=d'>ընդհանուր բազայից</a>")
+                            .Width(300)
+        )
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.DeclarationDeadline, new { @class = "control-label" })
+        <span id="tooltip-DeclarationDeadline" class="entryTooltip fa fa-question-circle"></span>
         @Html.Kendo().DatePickerFor(model => model.DeclarationDeadline).HtmlAttributes(new { @class = "form-control" })
+        @(Html.Kendo().Tooltip()
+                            .For("#tooltip-DeclarationDeadline")
+                            .Position(TooltipPosition.Left)
+                            .Content("<p>Գրության պատասխանի վերջնաժամկետը որոշվում է օրենքով սահմանված կարգով։</p><p>ժամկետները սահմանված են հաշվի առնելով փոստային առաքման վրա ծախսված ժամանակը, մասնավորապես՝ <br> Տեղ.հարցում` 12 օր <br> Հայցադիմում/դիմում դատարան` 25 օր <br> Հաղորդում` 20 օր <br> Դիմում` 30 օր <br> Վերաքննիչ բողոք` 30 օր <br> Վճռաբեկ բողոք` 30 օր <br> Վարչական բողոք` 30 օր <br> Հայտարարություն` 15 օր</p>")
+                            .Width(300)
+        )
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ResponseDate, new { @class = "control-label" })
         @Html.Kendo().DatePickerFor(model => model.ResponseDate).HtmlAttributes(new { @class = "form-control" })
+        
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ResponseTypeID, new { @class = "control-label" })
+        <span id="tooltip-ResponseTypeID" class="entryTooltip fa fa-question-circle"></span>
         @(Html.Kendo().ComboBoxFor(model => model.ResponseTypeID)
                         .DataTextField("Text")
                         .DataValueField("Value")
@@ -71,13 +88,28 @@
                             });
                         })
         )
+        @(Html.Kendo().Tooltip()
+                            .For("#tooltip-ResponseTypeID")
+                            .Position(TooltipPosition.Left)
+                            .Content("<p>Արդյո՞ք գրության պատասխանը ստացվել է օրենքով սահմանված ժամկետներում։ </p><p>ժամկետները սահմանված են հաշվի առնելով փոստային առաքման վրա ծախսված ժամանակը, մասնավորապես՝ <br> Տեղ.հարցում` 12 օր <br> Հայցադիմում/դիմում դատարան` 25 օր <br> Հաղորդում` 20 օր <br> Դիմում` 30 օր <br> Վերաքննիչ բողոք` 30 օր <br> Վճռաբեկ բողոք` 30 օր <br> Վարչական բողոք` 30 օր <br> Հայտարարություն` 15 օր</p>")
+                            .Width(300)
+        )
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ResponseContent, new { @class = "control-label" })
+        <span id="tooltip-ResponseContent" class="entryTooltip fa fa-question-circle"></span>
         @Html.Kendo().TextBoxFor(model => model.ResponseContent).HtmlAttributes(new { @class = "form-control" })
+        @(Html.Kendo().Tooltip()
+                            .For("#tooltip-ResponseContent")
+                            .AutoHide(false)
+                            .Position(TooltipPosition.Left)
+                            .Content("<p>Պատասխան գրության հղումը վերցվում է կազմակերպության կողմից ուղարկված գրությունների և դրանց պատասխանների <a target='_blank' style='color:#b8e9fc' href='https://docs.google.com/spreadsheets/u/0/?tgif=d'>ընդհանուր բազայից</a>")
+                            .Width(300)
+        )
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ResponseQualityID, new { @class = "control-label" })
+        <span id="tooltip-ResponseQualityID" class="entryTooltip fa fa-question-circle"></span>
         @(Html.Kendo().ComboBoxFor(model => model.ResponseQualityID)
                         .DataTextField("Text")
                         .DataValueField("Value")
@@ -91,6 +123,12 @@
                                 read.Action("ResponseQuantityList", "TypeConsultationDeclarationType");
                             });
                         })
+        )
+        @(Html.Kendo().Tooltip()
+                            .For("#tooltip-ResponseQualityID")
+                            .Position(TooltipPosition.Left)
+                            .Content("Ստացված պատասխան գրության բովանդակությամբ ինչքանով է անդրադարձ կատարվել կազմակերպության կողմից բարձրացված հարցերին/խնդիրներին")
+                            .Width(300)
         )
     </div>
 </div>
