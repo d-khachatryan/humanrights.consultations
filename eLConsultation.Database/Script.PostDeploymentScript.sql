@@ -1317,3 +1317,7 @@ IF EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'ResidentID' AND Object_ID = O
 
 UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version' 
 --1.0.2.0
+
+--1.0.2.1
+UPDATE dbo.Setting SET SettingValue = '1.0.2.1' WHERE SettingItem = 'version'
+--1.0.2.1
