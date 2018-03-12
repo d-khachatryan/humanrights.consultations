@@ -16,14 +16,14 @@ namespace eLConsultation.Data
         [AllowHtml]
         public string IssueDescription { get; set; }
 
-        [Display(Name = "Խնդրի ա/թ")]
+        [Display(Name = "Դիմելու ա/թ")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Խնդրի ամսաթիվը պարտադիր է")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Դիմելու ամսաթիվը պարտադիր է")]
         public DateTime? IssueDate { get; set; }
 
         [Display(Name = "Խնդրի տեսակը")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Խնդրի տեսակը պարտադիր է")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Խնդրի տեսակը պարտադիր է")]
         public int? IssueTypeID { get; set; }
 
         [Display(Name = "Խնդրի կատեգորիան")]

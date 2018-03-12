@@ -90,6 +90,9 @@ namespace eLConsultation.Controllers
         {
             InitializeOralConsultationViewBugs();
             var item = oralConsultationService.GetOralConsultationItemByID(oralConsultationID);
+            var issueID = (int)item.IssueID;
+            var issueItem = issueService.GetIssueItemByID(issueID);
+            InitializeOralConsultationIssueViewBugs(issueItem);
             return View("OralConsultation", item);
         }
 
