@@ -1321,3 +1321,7 @@ UPDATE dbo.Setting SET SettingValue = '1.0.2.0' WHERE SettingItem = 'version'
 --1.0.2.1
 UPDATE dbo.Setting SET SettingValue = '1.0.2.1' WHERE SettingItem = 'version'
 --1.0.2.1
+
+--1.0.2.2
+UPDATE dbo.Setting SET SettingValue = '1.0.2.2' WHERE SettingItem = 'version'
+--1.0.2.2

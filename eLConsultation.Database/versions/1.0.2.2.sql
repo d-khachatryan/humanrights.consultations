@@ -1,0 +1,1 @@
+﻿UPDATE dbo.Setting SET SettingValue = '1.0.2.2' WHERE SettingItem = 'version' --Fixed issue: The user failed during the first registration due to the validation
