@@ -45,7 +45,6 @@
     .Scrollable()
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
         .Events(events => events.Error("error_handler"))
         .Model(model => model.Id(p => p.IssueCategoryID))
         .Create(create => create.Action("IssueCategoryCreate", "IssueCategory"))

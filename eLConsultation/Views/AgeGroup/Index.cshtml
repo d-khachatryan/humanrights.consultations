@@ -34,7 +34,6 @@
             .Open("correctPopUpGrid"))
         )
     )
-    //.Pageable()
     .Filterable(f => f.Extra(false)
     .Operators(o => o.ForString(s => s.Clear()
         .Contains("Պարունակում է")
@@ -51,7 +50,6 @@
     .Scrollable()
     .DataSource(dataSource => dataSource
     .Ajax()
-    .PageSize(20)
     .Events(events => events.Error("error_handler"))
     .Model(model => model.Id(p => p.AgeGroupID))
     .Create(update => update.Action("AgeGroupCreate", "AgeGroup"))

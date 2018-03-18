@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace eLConsultation.Data
 {
@@ -12,6 +13,14 @@ namespace eLConsultation.Data
     : base()
         {
 
+        }
+
+        public List<SelectListItem> GetRegionDropDownItems()
+        {
+            var selectedListItem = new List<SelectListItem>();
+            RegionService region = new RegionService();
+            selectedListItem = region.GetRegions ().Select(x => new SelectListItem { Text = x.RegionName, Value = x.RegionID .ToString() }).ToList();
+            return selectedListItem;
         }
 
         public IList<CommunityItem> GetCommunities()

@@ -2252,8 +2252,6 @@
     <Content Include="Views\Resident\SelectResidentItem.cshtml" />
     <Content Include="Views\OralConsultation\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutNull.cshtml" />
-    <Content Include="Views\Catalog\Gender.cshtml" />
-    <Content Include="Views\Catalog\Region.cshtml" />
     <Content Include="Views\Region\Index.cshtml" />
     <Content Include="Views\Login\ConfirmEmail.cshtml" />
     <Content Include="Views\Login\DisplayEmail.cshtml" />

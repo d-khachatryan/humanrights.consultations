@@ -53,13 +53,11 @@
             .Open("correctPopUpGrid")
         )
         ))
-    .Pageable()
     .Filterable()
     .Sortable()
     .Scrollable()
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
         .Events(events => events.Error("error_handler"))
         .Model(model => model.Id(p => p.CommunityID))
         .Create(update => update.Action("CommunityCreate", "Community"))

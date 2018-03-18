@@ -19,6 +19,7 @@ namespace eLConsultation.Data
         public string DeclarationTypeName { get; set; }
 
         [Display(Name = "Ուղարկված գրության հղումը")]
+        [StringLength(1000, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 1000 սիմվոլ")]
         public string DeclarationURL { get; set; }
 
         [Display(Name = "Վերջնաժամկետ")]
@@ -49,6 +50,8 @@ namespace eLConsultation.Data
         public string ResponseTypeName { get; set; }
 
         [Display(Name = "Պատասխան գրության հղում")]
+        [StringLength(1000, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 1000 սիմվոլ")]
+
         public string ResponseContent { get; set; }
 
         [Display(Name = "Պատասխանի էություն")]

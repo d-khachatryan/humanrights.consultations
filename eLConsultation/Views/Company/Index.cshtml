@@ -11,76 +11,75 @@
 </script>
 <div id="catalog">
     @(Html.Kendo().Grid<eLConsultation.Data.CompanyItem>()
-    .Name("grid")
-    .NoRecords("Գրառումներ չկան")
-    .Events(e => e.DataBound("correctPopUpGrid").DetailExpand("onIssueDetailExpand"))
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.CompanyID).Visible(false);
-        columns.Bound(p => p.CompanyName);
-        columns.Command(command =>
-        {
-            command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
-            command.Destroy().Text(" ");
-        }).Width(115);
-    })
-    .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
-    .Editable(editable => editable.Mode(GridEditMode.PopUp)
-        .TemplateName("CompanyPopUp")
-        .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
-            .Deactivate("correctPopUpGrid")
-            .Activate("correctPopUpGrid")
-            .Open("correctPopUpGrid"))))
-    .Filterable(f => f.Extra(false)
-                                         .Operators(o => o.ForString(s => s.Clear()
-                                          .Contains("Պարունակում է")
-                                          .DoesNotContain("Չի պարունակում")
-                                          .StartsWith("Սկսվում է")
-                                          .EndsWith("Վերջանում է")
-                                          .IsEqualTo("Նույնն է")
-                                          .IsNotEqualTo("Նույնը չէ")
-                                        )).Messages(m => m
-                                        .Filter("Որոնել")
-                                        .Clear("Մաքրել")
-                                        .Info("Գրառում, որը")))
-    .Sortable()
-    .Scrollable()
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.CompanyID))
-        .Create(update => update.Action("CompanyCreate", "Company"))
-        .Read(read => read.Action("CompanySelect", "Company"))
-        .Update(update => update.Action("CompanyUpdate", "Company"))
-        .Destroy(update => update.Action("CompanyDelete", "Company"))
-    )
-    .ClientDetailTemplateId("template")
+            .Name("grid")
+            .NoRecords("Գրառումներ չկան")
+            .Events(e => e.DataBound("correctPopUpGrid").DetailExpand("onIssueDetailExpand"))
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.CompanyID).Visible(false);
+                columns.Bound(p => p.CompanyName);
+                columns.Command(command =>
+                {
+                    command.Edit().Text(" ").UpdateText("Պահպանել").CancelText("Չեղարկել");
+                    command.Destroy().Text(" ");
+                }).Width(115);
+            })
+            .ToolBar(toolbar => toolbar.Create().Text("Նոր գրառում"))
+            .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                .TemplateName("CompanyPopUp")
+                .Window(w => w.Title("Մուտքի պատուհան").Events(e => e
+                    .Deactivate("correctPopUpGrid")
+                    .Activate("correctPopUpGrid")
+                    .Open("correctPopUpGrid"))))
+            .Filterable(f => f.Extra(false)
+                                                 .Operators(o => o.ForString(s => s.Clear()
+                                                  .Contains("Պարունակում է")
+                                                  .DoesNotContain("Չի պարունակում")
+                                                  .StartsWith("Սկսվում է")
+                                                  .EndsWith("Վերջանում է")
+                                                  .IsEqualTo("Նույնն է")
+                                                  .IsNotEqualTo("Նույնը չէ")
+                                                )).Messages(m => m
+                                                .Filter("Որոնել")
+                                                .Clear("Մաքրել")
+                                                .Info("Գրառում, որը")))
+            .Sortable()
+            .Scrollable()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Events(events => events.Error("error_handler"))
+                .Model(model => model.Id(p => p.CompanyID))
+                .Create(update => update.Action("CompanyCreate", "Company"))
+                .Read(read => read.Action("CompanySelect", "Company"))
+                .Update(update => update.Action("CompanyUpdate", "Company"))
+                .Destroy(update => update.Action("CompanyDelete", "Company"))
+            )
+            .ClientDetailTemplateId("template")
     )
 </div>
 <script id="template" type="text/kendo-tmpl">
     @(Html.Kendo().Grid<eLConsultation.Data.CompanyTypeConsultationSet>()
-    .Name("grid_#=CompanyID#")
-    .Events(e => e.DataBound("showCommandIcons"))
-    .NoRecords("Գրառումներ չկան")
-      .Columns(columns =>
-      {
-          columns.Bound(o => o.TypeConsultationID).Hidden();
-          columns.Bound(o => o.TypeConsultationName);
-          columns.Bound(o => o.TypeConsultationDate);
-          columns.Command(commands =>
+            .Name("grid_#=CompanyID#")
+            .Events(e => e.DataBound("showCommandIcons"))
+            .NoRecords("Գրառումներ չկան")
+              .Columns(columns =>
               {
-                  //commands.Custom("cmdUpdateTypeConsultation_#=CompanyID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
-                  commands.Custom("cmdDeleteTypeConsultation_#=CompanyID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
-              }).Title("Հրամաններ").Width(120);
-      })
+                  columns.Bound(o => o.TypeConsultationID).Hidden();
+                  columns.Bound(o => o.TypeConsultationName);
+                  columns.Bound(o => o.TypeConsultationDate);
+                  columns.Command(commands =>
+                      {
+              //commands.Custom("cmdUpdateTypeConsultation_#=CompanyID#").Text(" ").Click("UpdateTypeConsultation").HtmlAttributes(new { @class = "Update_Icon" });
+              commands.Custom("cmdDeleteTypeConsultation_#=CompanyID#").Text(" ").Click("DeleteTypeConsultation").HtmlAttributes(new { @class = "Delete_Icon" });
+                      }).Title("Հրամաններ").Width(120);
+              })
 
-          .DataSource(dataSource => dataSource
-              .Ajax()
-              .Events(events => events.Error("error_handler"))
-              .Read(read => read.Action("GetTypeConsultationsByCompanyID", "Company", new { companyID = "#=CompanyID#" }))
-                      )
-         .ToClientTemplate())
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Events(events => events.Error("error_handler"))
+                      .Read(read => read.Action("GetTypeConsultationsByCompanyID", "Company", new { companyID = "#=CompanyID#" }))
+                              )
+                 .ToClientTemplate())
 </script>
 <script type="text/javascript">
 

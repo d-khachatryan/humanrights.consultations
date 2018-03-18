@@ -26,6 +26,7 @@ namespace eLConsultation.Controllers
 
         public ActionResult Index()
         {
+            InitializeViewBugs();
             return View();
         }
 
@@ -62,6 +63,11 @@ namespace eLConsultation.Controllers
                 service.DeleteCommunity(communityItem);
             }
             return Json(new[] { communityItem }.ToDataSourceResult(request, ModelState));
+        }
+
+        private void InitializeViewBugs()
+        {
+            ViewBag.vbRegions = service.GetRegionDropDownItems ();
         }
     }
 }
