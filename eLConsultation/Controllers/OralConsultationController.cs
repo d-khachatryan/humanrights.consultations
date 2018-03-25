@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
-    //[Authorize(Roles = "administrator,writer")]
+    [Authorize(Roles = "administrator, writer")]
     public class OralConsultationController : BaseController
     {
         private OralConsultationService oralConsultationService;
@@ -21,6 +21,7 @@ namespace eLConsultation.Controllers
             issueService = new IssueService();
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Index()
         {
             var oralConsultationSearch = new OralConsultationSearch();
@@ -36,6 +37,7 @@ namespace eLConsultation.Controllers
             return View(oralConsultationSearch);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult FilterOralConsultations([DataSourceRequest]DataSourceRequest request, string firstName, string lastName, DateTime? oralconsultationdate, int? oralconsultationid)
         {
             var oralConsultationSearch = new OralConsultationSearch { FirstName = firstName, LastName = lastName, OralConsultationDate = oralconsultationdate, OralConsultationID = oralconsultationid };
@@ -193,6 +195,7 @@ namespace eLConsultation.Controllers
             }
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Detail(int oralConsultationID)
         {
             using (var db = new StoreContext())
@@ -210,6 +213,7 @@ namespace eLConsultation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult ExportPDF(string contentType, string base64, string fileName)
         {
             var fileContents = Convert.FromBase64String(base64);

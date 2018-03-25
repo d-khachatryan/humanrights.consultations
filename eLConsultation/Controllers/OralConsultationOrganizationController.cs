@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator, writer")]
     public class OralConsultationOrganizationController : Controller
     {
         StoreContext db;
@@ -20,6 +21,7 @@ namespace eLConsultation.Controllers
             service = new OralConsultationOrganizationService(db);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult OralConsultationOrganizationSelect([DataSourceRequest] DataSourceRequest request, string prmGUID)
         {
             var q = service.SelectOrganizations(prmGUID);

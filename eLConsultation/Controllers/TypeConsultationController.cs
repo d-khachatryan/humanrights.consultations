@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
-    //[Authorize(Roles = "administrator,writer")]
+    [Authorize(Roles = "administrator, writer")]
     public class TypeConsultationController : BaseController
     {
         private TypeConsultationService typeConsultationService;
@@ -24,6 +24,7 @@ namespace eLConsultation.Controllers
             companyService = new CompanyService();
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Index()
         {
             var typeConsultationSearch = new TypeConsultationSearch();
@@ -38,6 +39,7 @@ namespace eLConsultation.Controllers
             return View(typeConsultationSearch);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult FilterTypeConsultations([DataSourceRequest]DataSourceRequest request, /*string firstName, string lastName,*/ DateTime? typeconsultationdate, int? typeconsultationid)
         {
             var typeConsultationSearch = new TypeConsultationSearch { /*FirstName = firstName, LastName = lastName,*/ TypeConsultationDate = typeconsultationdate, TypeConsultationID = typeconsultationid };
@@ -230,6 +232,7 @@ namespace eLConsultation.Controllers
             }
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Detail(int typeConsultationID)
         {
             TypeConsultationDetail detail = typeConsultationService.GetTypeConsultationDetail(typeConsultationID);
@@ -246,6 +249,7 @@ namespace eLConsultation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult ExportPDF(string contentType, string base64, string fileName)
         {
             var fileContents = Convert.FromBase64String(base64);

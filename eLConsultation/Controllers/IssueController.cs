@@ -9,6 +9,7 @@ using Kendo.Mvc.Extensions;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator, writer")]
     public class IssueController : Controller
     {
         StoreContext db;
@@ -60,7 +61,6 @@ namespace eLConsultation.Controllers
             var item = service.GetIssueItemByCompanyID(companyID);
             return View("Template", item);
         }
-
 
         public ActionResult Update(int issueID)
         {

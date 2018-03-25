@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator, writer")]
     public class TypeConsultationInstanceController : Controller
     {
         StoreContext db;
@@ -20,6 +21,7 @@ namespace eLConsultation.Controllers
             service = new TypeConsultationInstanceService(db);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult TypeConsultationInstanceSelect([DataSourceRequest] DataSourceRequest request, string prmGUID)
         {
             var q = service.SelectCosultants(prmGUID);

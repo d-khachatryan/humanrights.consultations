@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
-    [Authorize(Roles = "administrator")]
+    [Authorize(Roles = "administrator, writer")]
     public class CompanyController : Controller
     {
         CompanyService service;
@@ -19,11 +19,13 @@ namespace eLConsultation.Controllers
             service = new CompanyService();
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public JsonResult CompanyList()
         {
             return Json(service.GetCompanys(), JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult FilterCompanys([DataSourceRequest]DataSourceRequest request, string companyName)
         {
             ViewBag.ScreenWidth = Request.Browser.ScreenPixelsWidth;
@@ -33,16 +35,19 @@ namespace eLConsultation.Controllers
             return Json(result);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult CompanySelect([DataSourceRequest] DataSourceRequest request)
         {
             return Json(service.GetCompanys().ToDataSourceResult(request));
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult GetTypeConsultationsByCompanyID([DataSourceRequest] DataSourceRequest request, int companyID)
         {
             DataSourceResult result = service.GetTypeConsultationsByCompanyID(companyID).ToDataSourceResult(request);
