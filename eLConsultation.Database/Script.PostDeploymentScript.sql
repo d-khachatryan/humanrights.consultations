@@ -1333,3 +1333,6 @@ ALTER TABLE [TypeConsultationDeclarationType] ALTER COLUMN [ResponseContent] nva
 ALTER TABLE [TmpTypeConsultationDeclarationType] ALTER COLUMN [DeclarationURL] nvarchar(1000)
 ALTER TABLE [TmpTypeConsultationDeclarationType] ALTER COLUMN [ResponseContent] nvarchar(1000)
 --1.0.2.3
+--1.0.2.4
+UPDATE dbo.Setting SET SettingValue = '1.0.2.4' WHERE SettingItem = 'version'
+--1.0.2.4
