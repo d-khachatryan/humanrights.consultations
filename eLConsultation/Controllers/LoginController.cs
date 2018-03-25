@@ -8,7 +8,7 @@ using eLConsultation.Data;
 
 namespace eLConsultation.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "administrator, writer, reader, reportspecialist")]
     public class LoginController : Controller
     {
         UserService userComponent;

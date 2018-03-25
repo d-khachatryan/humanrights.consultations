@@ -13,6 +13,7 @@ using eLConsultation.Data;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator")]
     public class UserController : Controller
     {
 
@@ -31,13 +32,11 @@ namespace eLConsultation.Controllers
                         this.ControllerContext.RouteData.Values["action"].ToString()));
         }
 
-        //[Authorize(Roles = "administrator")]
         public ActionResult Index()
         {
             return View();
         }
 
-        //[Authorize(Roles = "administrator")]
         public ActionResult SelectUsers([DataSourceRequest]DataSourceRequest request)
         {
             IQueryable<IdentityUserItem> users = userService.SelectUsers();
@@ -45,7 +44,6 @@ namespace eLConsultation.Controllers
             return Json(result);
         }
 
-        //[Authorize(Roles = "administrator")]
         public ActionResult InitInsertUser()
         {
             try
@@ -64,7 +62,6 @@ namespace eLConsultation.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "administrator")]
         public ActionResult InsertUser(UserItem userItem)
         {
             try
@@ -87,7 +84,6 @@ namespace eLConsultation.Controllers
             }
         }
 
-        //[Authorize(Roles = "administrator")]
         public ActionResult InitUpdateUser(string Id)
         {
             try
@@ -110,7 +106,6 @@ namespace eLConsultation.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "administrator")]
         public ActionResult UpdateUser(UpdateUserItem updateUserItem)
         {
             try
@@ -132,7 +127,6 @@ namespace eLConsultation.Controllers
             }
         }
 
-        //[Authorize(Roles = "administrator")]
         public ActionResult DeleteUser(string Id)
         {
             try

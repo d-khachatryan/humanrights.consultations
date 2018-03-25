@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
-    //[Authorize(Roles = "administrator,writer")]
+    [Authorize(Roles = "administrator, writer")]
     public class ResidentController : Controller
     {
         StoreContext db;
@@ -28,6 +28,7 @@ namespace eLConsultation.Controllers
                         this.ControllerContext.RouteData.Values["action"].ToString()));
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult Index()
         {
             var residentSearch = new ResidentSearch();
@@ -42,6 +43,7 @@ namespace eLConsultation.Controllers
             return View(residentSearch);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult FilterResidents([DataSourceRequest]DataSourceRequest request, string firstName, string lastName)
         {
             ViewBag.ScreenWidth = Request.Browser.ScreenPixelsWidth;
@@ -65,7 +67,8 @@ namespace eLConsultation.Controllers
             }
         }
 
-                public ActionResult ResidentTemplate(int? residentID = null)
+
+        public ActionResult ResidentTemplate(int? residentID = null)
         {
             OrganizeViewBugs(db);
             try
@@ -153,12 +156,14 @@ namespace eLConsultation.Controllers
             }
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult GetOralConsultationsByResidentID([DataSourceRequest] DataSourceRequest request, int residentID)
         {
             DataSourceResult result = service.GetOralConsultationsByResidentID(residentID).ToDataSourceResult(request);
             return Json(result);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult GetTypeConsultationsByResidentID([DataSourceRequest] DataSourceRequest request, int residentID)
         {
             DataSourceResult result = service.GetTypeConsultationsByResidentID(residentID).ToDataSourceResult(request);

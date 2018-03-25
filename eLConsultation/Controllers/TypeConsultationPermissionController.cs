@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace eLConsultation.Controllers
 {
+    [Authorize(Roles = "administrator, writer")]
     public class TypeConsultationPermissionController : Controller
     {
         StoreContext db;
@@ -20,6 +21,7 @@ namespace eLConsultation.Controllers
             service = new TypeConsultationPermissionService(db);
         }
 
+        [Authorize(Roles = "administrator, writer, reader")]
         public ActionResult TypeConsultationPermissionSelect([DataSourceRequest] DataSourceRequest request, string prmGUID)
         {
             var q = service.SelectPermissions(prmGUID);
