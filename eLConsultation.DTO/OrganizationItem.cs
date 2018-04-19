@@ -8,7 +8,7 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int OrganizationID { get; set; }
 
-        [MaxLength(250)]
+        [StringLength(250, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 250 սիմվոլ")]
         [Display(Name = "Հիմնարկ")]
         public string OrganizationName { get; set; }
     }

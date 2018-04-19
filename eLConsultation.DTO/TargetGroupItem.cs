@@ -7,8 +7,8 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int TargetGroupID { get; set; }
 
-        [MaxLength(250)]
         [Display(Name = "Թիրախային խումբ")]
+        [StringLength(250, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 250 սիմվոլ")]
         public string TargetGroupName { get; set; }
     }
 }

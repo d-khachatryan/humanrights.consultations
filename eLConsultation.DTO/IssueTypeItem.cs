@@ -9,6 +9,7 @@ namespace eLConsultation.Data
 
         [Display(Name = "Խնդրի տեսակ")]
         [Required(ErrorMessage = "Դաշտը պարտադիր է")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string IssueTypeName { get; set; }
     }
 }

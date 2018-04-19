@@ -8,7 +8,7 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int ConsultationTypeID { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         [Display(Name = "Տեսակ")]
         public string ConsultationTypeName { get; set; }
     }

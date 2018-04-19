@@ -16,7 +16,7 @@ namespace eLConsultation.Data
         [UIHint("Region")]
         public int RegionID { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         [Display(Name = "Բնակավայր")]
         public string CommunityName { get; set; }
     }

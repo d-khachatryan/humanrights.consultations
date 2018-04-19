@@ -11,6 +11,7 @@ namespace eLConsultation.Data
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Գործի անվանումը պարտադիր է")]
         [Display(Name = "Գործի անվանում")]
+        [StringLength(500, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 500 սիմվոլ")]
         public string TypeConsultationName { get; set; }
 
         public int? IssueID { get; set; }
@@ -44,6 +45,7 @@ namespace eLConsultation.Data
 
         public InitializationTypes InitializationType { get; set; }
 
+        [StringLength(128, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 128 սիմվոլ")]
         public string UserID { get; set; }
 
         public DateTime? ChangeDate { get; set; }

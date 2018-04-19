@@ -8,7 +8,7 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int GenderID { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(10, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 10 սիմվոլ")]
         [Display(Name = "Սեռ")]
         public string GenderName { get; set; }
     }
