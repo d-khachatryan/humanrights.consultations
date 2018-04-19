@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eLConsultation", "eLConsultation\eLConsultation.csproj", "{25F29C39-2884-477D-A22E-357281929142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eLConsultation.Tests", "eLConsultation.Tests\eLConsultation.Tests.csproj", "{389DD502-0598-44A6-A7CF-3DC6432C394D}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "eLConsultation.Database", "eLConsultation.Database\eLConsultation.Database.sqlproj", "{FB268820-84BE-48B2-BAA6-B5FCB595A548}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eLConsultation.Data", "eLConsultation.Data\eLConsultation.Data.csproj", "{65953269-26B0-4897-8940-83527690777D}"
@@ -25,10 +23,6 @@ Global
 		{25F29C39-2884-477D-A22E-357281929142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F29C39-2884-477D-A22E-357281929142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25F29C39-2884-477D-A22E-357281929142}.Release|Any CPU.Build.0 = Release|Any CPU
-		{389DD502-0598-44A6-A7CF-3DC6432C394D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{389DD502-0598-44A6-A7CF-3DC6432C394D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{389DD502-0598-44A6-A7CF-3DC6432C394D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{389DD502-0598-44A6-A7CF-3DC6432C394D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB268820-84BE-48B2-BAA6-B5FCB595A548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB268820-84BE-48B2-BAA6-B5FCB595A548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB268820-84BE-48B2-BAA6-B5FCB595A548}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -51,29 +45,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1BE4278-C323-419B-ABAE-F3CF37DD0B92}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dkhachatryan.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = eLConsultation.Tests\\eLConsultation.Tests.csproj
-		SccProjectName1 = eLConsultation.Tests
-		SccLocalPath1 = eLConsultation.Tests
-		SccProjectUniqueName2 = eLConsultation\\eLConsultation.csproj
-		SccProjectName2 = eLConsultation
-		SccLocalPath2 = eLConsultation
-		SccProjectUniqueName3 = eLConsultation.Database\\eLConsultation.Database.sqlproj
-		SccProjectName3 = eLConsultation.Database
-		SccLocalPath3 = eLConsultation.Database
-		SccProjectUniqueName4 = eLConsultation.Data\\eLConsultation.Data.csproj
-		SccProjectName4 = eLConsultation.Data
-		SccLocalPath4 = eLConsultation.Data
-		SccProjectUniqueName5 = eLConsultation.DTO\\eLConsultation.DTO.csproj
-		SccProjectName5 = eLConsultation.DTO
-		SccLocalPath5 = eLConsultation.DTO
-		SccProjectUniqueName6 = eLConsultation.Services\\eLConsultation.Services.csproj
-		SccProjectName6 = eLConsultation.Services
-		SccLocalPath6 = eLConsultation.Services
 	EndGlobalSection
 EndGlobal

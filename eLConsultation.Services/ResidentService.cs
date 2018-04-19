@@ -156,8 +156,6 @@ namespace eLConsultation.Data
 
         public ResidentItem SaveResident(ResidentItem residentItem)
         {
-            try
-            {
                 Resident resident = null;
                 switch (residentItem.InitializationType)
                 {
@@ -167,7 +165,6 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            //BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -192,7 +189,6 @@ namespace eLConsultation.Data
                             FirstName = residentItem.FirstName,
                             LastName = residentItem.LastName,
                             MiddleName = residentItem.MiddleName,
-                            //BirthDate = new DateTime(residentItem.BirthYear, 1, 1),
                             IdentificatorNumber = residentItem.IdentificatorNumber,
                             GenderID = residentItem.GenderID,
                             RegionID = residentItem.RegionID,
@@ -215,12 +211,6 @@ namespace eLConsultation.Data
                 db.SaveChanges();
                 residentItem.ResidentID = resident.ResidentID;
                 return residentItem;
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-                return null;
-            }
         }
 
         /// <summary>

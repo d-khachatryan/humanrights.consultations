@@ -46,15 +46,6 @@ namespace eLConsultation.Data
                         from targetgroup in r3.DefaultIfEmpty()
                         select new { OralConsultationTable = oralconsultation, IssueTable = issue, InvocationTypeTable = invocationtype, TargetGroupTable = targetgroup };
 
-            //if (oralConsultationSearch.FirstName != "")
-            //{
-            //    query = from p in query where p.ResidentTable.FirstName.StartsWith(oralConsultationSearch.FirstName) select p;
-            //}
-            //if (oralConsultationSearch.LastName != "")
-            //{
-            //    query = from p in query where p.ResidentTable.LastName.StartsWith(oralConsultationSearch.LastName) select p;
-            //}
-
             if (oralConsultationSearch.OralConsultationDate != null)
             {
                 query = from p in query where p.OralConsultationTable.OralConsultationDate == oralConsultationSearch.OralConsultationDate select p;
@@ -133,16 +124,6 @@ namespace eLConsultation.Data
                 ChangeDate = null
             };
 
-            //if (issue.ResidentID != null)
-            //{
-            //    item.ResidentID = resident.ResidentID;
-            //    item.FirstName = resident.FirstName;
-            //    item.LastName = resident.LastName;
-            //    item.MiddleName = resident.MiddleName;
-            //    item.IdentificatorNumber = resident.IdentificatorNumber;
-            //    item.BirthDate = resident.BirthDate;
-            //}
-
             return item;
         }
 
@@ -150,17 +131,10 @@ namespace eLConsultation.Data
         {
             var oralConsultation = db.OralConsultations.Find(oralConsultationID);
             var issue = db.Issues.Find(oralConsultation.IssueID);
-            //var resident = db.Residents.Find(oralConsultation.ResidentID);
 
             OralConsultationItem item = new OralConsultationItem
             {
                 OralConsultationID = oralConsultation.OralConsultationID,
-                //ResidentID = resident.ResidentID,
-                //FirstName = resident.FirstName,
-                //LastName = resident.LastName,
-                //MiddleName = resident.MiddleName,
-                //IdentificatorNumber = resident.IdentificatorNumber,
-                //BirthDate = resident.BirthDate,
                 IssueID = issue.IssueID,
                 IssueName = issue.IssueName,
                 IssueDate = issue.IssueDate,
@@ -224,10 +198,7 @@ namespace eLConsultation.Data
         }
 
         public OralConsultationItem SaveOralConsultation(OralConsultationItem item)
-        {
-            try
-            {
-
+        {      
                 OralConsultationItem resultItem = null;
                 switch (item.InitializationType)
                 {
@@ -239,12 +210,6 @@ namespace eLConsultation.Data
                         break;
                 }
                 return resultItem;
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-                return null;
-            }
         }
 
         public bool? DeleteOralConsultation(int oralConsultationID)

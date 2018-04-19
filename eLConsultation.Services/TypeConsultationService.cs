@@ -69,14 +69,6 @@ namespace eLConsultation.Data
                         };
 
 
-            //if (typeConsultationSearch.FirstName != "")
-            //{
-            //    query = from p in query where p.ResidentTable.FirstName.StartsWith(typeConsultationSearch.FirstName) select p;
-            //}
-            //if (typeConsultationSearch.LastName != "")
-            //{
-            //    query = from p in query where p.ResidentTable.LastName.StartsWith(typeConsultationSearch.LastName) select p;
-            //}
             if (typeConsultationSearch.TypeConsultationDate != null)
             {
                 query = from p in query where p.TypeConsultationTable.TypeConsultationDate == typeConsultationSearch.TypeConsultationDate select p;
@@ -381,8 +373,6 @@ namespace eLConsultation.Data
         }
         public TypeConsultationItem SaveTypeConsultation(TypeConsultationItem item)
         {
-            try
-            {
                 TypeConsultationItem resultItem = null;
                 switch (item.InitializationType)
                 {
@@ -394,12 +384,6 @@ namespace eLConsultation.Data
                         break;
                 }
                 return resultItem;
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-                return null;
-            }
         }
         public bool? DeleteTypeConsultation(int typeConsultationID)
         {
