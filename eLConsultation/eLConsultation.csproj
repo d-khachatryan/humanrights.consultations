@@ -705,7 +705,6 @@
     <Content Include="fonts\Simple-Line-Icons.woff" />
     <Content Include="fonts\Simple-Line-Icons.woff2" />
     <None Include="Properties\PublishProfiles\eConsultation - Smarter.ASP.NET.pubxml" />
-    <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="img\avatars\1.jpg" />
     <Content Include="img\avatars\2.jpg" />
