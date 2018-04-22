@@ -8,6 +8,7 @@ namespace eLConsultation.Data
         public int CompanyID { get; set; }
 
         [Display(Name = "Անվանում")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string CompanyName { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace eLConsultation.Data
         public int? CompanyID { get; set; }
 
         [Display(Name = "Խնդրի անվանումը")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string IssueName { get; set; }
 
         [Display(Name = "Խնդրի նկարագրությունը")]
@@ -28,17 +29,20 @@ namespace eLConsultation.Data
         public int? IssueTypeID { get; set; }
 
         [Display(Name = "Խնդրի տեսակը")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string IssueTypeName { get; set; }
 
         [Display(Name = "Խնդրի կատեգորիան")]
         public int? IssueCategoryID { get; set; }
 
         [Display(Name = "Խնդրի կատեգորիան")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string IssueCategoryName { get; set; }
 
         public int TypeConsultationID { get; set; }
 
         [Display(Name = "Գործի անվանում")]
+        [StringLength(500, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 500 սիմվոլ")]
         public string TypeConsultationName { get; set; }
                 
         [Display(Name = "Ամսաթիվ")]
@@ -49,21 +53,25 @@ namespace eLConsultation.Data
         public int? ConsultationTypeID { get; set; }
 
         [Display(Name = "Գործի տիպ")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string ConsultationTypeName { get; set; }
 
         public int? ProcessStatusID { get; set; }
 
         [Display(Name = "Գործի կարգավիճակ")]
+        [StringLength(250, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 250 սիմվոլ")]
         public string ProcessStatusName { get; set; }
 
         public int? ConsultationResultID { get; set; }
 
         [Display(Name = "Գործի արդյունք")]
+        [StringLength(250, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 250 սիմվոլ")]
         public string ConsultationResultName { get; set; }
 
         public int? TargetGroupID { get; set; }
 
         [Display(Name = "Թիրախային խումբ")]
+        [StringLength(250, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 250 սիմվոլ")]
         public string TargetGroupName { get; set; }
     }
 }

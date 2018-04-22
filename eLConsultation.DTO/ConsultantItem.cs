@@ -8,15 +8,15 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int ConsultantID { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         [Display(Name = "Անուն")]
         public string FirstName { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         [Display(Name = "Ազգանուն")]
         public string LastName { get; set; }
 
-        [MaxLength(128)]
+        [StringLength(128, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 128 սիմվոլ")]
         [Display(Name = "Նույնականացման համար")]
         public string Id { get; set; }
     }

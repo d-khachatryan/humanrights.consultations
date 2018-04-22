@@ -13,6 +13,7 @@ namespace eLConsultation.Data
         public int? TypeConsultationID { get; set; }
 
         [Display(Name = "Գործարկող")]
+        [StringLength(128, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 128 սիմվոլ")]
         public string UserID { get; set; }
 
         [Display(Name = "Դիտել")]

@@ -10,6 +10,7 @@ namespace eLConsultation.Data
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Անվանումը պարտադիր է")]
         [Display(Name = "Անվանում")]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         public string CompanyName { get; set; }
 
         public InitializationTypes InitializationType { get; set; }

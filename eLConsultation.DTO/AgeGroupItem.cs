@@ -12,7 +12,7 @@ namespace eLConsultation.Data
         [ScaffoldColumn(false)]
         public int AgeGroupID { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 50 սիմվոլ")]
         [Display(Name = "Տարիքային խումբ")]
         public string AgeGroupName { get; set; }
     }

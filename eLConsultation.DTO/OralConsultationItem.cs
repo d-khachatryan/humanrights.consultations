@@ -59,6 +59,7 @@ namespace eLConsultation.Data
 
         public InitializationTypes InitializationType { get; set; }
 
+        [StringLength(128, ErrorMessage = "Դաշտը չի կարող պարունակել ավելի քան 128 սիմվոլ")]
         public string UserID { get; set; }
 
         public DateTime? ChangeDate { get; set; }
